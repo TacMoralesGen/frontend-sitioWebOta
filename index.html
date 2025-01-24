@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chelenko Lodge</title>
+    <link rel="icon" href="./src/img/favicon.ico" type="image/x-icon" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./src/scss/styles.css" />
+    <link rel="stylesheet" href="./src/scss/navbar.css" />
+    <link rel="stylesheet" href="./src/scss/home.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header class="navbar fixed-top navbar-expand-lg">
+      <nav class="container d-flex no-wrap">
+        <button
+          style="fill: black"
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerDemo01"
+          aria-controls="navbarTogglerDemo01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <section
+          id="leftNav"
+          class="collapse navbar-collapse navbar-dark w-100"
+        >
+          <ul class="navbar-nav fw-bold">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">La Ubicación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">La Experiencia</a>
+            </li>
+          </ul>
+        </section>
+        <section class="mx-auto">
+          <a class="navbar-brand mx-auto" href="#">
+            <img
+              class="logo-1 d-none"
+              src="./src/img/logo_CHELENKO-Top-bar-Black-1024x311.webp"
+              alt="Logo Chelenko"
+            />
+            <img
+              class="logo-2"
+              src="./src/img/logo_CHELENKO-Top-bar-1024x311.webp"
+              alt="Logo Chelenko"
+            />
+          </a>
+        </section>
+        <section class="navbar w-100">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item me-2">
+              <a class="btn btn-primary" href="./checkout.html"><strong>Reservar</strong></a>
+            </li>
+            <li class="nav-item me-4">
+              <a id="navbar-btn-contact" class="btn btn-outline-light" href="#"
+                ><strong>Contáctanos</strong></a>
+            </li>
+            <li class="vr me-4"></li>
+            <li
+              id="rightNav"
+              class="nav-item text-light align-items-center text-nowrap"
+            >
+              <span class="me-2"
+                >Carrito / <strong class="cart-price">$0</strong></span
+              >
+              <a
+                href="./cart"
+                class="bag-icon"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                data-bs-title="No tiene reserva en el carrito"
+              >
+                <strong> 0 </strong>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </nav>
+    </header>
+    <!-- Banner -->
+    <div
+      class="container-fluid banner position-relative vh-100 overflow-hidden"
+    >
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+      >
+        <source
+          src="./src/videos/Chelenko-Lodge-Intro-by-ICS.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div
+        class="d-flex justify-content-center align-items-center position-relative z-index-1 h-100"
+      >
+        <div
+          class="text-center text-white p-4 d-flex justify-content-center align-items-center flex-column"
+          style="
+            border: 5px solid #fff;
+            width: 80%;
+            height: 65%;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+          "
+        >
+          <img
+            src="./src/img/Logo home.png"
+            alt="Logo blanco Chelenko"
+            class="fluid mb-4"
+            style="max-height: 150px; object-fit: contain"
+          />
+          <h5
+            class="fw-light text-wrap"
+            style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7)"
+          >
+            Creamos experiencias de viaje significativas y memorables,
+            inspiradas
+            <br />por la autenticidad, la hospitalidad y un profundo sentido de
+            conexión<br />con la naturaleza.
+          </h5>
+          <p class="lead mb-4 p-4">Descubre la diferencia</p>
+          <a
+            href="./checkout.html"
+            class="btn btn-primary btn-lg border-0 text-white rounded-pill"
+            >Reserva aquí</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- patagonia -->
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-md-6 d-flex">
+          <img
+            src="./src/img/img-1.jpg"
+            class="img-fluid"
+            alt="Vista de la Patagonia Chilena"
+            style="
+              object-fit: cover;
+              height: auto;
+              max-height: 450px;
+              width: 100%;
+            "
+          />
+        </div>
+
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+          <h2 class="mb-4 text-primary">
+            La Patagonia Chilena como nunca antes la habías visto
+            <hr />
+          </h2>
+          <p class="lead mb-4">
+            Chelenko Lodge te ofrece una oportunidad única de presenciar las
+            maravillas ocultas de la Patagonia Chilena. Ven y experimenta la
+            belleza inigualable que nos brinda la naturaleza. Nuestro enfoque
+            fusiona la tradición con la innovación para ofrecerte una
+            experiencia de lujo en cada una de nuestras Cabañas.
+          </p>
+          <a href="#about" class="btn btn-primary text-white rounded-pill"
+            ><strong>Conoce más sobre Chelenko ></strong></a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- horizontes -->
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-md-4 d-flex flex-column justify-content-center">
+          <p class="mb-4 text-primary">Experimenta nuevos horizontes</p>
+          <h2 class="mb-4">
+            Vive el sueño, nosotros nos encargamos del resto.
+            <hr />
+          </h2>
+          <p class="lead mb-4">
+            Disfrute con un estilo único y experimente el verdadero lujo que
+            sólo una profunda conexión con la naturaleza le puede ofrecer. La
+            aventura de su vida le espera en una de nuestras exclusivas Cabañas,
+            las cuales han sido cuidadosamente diseñadas e implementadas por el
+            equipo de Chelenko Lodge para garantizarle una estadía placentera e
+            inolvidable.
+          </p>
+          <a href="#about" class="btn btn-primary text-white rounded-pill"
+            ><strong>Acerca de la experiencia ></strong></a
+          >
+        </div>
+
+        <div class="col-md-8 d-flex position-relative">
+          <img
+            src="./src/img/img-2.jpg"
+            class="img-fluid"
+            alt="Vista de la Patagonia Chilena"
+            style="
+              object-fit: cover;
+              height: auto;
+              max-height: 450px;
+              width: 100%;
+            "
+          />
+          <div
+            class="d-flex justify-content-center align-items-center position-absolute top-50 start-50 translate-middle text-center text-white p-4 mt-2 ml-5"
+            style="
+              border: 5px solid #fff;
+              width: 80%;
+              min-height: 400px;
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            "
+          >
+            <h1
+              class="display-3 fw-bold"
+              style="font-weight: bold; opacity: 70%"
+            >
+              Exclusividad
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- exclusividad -->
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-md-8 d-flex position-relative">
+          <img
+            src="./src/img/img-3.jpg"
+            class="img-fluid"
+            alt="Vista de la Patagonia Chilena"
+            style="
+              object-fit: cover;
+              height: auto;
+              max-height: 450px;
+              width: 100%;
+            "
+          />
+          <div
+            class="d-flex justify-content-center align-items-center position-absolute top-50 start-50 translate-middle text-center text-white p-4 mt-2 ml-5"
+            style="
+              border: 5px solid #fff;
+              width: 80%;
+              min-height: 400px;
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            "
+          >
+            <h1
+              class="display-3 fw-bold"
+              style="font-weight: bold; opacity: 70%"
+            >
+              Ubicación
+            </h1>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex flex-column justify-content-center">
+          <p class="mb-4 text-primary">Explora las posibilidades</p>
+          <h2 class="mb-4">Redescubre la naturaleza</h2>
+          <p>
+            Nuestras exclusivas 'Tini Cabins' ubicadas estratégicamente en el
+            Lago General Carrera, le permitirán conectarse consigo mismo de una
+            manera única e inolvidable. <br />
+            Despierte su creatividad y sumérjase en un mundo de posibilidades
+            limitado únicamente con su imaginación.
+          </p>
+          <a href="#about" class="btn btn-primary text-white rounded-pill"
+            ><strong>Acerca de la experiencia ></strong></a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- mapa -->
+    <div class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="ratio ratio-16x9">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d994203.3604247845!2d-72.9097185!3d-46.180418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xbdf29f70f449fbef%3A0xa0328ec0c6bc05d!2sAer%C3%B3dromo%20Balmaceda%2C%20Coyhaique%2C%20Ays%C3%A9n!5e0!3m2!1ses-419!2scl!4v1615364676789"
+              allowfullscreen=""
+              loading="lazy"
+            >
+            </iframe>
+          </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6">
+          <h3 class="text-primary py-4">¿Cómo encontrarnos?</h3>
+          <ul>
+            <li>
+              Primero debe llegar vía aérea al Aeródromo Balmaceda de Coyhaique,
+              <br />
+              Región de Aysen, Chile.
+            </li>
+            <li>Continúe a lo largo de la ruta 245 por 15.9 kms.</li>
+            <li>Gire a la izquierda hacia la Carretera Austral o Ruta 7.</li>
+            <li>Continúe por otros 163 kms hasta llegar a Chelenko Lodge.</li>
+          </ul>
+          <a
+            href="https://www.google.com/maps/dir/Aeródromo+Balmaceda,+Coyhaique,+Aysén/Chelenko+Lodge+-+Carretera+Austral,+El+Condor,+Río+Ibáñez/@-46.180418,-72.9097185,9z/am=t/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0xbdf29f70f449fbef:0xa0328ec0c6bc05d!2m2!1d-71.6918239!2d-45.9147796!1m5!1m1!1s0xbd9259c86994b1f9:0xdab48173ce8ddfe8!2m2!1d-72.7197428!2d-46.5247491?entry=ttu&g_ep=EgoyMDI1MDEyMS4wIKXMDSoASAFQAw%3D%3D"
+            class="btn btn-primary rounded-pill"
+            target="_blank"
+            ><strong>Obtener Direcciones</strong></a
+          >
+        </div>
+      </div>
+    </div>
+    <footer class="bg-dark text-white py-4 mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <h5><strong>Nosotros</strong></h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="" class="text-white text-decoration-none"
+                  >Acerca de Chelenko Lodge</a
+                >
+              </li>
+              <li>
+                <a href="" class="text-white text-decoration-none">Galería</a>
+              </li>
+              <li>
+                <a href="" class="text-white text-decoration-none"
+                  >Testimonios</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-3">
+            <h5><strong>La Ubicación</strong></h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="" class="text-white text-decoration-none"
+                  >Descubre La Patagonia</a
+                >
+              </li>
+              <li>
+                <a href="" class="text-white text-decoration-none"
+                  >Atracciones Turísticas</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-3">
+            <h5><strong>La Experiencia</strong></h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="" class="text-white text-decoration-none"
+                  >Nuestras Cabañas</a
+                >
+              </li>
+              <li>
+                <a href="" class="text-white text-decoration-none"
+                  >Actividades</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-3">
+            <h5><strong>Contáctanos</strong></h5>
+            <ul class="list-unstyled">
+              <li>
+                Correo:
+                <a
+                  href="mailto:support@example.com"
+                  class="text-white text-decoration-none"
+                  >info@chelenko.com</a
+                >
+              </li>
+              <li>Teléfono: +56 9 5629 2538</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <p class="mb-0">&copy; 2025 Chelenko Lodge. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./src/js/navbar.js"></script>
+  </body>
+</html>
