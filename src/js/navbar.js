@@ -11,38 +11,54 @@ document.addEventListener("DOMContentLoaded", () => {
     const navEl = document.querySelector("header.navbar");
     const logo1 = document.querySelector(".logo-1");
     const logo2 = document.querySelector(".logo-2");
-    const leftNav = document.getElementById("leftNav");
-    const rightNav = document.getElementById("rightNav");
+    const cartText = document.getElementById("cart-text");
+    const leftNav = document.getElementById("left-nav");
     const navBtnContact = document.getElementById("navbar-btn-contact");
-  
+    const togglerIcon = document.getElementById("toggler-icon");
     console.log(window);
-  
-    window.addEventListener("scroll", () => {
-      console.log("scrol!");
-      if (window.scrollY >= 60) {
-        setStylesNavbar((scrollYIsOnTop = false));
-      } else if (window.scrollY < 60) {
-        setStylesNavbar((scrollYIsOnTop = true));
+
+    const checkScroll = () => {
+      if (window.scrollY < 60) {
+        setStylesNavbar((navbarTrans = true));
+      } else if (window.scrollY >= 60) {
+        setStylesNavbar((navbarTrans = false));
       }
-    });
+    }
   
-    function setStylesNavbar(scrollYIsOnTop) {
-      if (!scrollYIsOnTop) {
-        navEl.classList.add("navbar-scrolled");
-        leftNav.classList.remove("navbar-dark");
-        rightNav.classList.remove("text-light");
-        logo1.classList.remove("d-none");
-        logo2.classList.add("d-none");
-        navBtnContact.classList.remove("btn-outline-light");
-        navBtnContact.classList.add("btn-outline-grey");
-      } else {
+    window.addEventListener("scroll", checkScroll);
+  
+    function setStylesNavbar(navbarTrans) {
+      if (navbarTrans) {
         navEl.classList.remove("navbar-scrolled");
+        cartText.classList.add("text-light");
         leftNav.classList.add("navbar-dark");
-        rightNav.classList.add("text-light");
         logo1.classList.add("d-none");
         logo2.classList.remove("d-none");
         navBtnContact.classList.add("btn-outline-light");
         navBtnContact.classList.remove("btn-outline-grey");
+        togglerIcon.classList.remove("black-navbar-toggler-icon");
+      } else {
+        navEl.classList.add("navbar-scrolled");
+        cartText.classList.remove("text-light");
+        leftNav.classList.remove("navbar-dark");
+        logo1.classList.remove("d-none");
+        logo2.classList.add("d-none");
+        navBtnContact.classList.remove("btn-outline-light");
+        navBtnContact.classList.add("btn-outline-grey");
+        togglerIcon.classList.add("black-navbar-toggler-icon");
       }
     }
+
+    const navbarToggler = document.getElementById("navbar-toggler");
+    navbarToggler.addEventListener("click", () => {
+      const isExpanded = navbarToggler.getAttribute('aria-expanded') === "true"
+      if (isExpanded){
+        setStylesNavbar((navbarTrans = false));
+        window.removeEventListener("scroll", checkScroll);
+      }
+      else{
+        setStylesNavbar((navbarTrans = true));
+        window.addEventListener("scroll", checkScroll);
+      }
+    })
 })
