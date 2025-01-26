@@ -1,4 +1,7 @@
 /* Estilo general */
+.bg-overlay {
+  background-color: rgba(0, 0, 0, 0.27);
+}
 
 video {
   object-fit: cover;

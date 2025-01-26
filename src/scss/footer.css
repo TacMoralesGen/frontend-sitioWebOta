@@ -1,0 +1,16 @@
+footer ul{
+    width: fit-content;
+    & li{
+        min-width: 13.5rem;
+    } 
+}
+
+footer a::before{
+    content: "> ";
+    font-weight: 700; 
+}
+
+footer li a:hover{
+    color: #9edbb8 !important;
+}
+
