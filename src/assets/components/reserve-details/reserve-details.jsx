@@ -1,113 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chelenko Lodge - Checkout</title>
-    <link rel="icon" href="/src/img/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="./src/scss/customBootstrap.css">
-    <link rel="stylesheet" href="./src/scss/styles.css" />
-    <link rel="stylesheet" href="./src/scss/navbar.css" />
-  </head>
-  <body>
-    <header class="navbar sticky-top navbar-expand-lg justify-content-center bg-light">
-      <nav class="container d-flex flex-nowrap">
-        <div class="toggle-container">
-          <button
-            style="fill: black"
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#leftNav"
-            aria-controls="leftNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-        <section class="d-lg-none d-xl-block d-flex">
-          <a class="navbar-brand mx-2" href="#">
-            <img
-              class="logo-1"
-              src="./src/img/logo_CHELENKO-Top-bar-Black-1024x311.webp"
-              alt="Logo Chelenko"
-            />
-          </a>
-        </section>
-        <section class="navbar px-0">
-          <ul class="navbar-nav ms-auto d-flex flex-nowrap flex-row">
-            <li class="nav-item me-2">
-              <a class="btn btn-primary" href="./checkout.html">Reservar</a>
-            </li>
-            <li class="nav-item me-4 d-none d-lg-block">
-              <a id="navbar-btn-contact" class="btn btn-outline-light" href="#"
-                >Contáctanos</a
-              >
-            </li>
-            <li class="vr me-lg-4 me-2"></li>
-            <li id="rightNav" class="nav-item text-light text-nowrap d-flex">
-              <span class="me-2 d-none d-lg-block"
-                >Carrito / <strong class="cart-price">$0</strong></span
-              >
-              <a
-                href="./cart"
-                class="bag-icon"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                data-bs-title="No tiene reserva en el carrito"
-              >
-                <strong> 0 </strong>
-              </a>
-            </li>
-          </ul>
-        </section>
-        <section id="leftNav" class="collapse navbar-collapse">
-          <ul class="navbar-nav navbar-dark">
-            <li class="nav-item d-none d-lg-block d-xl-none">
-              <a class="navbar-brand mx-auto" href="#">
-                <img
-                  class="logo-3"
-                  src="./src/img/Chelenko-Lodge-Main-Logo-1024x320.webp"
-                  alt="Logo Chelenko"
-                />
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Nosotros</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">La Ubicación</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">La Experiencia</a>
-            </li>
-          </ul>
-        </section>
-      </nav>
-    </header>
+const ReserveDetails = () => {
+  <>
     <div class="container-fluid mt-3">
       <div class="container text-center">
-        <div class="row mb-3">
-          <div
-            class="col bg-success-subtle opacity-50 border border-success-subtle text fs-4"
-          >
-            1 Seleccionar
-          </div>
-          <div
-            class="col bg-success opacity-50 border border-success-subtle text-white text fs-4"
-          >
-            2 Check Out
-          </div>
-        </div>
-
+        {/* Aqui va "IndicatorSectionOneTwo" en CHECKOUT*/}
         <div class="row">
           <div class="col-md-8 mb-3">
+            {/* Primer bloque de detalles de la reserva */}
             <div class="card">
               <div class="card-body text-start">
                 <h1 class="card-title fw-normal">Detalle de la reserva</h1>
-
-                <!-- Primer bloque de detalles de la reserva -->
                 <div class="card-text">
                   <div class="container text-start">
                     <div class="row">
@@ -201,7 +102,9 @@
                   </div>
                 </div>
 
-                <div class="mt-2 fw-bold" id="precioBase">CLP$160,900</div>
+                <div class="mt-2 fw-bold" id="precioBase">
+                  CLP$160,900
+                </div>
 
                 <div class="mt-3">
                   <label for="servicioDesayuno">Servicios Adicionales:</label>
@@ -213,9 +116,9 @@
                       id="desayunoSalado"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="desayunoSalado"
-                      >Desayuno Salado (CLP$10,000 pp)</label
-                    >
+                    <label class="form-check-label" for="desayunoSalado">
+                      Desayuno Salado (CLP$10,000 pp)
+                    </label>
                   </div>
                   <div class="mt-1 form-check">
                     <input
@@ -225,9 +128,9 @@
                       id="desayunoDulce"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="desayunoDulce"
-                      >Desayuno Dulce (CLP$12,000 pp)</label
-                    >
+                    <label class="form-check-label" for="desayunoDulce">
+                      Desayuno Dulce (CLP$12,000 pp)
+                    </label>
                   </div>
                   <div class="mt-1 form-check">
                     <input
@@ -237,14 +140,14 @@
                       id="tinajaCaliente"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="tinajaCaliente"
-                      >Tinaja Caliente (CLP$60,000 por uso)</label
-                    >
+                    <label class="form-check-label" for="tinajaCaliente">
+                      Tinaja Caliente (CLP$60,000 por uso)
+                    </label>
                   </div>
                   <div class="mt-2">
-                    <label for="cantidadTinaja"
-                      >¿Cuántas veces usarás la tinaja caliente?</label
-                    >
+                    <label for="cantidadTinaja">
+                      ¿Cuántas veces usarás la tinaja caliente?
+                    </label>
                     <div class="col-2">
                       <input
                         type="number"
@@ -260,12 +163,14 @@
 
                 <div class="d-flex justify-content-between mt-3">
                   <span class="h4">Sub Total Cabaña:</span>
-                  <span class="h4" id="precioTotal">CLP$160,900</span>
+                  <span class="h4" id="precioTotal">
+                    CLP$160,900
+                  </span>
                 </div>
               </div>
             </div>
 
-            <!-- Segundo bloque de detalles de la reserva (clon de la sección anterior) -->
+            {/* Segundo bloque de detalles de la reserva (clon de la sección anterior) */}
             <div class="card mt-3">
               <div class="card-body text-start">
                 <div class="card-text">
@@ -361,7 +266,9 @@
                   </div>
                 </div>
 
-                <div class="mt-2 fw-bold" id="precioBase">CLP$160,900</div>
+                <div class="mt-2 fw-bold" id="precioBase">
+                  CLP$160,900
+                </div>
 
                 <div class="mt-3">
                   <label for="servicioDesayuno">Servicios Adicionales:</label>
@@ -373,9 +280,9 @@
                       id="desayunoSalado"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="desayunoSalado"
-                      >Desayuno Salado (CLP$10,000 pp)</label
-                    >
+                    <label class="form-check-label" for="desayunoSalado">
+                      Desayuno Salado (CLP$10,000 pp)
+                    </label>
                   </div>
                   <div class="mt-1 form-check">
                     <input
@@ -385,9 +292,9 @@
                       id="desayunoDulce"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="desayunoDulce"
-                      >Desayuno Dulce (CLP$12,000 pp)</label
-                    >
+                    <label class="form-check-label" for="desayunoDulce">
+                      Desayuno Dulce (CLP$12,000 pp)
+                    </label>
                   </div>
                   <div class="mt-1 form-check">
                     <input
@@ -397,14 +304,14 @@
                       id="tinajaCaliente"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="tinajaCaliente"
-                      >Tinaja Caliente (CLP$60,000 por uso)</label
-                    >
+                    <label class="form-check-label" for="tinajaCaliente">
+                      Tinaja Caliente (CLP$60,000 por uso)
+                    </label>
                   </div>
                   <div class="mt-2">
-                    <label for="cantidadTinaja"
-                      >¿Cuántas veces usarás la tinaja caliente?</label
-                    >
+                    <label for="cantidadTinaja">
+                      ¿Cuántas veces usarás la tinaja caliente?
+                    </label>
                     <div class="col-2">
                       <input
                         type="number"
@@ -420,10 +327,14 @@
 
                 <div class="d-flex justify-content-between mt-3">
                   <span class="h4">Sub Total Cabaña:</span>
-                  <span class="h4" id="precioTotal">CLP$160,900</span>
+                  <span class="h4" id="precioTotal">
+                    CLP$160,900
+                  </span>
                 </div>
               </div>
             </div>
+
+            {/* Tercera cabaña */}
             <div class="card mt-3">
               <div class="card-body text-start">
                 <div class="card-text">
@@ -519,7 +430,9 @@
                   </div>
                 </div>
 
-                <div class="mt-2 fw-bold" id="precioBase">CLP$91,900</div>
+                <div class="mt-2 fw-bold" id="precioBase">
+                  CLP$91,900
+                </div>
 
                 <div class="mt-3">
                   <label for="servicioDesayuno">Servicios Adicionales:</label>
@@ -531,9 +444,9 @@
                       id="desayunoSalado"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="desayunoSalado"
-                      >Desayuno Salado (CLP$10,000 pp)</label
-                    >
+                    <label class="form-check-label" for="desayunoSalado">
+                      Desayuno Salado (CLP$10,000 pp)
+                    </label>
                   </div>
                   <div class="mt-1 form-check">
                     <input
@@ -543,9 +456,9 @@
                       id="desayunoDulce"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="desayunoDulce"
-                      >Desayuno Dulce (CLP$12,000 pp)</label
-                    >
+                    <label class="form-check-label" for="desayunoDulce">
+                      Desayuno Dulce (CLP$12,000 pp)
+                    </label>
                   </div>
                   <div class="mt-1 form-check">
                     <input
@@ -555,14 +468,14 @@
                       id="tinajaCaliente"
                       onchange="actualizarPrecio()"
                     />
-                    <label class="form-check-label" for="tinajaCaliente"
-                      >Tinaja Caliente (CLP$45,000 por uso)</label
-                    >
+                    <label class="form-check-label" for="tinajaCaliente">
+                      Tinaja Caliente (CLP$45,000 por uso)
+                    </label>
                   </div>
                   <div class="mt-2">
-                    <label for="cantidadTinaja"
-                      >¿Cuántas veces usarás la tinaja caliente?</label
-                    >
+                    <label for="cantidadTinaja">
+                      ¿Cuántas veces usarás la tinaja caliente?
+                    </label>
                     <div class="col-2">
                       <input
                         type="number"
@@ -578,312 +491,18 @@
 
                 <div class="d-flex justify-content-between mt-3">
                   <span class="h4">Sub Total Cabaña:</span>
-                  <span class="h4" id="precioTotal">CLP$91,900</span>
+                  <span class="h4" id="precioTotal">
+                    CLP$91,900
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Resumen de la Reserva</h4>
-                <ul class="list-unstyled text-start">
-                  <li>
-                    <strong>Cabaña:</strong>
-                    <div>#1 Tiny Cabin (Familiar)</div>
-                  </li>
-                  <hr />
-
-                  <li>
-                    <strong>Fecha de reserva:</strong>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <strong>Entrada:</strong>
-                        <div>Lunes, 06 Enero, 2025 desde las 15:00hrs</div>
-                      </div>
-                      <div class="col-md-6">
-                        <strong>Salida:</strong>
-                        <div>Miércoles, 08 Enero, 2025 hasta las 10:00am</div>
-                      </div>
-                    </div>
-                  </li>
-
-                  <div class="mt-3">
-                    Duración total de la estadía:
-                    <div>
-                      <strong> 2 noches</strong>
-                    </div>
-                  </div>
-
-                  <hr />
-
-                  <li><strong>Total de Huespedes:</strong></li>
-                  <ul>
-                    <li><strong>Adultos:</strong> 2</li>
-                    <li><strong>Niños:</strong> 1</li>
-                  </ul>
-                  <hr />
-
-                  <li><strong>Servicios Adicionales:</strong></li>
-                  <ul>
-                    <li>Desayuno Salado</li>
-                    <li>Tinaja Caliente</li>
-                  </ul>
-                  <hr />
-
-                  <li><strong>Total a pagar:</strong></li>
-                  <li>
-                    CLP$160,900 <strong>iva incluido</strong>
-                    <div>(*turistas exentos de iva)</div>
-                  </li>
-
-                  <div class="mt-4 text-center">
-                    <button type="button" class="btn btn-success opacity-50">
-                      Confirmar reserva
-                    </button>
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-link link-secondary dropdown-toggle"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        ¿Tienes un código promocional?
-                      </button>
-                      <div
-                        class="dropdown-menu p-3"
-                        aria-labelledby="dropdownMenuButton"
-                      >
-                        <label for="codigoPromocional" class="form-label"
-                          >Ingresa tu código promocional:</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="codigoPromocional"
-                          name="codigoPromocional"
-                          placeholder="Código promocional"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <p class="text-center mt-2">
-                    Si deseas realizar el pago mediante transferencia bancaria,
-                    por favor contáctanos a través del correo electrónico
-                    info@chelenko.com
-                  </p>
-                </ul>
-              </div>
-            </div>
-          </div>
+          {/* Aqui va el resumen de la reserva "ReserveResume" en CHECKOUT*/}
         </div>
       </div>
     </div>
 
-    <div class="container">
-      <div class="row justify-content-left">
-        <div class="col-md-8">
-          <div class="card p-4">
-            <h1 class="mb-4">Datos de contacto</h1>
-            <form id="contactForm" class="needs-validation" novalidate>
-              <div class="mb-3">
-                <label for="name" class="form-label">Nombre *</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  name="name"
-                  required
-                />
-                <div class="invalid-feedback">
-                  Por favor, ingresa tu nombre.
-                </div>
-              </div>
 
-              <div class="mb-3">
-                <label for="email" class="form-label"
-                  >Correo electrónico *</label
-                >
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                  required
-                />
-                <div class="invalid-feedback">
-                  Por favor, ingresa un correo válido.
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="phone" class="form-label">Teléfono *</label>
-                <input
-                  type="tel"
-                  class="form-control"
-                  id="phone"
-                  name="phone"
-                  required
-                />
-                <div class="invalid-feedback">
-                  Por favor, ingresa tu número de teléfono.
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="country" class="form-label"
-                  >País de residencia *</label
-                >
-                <select
-                  class="form-select"
-                  id="country"
-                  name="country"
-                  required
-                  onchange="toggleOtherCountryField()"
-                >
-                  <option value="">Seleccione su país</option>
-                  <option value="chile">Chile</option>
-                  <option value="argentina">Argentina</option>
-                  <option value="mexico">México</option>
-                  <option value="colombia">Colombia</option>
-                  <option value="peru">Perú</option>
-                  <option value="brasil">Brasil</option>
-                  <option value="otros">Otros</option>
-                </select>
-                <div class="invalid-feedback">
-                  Por favor, selecciona tu país.
-                </div>
-              </div>
-
-              <div class="mb-3" id="otherCountryField" style="display: none">
-                <label for="otherCountry" class="form-label"
-                  >Escribe tu país *</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="otherCountry"
-                  name="otherCountry"
-                />
-                <div class="invalid-feedback">Por favor, ingresa tu país.</div>
-              </div>
-
-              <div class="mb-3">
-                <label for="message" class="form-label"
-                  >Información Adicional</label
-                >
-                <textarea
-                  class="form-control"
-                  id="message"
-                  name="message"
-                ></textarea>
-              </div>
-
-              <div class="form-check mb-3">
-                <input
-                  type="checkbox"
-                  id="terminos"
-                  name="terminos"
-                  class="form-check-input"
-                  required
-                />
-                <label class="form-check-label" for="terminos"
-                  >He leído y acepto los términos & condiciones</label
-                >
-              </div>
-
-              <button type="submit" class="btn btn-success w-100">
-                Enviar
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <footer class="bg-dark text-white py-4 mt-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3">
-            <h5><strong>Nosotros</strong></h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="" class="text-white text-decoration-none"
-                  >Acerca de Chelenko Lodge</a
-                >
-              </li>
-              <li>
-                <a href="" class="text-white text-decoration-none">Galería</a>
-              </li>
-              <li>
-                <a href="" class="text-white text-decoration-none"
-                  >Testimonios</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-md-3">
-            <h5><strong>La Ubicación</strong></h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="" class="text-white text-decoration-none"
-                  >Descubre La Patagonia</a
-                >
-              </li>
-              <li>
-                <a href="" class="text-white text-decoration-none"
-                  >Atracciones Turísticas</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-md-3">
-            <h5><strong>La Experiencia</strong></h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="" class="text-white text-decoration-none"
-                  >Nuestras Cabañas</a
-                >
-              </li>
-              <li>
-                <a href="" class="text-white text-decoration-none"
-                  >Actividades</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-md-3">
-            <h5><strong>Contáctanos</strong></h5>
-            <ul class="list-unstyled">
-              <li>
-                Correo:
-                <a
-                  href="mailto:support@example.com"
-                  class="text-white text-decoration-none"
-                  >info@chelenko.com</a
-                >
-              </li>
-              <li>Teléfono: +56 9 5629 2538</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="text-center mt-4">
-          <p class="mb-0">&copy; 2025 Chelenko Lodge. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-    <script src="./src/js/checkout.js"></script>
-  </body>
-</html>
+  </>;
+};
