@@ -1,11 +1,17 @@
 /* Estilo general HOME POR SEPARAR CSS EN CADA COMPONENTE QUE CORRESPONDA*/
 .bg-overlay {
-    background-color: rgba(0, 0, 0, 0.27);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.27);
+  z-index: -1; /*capa intermedia*/
   }
   
   video {
     object-fit: cover;
-    z-index: -1;
+    z-index: -2; /*el video queda debajo del contenido*/
     width: 100%;
     height: 100vh;
     position: absolute;
@@ -13,27 +19,46 @@
     left: 0;
   }
   
-  .custom-border {
-    border: 5px solid #ffffff;
-    border-radius: 15px;
-    padding: 30px;
-  }
-  
-  .custom-border img {
-    max-width: 450px;
-  }
-  
-  .custom-border h4 {
-    line-height: 1.4;
-  }
-  
-  .custom-border .btn-primary {
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-  
+  /*estilo para el banner principal*/
   .banner {
     position: relative;
     z-index: 1;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  
+  /*estilo para el contenido del banner*/
+  .banner-content {
+    border: 5px solid #ffffff;
+    padding: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    z-index: 1;
+    max-width: 90%;
+  }
+
+  .banner-content img{
+    object-fit: contain;
+    margin-top: 20px;
+    width: 30vw;
+    height: auto;
+  }
+  
+  .banner-content h5 {
+    line-height: 1.4;
+  }
+
+  .banner-content .btn-primary {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .btn-reserva{
+    border-radius: 50px;
+    padding: 10px 30px;
+  }
+
   
