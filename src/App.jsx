@@ -1,6 +1,7 @@
 import "./customBootstrap.css";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./views/Home/Home.jsx";
+import Reserve from "./views/Reserve/Reserve.jsx";
 import Checkout from "./views/Checkout/Checkout.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -9,6 +10,10 @@ const App = () => {
     {
       path: '/',
       element: <Home />
+    },
+    {
+      path: '/reservar',
+      element: <Reserve />
     },
     {
       path: '/checkout',

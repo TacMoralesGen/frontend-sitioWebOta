@@ -11,9 +11,8 @@
   /*        navbar-parent       */
   /* -------------------------- */
   .width-90 {
-    max-width: 90vw;
-    width: 90vw;
-    margin: auto;
+    width: 100vw;
+    padding: 0.5rem 5vw !important;
   }
   
   header.navbar {
