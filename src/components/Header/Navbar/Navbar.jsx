@@ -220,8 +220,8 @@ const Navbar = ({ isUponBanner }) => {
               </Link>
             </li>
             <li className="nav-item me-4 d-none d-lg-block">
-              <Link id="navbar-btn-contact" className={classBtnContact} to="#">
-                Contáctanos
+              <Link id="navbar-btn-contact" className={classBtnContact} to="./checkout">
+                Check Out
               </Link>
             </li>
             <li className="vr me-lg-4 me-2"></li>

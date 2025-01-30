@@ -10,17 +10,15 @@ const useCurrentURL = () => {
 
 const Header = () => {
     const pathname = useCurrentURL();
-    const showIndicatorStages = pathname === "/reservar" || pathname === "/checkout";
-    const stage = pathname === "/reservar" ? 1 : pathname === "/checkout" ? 2 : null;
-    const isUponBanner = pathname === "/"; 
+    const showIndicatorStages = (pathname === "/reservar" || pathname === "/checkout");
+    const stage = (pathname === "/reservar" ? 1 : (pathname === "/checkout" ? 2 : null));
+    const isUponBanner = pathname === "/";
     return (
         <header>
             <Navbar isUponBanner={isUponBanner} />
             {showIndicatorStages ? <IndicatorStages stage={stage}/> : null}
         </header>
     )    
-
-
 }
 
 export default Header;

@@ -16,7 +16,7 @@ const IndicatorStages = ({stage}) => {
   return (
     <section className="stage-indicator row text-center bg-success-subtle">
       <div className={class1}>
-        1 Seleccionar <span className={classSpan}>fechas y cabaña</span>
+        1 Seleccionar <span className={classSpan}>reserva</span>
       </div>
       <div className={class2}>
         2 Check Out
