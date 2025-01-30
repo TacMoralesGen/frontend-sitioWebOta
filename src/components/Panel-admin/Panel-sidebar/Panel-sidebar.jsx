@@ -15,7 +15,7 @@ const PanelSidebar = ({ setActiveSection }) => {
       className="d-flex flex-column bg-primary text-white vh-100 p-3 position-fixed"
       style={{ width: "250px" }}
     >
-      <h2 className="text-center mb-4">Chelenko Lodge</h2>
+      <h2 className="text-izq mb-4">Panel Administrador</h2>
       <ul className="nav flex-column">
         {[
           { name: "Dashboard", icon: <FaHome /> },

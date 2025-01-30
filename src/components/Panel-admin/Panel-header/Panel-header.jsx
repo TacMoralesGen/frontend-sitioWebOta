@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const PanelHeader = ({ searchTerm, setSearchTerm, filter, setFilter }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light p-3 shadow container-fluid w-100 mb-3">
-      <h1 className="navbar-brand">Reservaciones</h1>
+      <h1 className="navbar-brand">Reservaciones Chelenko Lodge</h1>
       <div className="d-flex ms-auto gap-3">
         <input
           type="text"
@@ -11,7 +11,9 @@ const PanelHeader = ({ searchTerm, setSearchTerm, filter, setFilter }) => {
           placeholder="Buscar..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ width: "500px", height: "40px", fontSize: "18px" }}
         />
+
         <select
           className="form-select"
           value={filter}
@@ -21,8 +23,8 @@ const PanelHeader = ({ searchTerm, setSearchTerm, filter, setFilter }) => {
           <option value="pendiente">Pendiente</option>
           <option value="confirmado">Confirmado</option>
           <option value="cancelado">Cancelado</option>
+          <option value="Finalizado">Finalizado</option>
         </select>
-        <button className="btn btn-outline-success">Perfil</button>
       </div>
     </nav>
   );

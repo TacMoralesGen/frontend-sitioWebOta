@@ -3,46 +3,53 @@ import PropTypes from "prop-types";
 const PanelReservation = ({ searchTerm, filter }) => {
   const reservations = [
     {
-      guest: "Ejemplo",
-      cabin: "Cabaña 1",
+      guest: "Carlos Sánchez",
+      cabin: "Tiny Cabin",
       duration: "3 días",
-      dateRange: "02-14 Enero, 2025",
+      dateRange: "14-16 Febrero, 2025",
       status: "Pendiente",
     },
     {
-      guest: "Ejemplo",
-      cabin: "Cabaña 1",
-      duration: "3 días",
-      dateRange: "02-14 Enero, 2025",
+      guest: "Ana Rodríguez",
+      cabin: "Couple Room",
+      duration: "2 días",
+      dateRange: "18-19 Marzo, 2025",
       status: "Confirmado",
     },
     {
-      guest: "Ejemplo",
-      cabin: "Cabaña 1",
-      duration: "3 días",
-      dateRange: "02-14 Enero, 2025",
+      guest: "Luis Pérez",
+      cabin: "Tiny Cabin",
+      duration: "4 días",
+      dateRange: "05-08 Abril, 2025",
       status: "Confirmado",
     },
     {
-      guest: "Ejemplo",
-      cabin: "Cabaña 1",
-      duration: "3 días",
-      dateRange: "02-14 Enero, 2025",
+      guest: "Sofía Gómez",
+      cabin: "Couple Room",
+      duration: "5 días",
+      dateRange: "10-14 Mayo, 2025",
       status: "Pendiente",
     },
     {
-      guest: "Ejemplo",
-      cabin: "Cabaña 1",
-      duration: "3 días",
-      dateRange: "02-14 Enero, 2025",
+      guest: "Marcos Díaz",
+      cabin: "Tiny Cabin",
+      duration: "6 días",
+      dateRange: "20-25 Junio, 2025",
       status: "Pendiente",
     },
     {
-      guest: "Ejemplo",
-      cabin: "Cabaña 1",
+      guest: "Laura Martínez",
+      cabin: "Couple Room",
       duration: "3 días",
-      dateRange: "02-14 Enero, 2025",
+      dateRange: "12-14 Julio, 2025",
       status: "Cancelado",
+    },
+    {
+      guest: "Juan Fernández",
+      cabin: "Tiny Cabin",
+      duration: "2 días",
+      dateRange: "01-02 Agosto, 2024",
+      status: "Finalizado",
     },
   ];
 
@@ -82,6 +89,8 @@ const PanelReservation = ({ searchTerm, filter }) => {
                           ? "bg-warning"
                           : res.status === "Confirmado"
                           ? "bg-success"
+                          : res.status === "Finalizado"
+                          ? "bg-secondary"
                           : "bg-danger"
                       }`}
                     >
@@ -89,7 +98,7 @@ const PanelReservation = ({ searchTerm, filter }) => {
                     </span>
                   </td>
                   <td>
-                    <button className="btn btn-sm btn-primary">Editar</button>
+                    <button className="btn btn-sm btn-primary">Ver Más</button>
                   </td>
                 </tr>
               ))}
