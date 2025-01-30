@@ -1,6 +1,6 @@
 import "./Home.css";
 import Banner from "../../components/Banner/Banner";
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/Header/Navbar/Navbar";
 import SectionImgTxt from "../../components/Section-img-txt/Section_img_txt";
 import SectionImgTxtLn from "../../components/Section-img-txt-ln/Section_img_txt_ln";
 import img2 from "../../assets/images/img-2.jpg";

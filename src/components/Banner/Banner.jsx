@@ -1,4 +1,3 @@
-import React from 'react';
 import './Banner.css';
 import videoSrc from '../../assets/videos/Chelenko-Lodge-Intro-by-ICS.mp4'
 import logo from '../../assets/images/Logo home.png';

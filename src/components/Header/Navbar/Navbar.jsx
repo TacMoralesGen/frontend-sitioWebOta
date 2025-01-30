@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import logo1 from "./../../assets/images/logo_CHELENKO-Top-bar-Black-1024x311.webp";
-import logo2 from "./../../assets/images/logo_CHELENKO-Top-bar-1024x311.webp";
+import logo1 from "./../../../assets/images/logo_CHELENKO-Top-bar-Black-1024x311.webp";
+import logo2 from "./../../../assets/images/logo_CHELENKO-Top-bar-1024x311.webp";
 import "./Navbar.css";
 import { Tooltip } from "bootstrap";
 
@@ -38,7 +38,7 @@ const Navbar = (props) => {
   }, []); // Este efecto se ejecuta solo una vez cuando el componente se monta
 
   // Condicional para cambiar las clases dependiendo del estado de navbarTrans y isUponBanner
-  let classForHeader = `navbar navbar-expand-lg ${
+  let classForHeader = `navbar navbar-expand-lg width-90 ${
     navbarTrans ? "" : "navbar-scrolled"
   }`;
   let classLeftNav = `collapse navbar-collapse left-nav flex-lg-grow-0 order-1 order-lg-0 ${
@@ -63,9 +63,8 @@ const Navbar = (props) => {
     classForHeader += " sticky-top";
   }
   return (
-    <header className={classForHeader}>
-      <nav className="width-90 d-flex align-items-center justify-content-between flex-wrap flex-lg-nowrap">
-        <section id="left-nav" className={classLeftNav}>
+    <nav className={classForHeader}>
+      <section id="left-nav" className={classLeftNav}>
           <ul className="navbar-nav">
             <li className="nav-item px-0 mx-2">
               <Link className="nav-link px-2 ms-lg-0 " to="#">
@@ -160,65 +159,64 @@ const Navbar = (props) => {
             </li>
           </ul>
         </section>
-        <section className="d-flex align-items-center justify-content-between flex-nowrap flex-grow-1 flex-lg-grow-0 flex-xl-grow-1">
-          <button
-            id="navbar-toggler"
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#left-nav"
-            aria-controls="left-nav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span id="toggler-icon" className={classTogglerIcon}></span>
-          </button>
-          <section className="px-2 d-xxs-block d-lg-none d-xl-block d-flex m-auto">
-            <Link className="navbar-brand mx-0" to="#">
-              <img className={classLogo1} src={logo1} alt="Logo Chelenko" />
-              <img className={classLogo2} src={logo2} alt="Logo Chelenko" />
-            </Link>
-          </section>
-          <section id="right-nav" className="navbar px-0">
-            <ul className="navbar-nav ms-auto d-flex flex-nowrap flex-row">
-              <li className="nav-item me-2">
-                <Link
-                  id="navbar-btn-reserve"
-                  className="btn btn-primary"
-                  to="./reservar"
-                >
-                  Reservar
-                </Link>
-              </li>
-              <li className="nav-item me-4 d-none d-lg-block">
-                <Link
-                  id="navbar-btn-contact"
-                  className={classBtnContact}
-                  to="#"
-                >
-                  Contáctanos
-                </Link>
-              </li>
-              <li className="vr me-lg-4 me-2"></li>
-              <li id="cart-text" className={classCartText}>
-                <span className="me-2 d-none d-lg-block align-content-center">
-                  Carrito / <strong className="cart-price">$0</strong>
-                </span>
-                <Link
-                  to="./cart"
-                  className="bag-icon"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-title="No tiene reserva en el carrito"
-                >
-                  <strong> 0 </strong>
-                </Link>
-              </li>
-            </ul>
-          </section>
+      <section className="d-flex align-items-center justify-content-between flex-nowrap flex-lg-nowrap">
+        
+        <button
+          id="navbar-toggler"
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#left-nav"
+          aria-controls="left-nav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span id="toggler-icon" className={classTogglerIcon}></span>
+        </button>
+        <section className="logo-conntainer px-2 d-xxs-block d-lg-none d-xl-block d-flex m-auto">
+          <Link className="navbar-brand" to="#">
+            <img className={classLogo1} src={logo1} alt="Logo Chelenko" />
+            <img className={classLogo2} src={logo2} alt="Logo Chelenko" />
+          </Link>
         </section>
-      </nav>
-    </header>
+        <section
+          id="right-nav"
+          className="navbar px-0 d-flex align-items-center justify-content-between flex-nowrap flex-grow-1 flex-lg-grow-0 flex-xl-grow-1"
+        >
+          <ul className="navbar-nav ms-auto d-flex flex-nowrap flex-row">
+            <li className="nav-item me-2">
+              <Link
+                id="navbar-btn-reserve"
+                className="btn btn-primary"
+                to="./reservar"
+              >
+                Reservar
+              </Link>
+            </li>
+            <li className="nav-item me-4 d-none d-lg-block">
+              <Link id="navbar-btn-contact" className={classBtnContact} to="#">
+                Contáctanos
+              </Link>
+            </li>
+            <li className="vr me-lg-4 me-2"></li>
+            <li id="cart-text" className={classCartText}>
+              <span className="me-2 d-none d-lg-block align-content-center">
+                Carrito / <strong className="cart-price">$0</strong>
+              </span>
+              <Link
+                to="./cart"
+                className="bag-icon"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                data-bs-title="No tiene reserva en el carrito"
+              >
+                <strong> 0 </strong>
+              </Link>
+            </li>
+          </ul>
+        </section>
+      </section>
+    </nav>
   );
 };
 
