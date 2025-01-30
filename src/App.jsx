@@ -1,6 +1,7 @@
 import "./customBootstrap.css";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./views/Home/Home.jsx";
+import Reserve from "./views/Reserve/Reserve.jsx";
 import Checkout from "./views/Checkout/Checkout.jsx";
 import PanelAdmin from "./views/PanelAdmin/Panel-admin.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -8,15 +9,19 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const App = () => {
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: '/',
       element: <Home />,
     },
     {
-      path: "/checkout",
-      element: <Checkout />,
+      path: '/reservar',
+      element: <Reserve />
     },
     {
-      path: "/admin",
+      path: '/checkout',
+      element: <Checkout />
+    },
+    {
+      path: '/admin',
       element: <PanelAdmin />,
     },
   ]);
