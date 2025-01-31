@@ -1,4 +1,10 @@
 section.stage-indicator {
-    margin-top: 6.3rem;
-    margin-bottom: 1.5rem;
+  margin-top: 6.3rem;
+  margin-bottom: 1.5rem;
+}
+
+@media screen and (min-width: 992px) {
+  .text-lg-center {
+    text-align: center !important;
   }
+}

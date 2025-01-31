@@ -94,7 +94,7 @@ const Navbar = ({ isUponBanner }) => {
       <section id="left-nav" className={classLeftNav}>
         <ul className="navbar-nav">
           <li className="nav-item px-0 mx-2">
-            <Link className="nav-link px-2 ms-lg-0 " to="#">
+            <Link className="nav-link px-2 ms-lg-0 " to="/">
               Inicio
             </Link>
           </li>
@@ -200,7 +200,7 @@ const Navbar = ({ isUponBanner }) => {
           <span id="toggler-icon" className={classTogglerIcon}></span>
         </button>
         <section className="px-2 d-xxs-block d-lg-none d-xl-block d-flex m-auto">
-          <Link className="navbar-brand" to="#">
+          <Link className="navbar-brand" to="/">
             <img className={classLogo1} src={logo1} alt="Logo Chelenko" />
             <img className={classLogo2} src={logo2} alt="Logo Chelenko" />
           </Link>
@@ -214,13 +214,13 @@ const Navbar = ({ isUponBanner }) => {
               <Link
                 id="navbar-btn-reserve"
                 className="btn btn-primary"
-                to="./reservar"
+                to="/reservar"
               >
                 Reservar
               </Link>
             </li>
             <li className="nav-item me-4 d-none d-lg-block">
-              <Link id="navbar-btn-contact" className={classBtnContact} to="./checkout">
+              <Link id="navbar-btn-contact" className={classBtnContact} to="/checkout">
                 Check Out
               </Link>
             </li>
@@ -230,7 +230,7 @@ const Navbar = ({ isUponBanner }) => {
                 Carrito / <strong className="cart-price">$0</strong>
               </span>
               <Link
-                to="./cart"
+                to="/checkout"
                 className="bag-icon"
                 data-bs-toggle="tooltip"
                 data-bs-placement="bottom"
