@@ -23,7 +23,7 @@ const App = () => {
     {
       path: '/admin',
       element: <PanelAdmin />,
-    },
+    }
   ]);
   return (
     <RouterProvider router={router} />

@@ -5,6 +5,7 @@ import SectionImgTxt from "../../components/Section-img-txt/Section_img_txt";
 import SectionImgTxtLn from "../../components/Section-img-txt-ln/Section_img_txt_ln";
 import img2 from "../../assets/images/img-2.jpg";
 import img3 from "../../assets/images/img-3.jpg"; 
+import Footer from "../../components/Footer/Footer"
 
 const Home = () => {
   return (
@@ -31,6 +32,7 @@ const Home = () => {
         overlayText="Ubicación"
         reverse={true}  // 🔄 Invertir la posición de la imagen y el texto
       />
+      <Footer />
     </>
   );
 };

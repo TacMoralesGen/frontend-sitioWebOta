@@ -1,23 +1,20 @@
 import "./Reserve.css";
 import Header from "../../components/Header/Header";
-// import SelectDates from "../../components/Select-dates";
-// import SelectCabins from "../../components/Select-cabins/";
-// import ReserveResume from "../../components/Reserve-resume/reserve-resume";
+import SelectDates from "../../components/Select-dates/SelectDates";
+import SelectCabins from "../../components/Select-cabins/SelectCabins";
+import ReserveResume from "../../components/ReserveResume/ReserveResume";
 import Footer from "../../components/Footer/Footer";
-import Banner from "../../components/Banner/Banner";
-import SectionImgTxt from "../../components/Section-img-txt/Section_img_txt";
 
 
 const Reserve = () => {
   return (
     <>
       <Header />
-      <Banner />
-      <SectionImgTxt />
-      {/* <SelectDates />
+      <SelectDates />
       <SelectCabins />
-      <ReserveResume />
-      <Footer /> */}
+      {/* <ReserveResume/> */}
+      {/* <ReserveResume habitaciones={} totalAdultos={} totalNinos={} serviciosAdicionales={} totalReserva={} /> */}
+      <Footer />
     </>
   );
 };
