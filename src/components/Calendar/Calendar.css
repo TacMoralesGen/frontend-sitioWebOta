@@ -1,0 +1,17 @@
+.calendar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .day {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 2px;
+    text-align: center;
+  }
+  
+  .day.selected {
+    background-color: #f39c12;
+  }
+  
