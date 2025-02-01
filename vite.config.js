@@ -11,13 +11,13 @@ const __dirname = path.dirname(__filename);
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  root: __dirname,
+  // root: __dirname,
   build: {
     outDir: '../dist'
   },
-  server: {
-    port: 8080
-  },
-  base: "/demoFrontendChelenko/"
+  // server: {
+  //   port: 8080
+  // },
+  base: "/WebSiteOta-Chelenko-FrontEnd/"
 })
 
