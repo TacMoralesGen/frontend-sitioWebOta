@@ -94,8 +94,8 @@ const Navbar = ({ isUponBanner }) => {
       <section id="left-nav" className={classLeftNav}>
         <ul className="navbar-nav">
           <li className="nav-item px-0 mx-2">
-            <Link className="nav-link px-2 ms-lg-0 " to="/">
-              Inicio
+            <Link className="nav-link px-2 ms-lg-0 " to="/admin">
+              Admin Panel
             </Link>
           </li>
           <li className="nav-item px-0 mx-2 dropdown">
