@@ -4,41 +4,39 @@ import Home from "./views/Home/Home.jsx";
 import Reserve from "./views/Reserve/Reserve.jsx";
 import Checkout from "./views/Checkout/Checkout.jsx";
 import PanelAdmin from "./views/PanelAdmin/Panel-admin.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+// import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+
 
 const App = () => {
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Home />,
-    },
-    {
-      path: '/reservar',
-      element: <Reserve />
-    },
-    {
-      path: '/checkout',
-      element: <Checkout />
-    },
-    {
-      path: '/admin',
-      element: <PanelAdmin />,
-    }
-  ]);
+  // const router = createBrowserRouter([
+  //   {
+  //     path: '/',
+  //     element: <Home />,
+  //   },
+  //   {
+  //     path: '/reservar',
+  //     element: <Reserve />
+  //   },
+  //   {
+  //     path: '/checkout',
+  //     element: <Checkout />
+  //   },
+  //   {
+  //     path: '/admin',
+  //     element: <PanelAdmin />,
+  //   }
+  // ]);
   return (
-    <RouterProvider router={router} />
-    // <BrowserRouter>
-    // <Navbar isUponBanner={true}/>
-    //   <Routes>
-    //     <Route path="/" element={<Home />} />
-    //     <Route path="/reservar" element={<Checkout />} />
-    //     <Route path="/checkout" element={<h1>Checkout el correcto</h1>} />
-    //     <Route
-    //       path="/confirmacion-reserva"
-    //       element={<h1>Reserva Exitosa</h1>}
-    //     />
-    //   </Routes>
-    // </BrowserRouter>
+    // <RouterProvider router={router} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/reservar" element={<Reserve />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/admin" element={<PanelAdmin />} />        
+      </Routes>
+    </BrowserRouter>
   );
 };
 
