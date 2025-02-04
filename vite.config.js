@@ -18,6 +18,6 @@ export default defineConfig({
   // server: {
   //   port: 8080
   // },
-  base: "/WebSiteOta-Chelenko-FrontEnd"
+  // base: "/WebSiteOta-Chelenko-FrontEnd"
 })
 
