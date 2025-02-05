@@ -29,7 +29,7 @@ const Checkout = () => {
       subtotal: 160900, // Inicializamos el subtotal de la habitación
     },
     {
-      precioBase: 919000,
+      precioBase: 91900,
       precioTinaja: 45000,
       nombreHabitacion: "Couple Room",
       capacidad: 2,
