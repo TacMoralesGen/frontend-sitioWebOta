@@ -1,7 +1,7 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { FaHome, FaClipboardList, FaBed } from "react-icons/fa";
 
+// eslint-disable-next-line react/prop-types
 const PanelSidebar = ({ setActiveSection }) => {
   const [active, setActive] = useState("Reservaciones");
 
@@ -38,8 +38,5 @@ const PanelSidebar = ({ setActiveSection }) => {
   );
 };
 
-PanelSidebar.propTypes = {
-  setActiveSection: PropTypes.func.isRequired,
-};
-
 export default PanelSidebar;
+

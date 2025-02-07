@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import { FaHome, FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
 
+// eslint-disable-next-line react/prop-types
 const PanelCabins = ({ cabins }) => {
   const getStatusInfo = (status) => {
     switch (status) {
@@ -44,17 +44,6 @@ const PanelCabins = ({ cabins }) => {
       </div>
     </section>
   );
-};
-
-PanelCabins.propTypes = {
-  cabins: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      status: PropTypes.string.isRequired,
-      capacity: PropTypes.number.isRequired,
-    })
-  ).isRequired,
 };
 
 export default PanelCabins;

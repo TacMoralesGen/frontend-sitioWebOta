@@ -9,6 +9,9 @@ const PanelAdmin = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
   const [activeSection, setActiveSection] = useState("Reservaciones");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
   const cabinsData = [
     {
       name: "Tiny Cabin 1",
@@ -57,9 +60,13 @@ const PanelAdmin = () => {
           setSearchTerm={setSearchTerm}
           filter={filter}
           setFilter={setFilter}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
         />
         {activeSection === "Reservaciones" && (
-          <PanelReservation searchTerm={searchTerm} filter={filter} />
+          <PanelReservation searchTerm={searchTerm} filter={filter} startDate={startDate} endDate={endDate} />
         )}
         {activeSection === "Cabañas" && <PanelCabins cabins={cabinsData} />}
       </div>
