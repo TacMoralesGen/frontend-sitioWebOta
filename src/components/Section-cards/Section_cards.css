@@ -1,0 +1,8 @@
+body{
+    background-color: #f0f0f0;
+}
+.container-card {
+    background-color: white;
+    width: 80%;
+    padding: 2rem;
+}

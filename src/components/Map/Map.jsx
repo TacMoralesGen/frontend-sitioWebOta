@@ -2,7 +2,7 @@ import "./Map.css";
 const SectionMap = () => {
   return (
     <section className="map-section d-flex align-items-stretch w-100">
-      <div className="container-fluid d-flex justify-content-center p-0">
+      <div className="container-fluid d-flex justify-content-center p-5">
         <div className="card map-card custom-shadow border-0 w-100 h-100">
           <div className="row g-0 h-100">
             {/*Mapa*/}

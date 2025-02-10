@@ -30,7 +30,6 @@
 
   } */
   
-  /* Responsividad */
   @media (max-width: 992px) {
     .map-card {
       max-width: 90%;
