@@ -1,10 +1,10 @@
 import "./Checkout.css";
 import Header from "../../components/Header/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReserveDetails from "../../components/ReserveDetails/ReserveDetails";
 import ReserveResume from "../../components/ReserveResume/ReserveResume";
 import Footer from "../../components/Footer/Footer";
-
+import ContactInformationForm from "../../components/Contact-information-form/ContactInformationForm";
 
 const Checkout = () => {
   const [habitaciones, setHabitaciones] = useState([
@@ -26,7 +26,7 @@ const Checkout = () => {
       duracionNoches: 6,
       adultos: 0,
       ninos: 0,
-      subtotal: 160900, // Inicializamos el subtotal de la habitación
+      subtotal: 160900,
     },
     {
       precioBase: 91900,
@@ -46,7 +46,7 @@ const Checkout = () => {
       duracionNoches: 6,
       adultos: 0,
       ninos: 0,
-      subtotal: 919000, // Inicializamos el subtotal de la habitación
+      subtotal: 91900,
     },
   ]);
 
@@ -87,13 +87,15 @@ const Checkout = () => {
     setHabitaciones(updatedHabitaciones);
   };
 
-  // Calculamos el total de la reserva sumando los subtotales de todas las habitaciones
-  const calcularTotalReserva = () => {
-    return habitaciones.reduce(
-      (acc, habitacion) => acc + habitacion.subtotal,
-      0
-    );
-  };
+  // Calcular el total de la reserva sumando los subtotales de todas las habitaciones
+  const totalReserva = habitaciones.reduce(
+    (acc, habitacion) => acc + habitacion.subtotal,
+    0
+  );
+
+  useEffect(() => {
+    // Recalcular el totalReserva cada vez que cambien los subtotales
+  }, [habitaciones]); // Esto garantiza que el total se recalcule cuando cambien las habitaciones
 
   return (
     <>
@@ -104,7 +106,7 @@ const Checkout = () => {
           <div className="col-12 col-lg-8 mb-4">
             {habitaciones.map((habitacion, index) => (
               <ReserveDetails
-                key={index}
+                key={habitacion.nombreHabitacion} // Usando nombreHabitacion como clave única
                 precioBase={habitacion.precioBase}
                 precioTinaja={habitacion.precioTinaja}
                 nombreHabitacion={habitacion.nombreHabitacion}
@@ -135,10 +137,11 @@ const Checkout = () => {
                 0
               )}
               serviciosAdicionales={serviciosAdicionales}
-              totalReserva={calcularTotalReserva()} // Sumar los subtotales y pasarlos a ReserveResume
+              totalReserva={totalReserva} 
             />
           </div>
         </div>
+        <ContactInformationForm />
       </div>
       <Footer />
     </>

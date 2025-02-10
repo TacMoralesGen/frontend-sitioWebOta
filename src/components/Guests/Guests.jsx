@@ -17,7 +17,6 @@ const Guests = ({ capacidad, actualizarTotales }) => {
     }
   };
 
-  // Función que maneja el cambio en el número de niños
   const handleNinosChange = (e) => {
     const nuevosNinos = parseInt(e.target.value);
 
@@ -27,7 +26,6 @@ const Guests = ({ capacidad, actualizarTotales }) => {
     }
   };
 
-  // Actualizamos los totales cuando se cambian los valores
   useEffect(() => {
     actualizarTotales(adultos, ninos);
   }, [adultos, ninos, actualizarTotales]);

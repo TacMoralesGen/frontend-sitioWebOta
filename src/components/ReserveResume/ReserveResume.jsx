@@ -6,7 +6,9 @@ const ReserveResume = ({ habitaciones, totalAdultos, totalNinos, serviciosAdicio
   const duracionEstadia = habitaciones[0]?.duracionNoches || 0;
 
   // Verificar si 'Tinaja Caliente' está incluido en los servicios adicionales
-  const tinajaSeleccionada = serviciosAdicionales.includes('Tinaja Caliente') ? 'Tinaja Caliente' : 'No incluye servicio adicional';
+  const tinajaSeleccionada = Array.isArray(serviciosAdicionales) && serviciosAdicionales.includes('Tinaja Caliente') 
+    ? 'Tinaja Caliente' 
+    : 'No agrega servicio adicional';
 
   return (
     <div className="col">
@@ -16,8 +18,10 @@ const ReserveResume = ({ habitaciones, totalAdultos, totalNinos, serviciosAdicio
           <ul className="list-unstyled text-start">
             <li>
               <strong>Cabañas:</strong>
-              {habitaciones.map((habitacion, index) => (
-                <div key={index}> #{index + 1} {habitacion.nombreHabitacion} ({habitacion.capacidad} Personas)</div>
+              {habitaciones.map((habitacion) => (
+                <div key={habitacion.id || habitacion.nombreHabitacion}> 
+                  #{habitacion.id || habitacion.nombreHabitacion} {habitacion.nombreHabitacion} ({habitacion.capacidad} Personas)
+                </div>
               ))}
             </li>
             <hr />
