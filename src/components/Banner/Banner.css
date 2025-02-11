@@ -96,7 +96,7 @@
   }
 
   .btn-reserva {
-    width: 90%; /* Se adapta mejor en móviles */
+    width: 90%;
     max-width: 200px;
     font-size: 0.9rem;
   }
