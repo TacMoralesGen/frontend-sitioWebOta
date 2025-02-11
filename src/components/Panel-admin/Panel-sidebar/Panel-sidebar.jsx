@@ -3,7 +3,7 @@ import { FaHome, FaClipboardList, FaBed } from "react-icons/fa";
 
 // eslint-disable-next-line react/prop-types
 const PanelSidebar = ({ setActiveSection }) => {
-  const [active, setActive] = useState("Reservaciones");
+  const [active, setActive] = useState("Reservas");
 
   const handleClick = (section) => {
     setActive(section);
@@ -19,7 +19,7 @@ const PanelSidebar = ({ setActiveSection }) => {
       <ul className="nav flex-column">
         {[
           { name: "Dashboard", icon: <FaHome /> },
-          { name: "Reservaciones", icon: <FaClipboardList /> },
+          { name: "Reservas", icon: <FaClipboardList /> },
           { name: "Cabañas", icon: <FaBed /> },
         ].map((item) => (
           <li key={item.name} className="nav-item">
@@ -39,4 +39,3 @@ const PanelSidebar = ({ setActiveSection }) => {
 };
 
 export default PanelSidebar;
-
