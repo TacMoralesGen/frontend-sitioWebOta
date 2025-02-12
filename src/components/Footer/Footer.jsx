@@ -96,6 +96,7 @@ const Footer = () => {
           <p className="mb-0">
             &copy; 2025 Chelenko Lodge. All rights reserved.
           </p>
+          <p>Website Design by <strong>FlexMinds</strong></p>
         </div>
       </div>
     </footer>
