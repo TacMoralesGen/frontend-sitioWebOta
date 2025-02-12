@@ -20,7 +20,7 @@ const SelectCabins = () => {
                   </span>
                   <p>Ocupación máxima 4 personas</p>
                   <p>Estadía mínima 1 noche.</p>
-                  <p>Categoría $125.900</p>
+                  <p>Categoría $160.900</p>
                 </div>
                 <div className="d-flex flex-row justify-content-between align-items-center">
                   <p>

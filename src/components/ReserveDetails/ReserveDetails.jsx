@@ -12,18 +12,20 @@ const ReserveDetails = ({
   actualizarTotales, 
   totalAdultos,
   totalNinos,
-  actualizarServiciosAdicionales
+  actualizarSubtotal, // Se recibe esta función desde Checkout para actualizar el subtotal
 }) => {
-  const [subtotal, setSubtotal] = useState(precioBase); // Subtotal que se actualizará
+  const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
   const [serviciosAdicionales, setServiciosAdicionales] = useState(servicios); // Servicios adicionales
-  const [isOpen, setIsOpen] = useState(false); // Estado para manejar el desplegable
+  const [isOpen, setIsOpen] = useState(false); // Estado del desplegable
 
-  // Función que actualiza el subtotal cuando se cambian los servicios adicionales
-  const actualizarSubtotal = (costoAdicional) => {
-    setSubtotal(precioBase + costoAdicional); // Aquí actualizamos el subtotal sumando el costo de la tinaja
+  // Función para actualizar el subtotal cuando se seleccionan servicios adicionales
+  const manejarCambioSubtotal = (costoAdicional) => {
+    const nuevoSubtotal = precioBase + costoAdicional;
+    setSubtotal(nuevoSubtotal); 
+    actualizarSubtotal(nuevoSubtotal); // Se envía el nuevo subtotal a Checkout.jsx
   };
 
-  // Función para alternar el estado del desplegable
+  // Función para alternar la visualización de detalles
   const toggleDetalles = () => setIsOpen(!isOpen);
 
   return (
@@ -65,10 +67,10 @@ const ReserveDetails = ({
               </div>
             </div>
 
-            {/* Nombre completo Huesped Representante */}
+            {/* Nombre completo Huésped Representante */}
             <div className="col-8">
               <label htmlFor="clienteNombre" className="form-label">
-                <strong>Nombre completo Huesped Representante :</strong>
+                <strong>Nombre completo Huésped Representante :</strong>
               </label>
               <input
                 type="text"
@@ -81,7 +83,7 @@ const ReserveDetails = ({
             </div>
           </p>
 
-          {/* Aquí incluimos el componente de selección de adultos y niños */}
+          {/* Componente de selección de adultos y niños */}
           <div className="row">
             <Guests 
               capacidad={capacidad} 
@@ -91,11 +93,11 @@ const ReserveDetails = ({
             />
           </div>
 
-          {/* Integración del componente TinajaSelector */}
+          {/* Componente TinajaSelector */}
           <div className="mt-3">
             <TinajaSelector 
               precioTinaja={precioTinaja} 
-              actualizarSubtotal={actualizarSubtotal} // Pasamos la función para actualizar el subtotal
+              actualizarSubtotal={manejarCambioSubtotal} // Se pasa la función que actualizará el subtotal
               serviciosAdicionales={serviciosAdicionales}
               setServiciosAdicionales={setServiciosAdicionales}
             />

@@ -1,6 +1,6 @@
 import "./Checkout.css";
 import Header from "../../components/Header/Header";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ReserveDetails from "../../components/ReserveDetails/ReserveDetails";
 import ReserveResume from "../../components/ReserveResume/ReserveResume";
 import Footer from "../../components/Footer/Footer";
@@ -9,6 +9,7 @@ import ContactInformationForm from "../../components/Contact-information-form/Co
 const Checkout = () => {
   const [habitaciones, setHabitaciones] = useState([
     {
+      id: 1,
       precioBase: 160900,
       precioTinaja: 60000,
       nombreHabitacion: "Tiny Cabin",
@@ -27,56 +28,20 @@ const Checkout = () => {
       adultos: 0,
       ninos: 0,
       subtotal: 160900,
-    },
-    {
-      precioBase: 91900,
-      precioTinaja: 45000,
-      nombreHabitacion: "Couple Room",
-      capacidad: 2,
-      detalles: [
-        "Vista: Lago General Carrera - Patagonia Chilena.",
-        "Tamaño: 14m².",
-        "Camas: (1) Cama Queen",
-        "Comodidades: Aire Acondicionado, Ducha, Baño privado, Toallas, Secador de pelo.",
-        "Estacionamiento: Gratuito.",
-      ],
-      servicios: ["No incluye servicio adicional"],
-      fechaEntrada: "Viernes, 30 Enero, 2025 desde las 15:00hrs",
-      fechaSalida: "Martes, 03 Febrero, 2025 hasta las 10:00am",
-      duracionNoches: 6,
-      adultos: 0,
-      ninos: 0,
-      subtotal: 91900,
+      tipo: "tinyCabin",
     },
   ]);
 
-  const [serviciosAdicionales, setServiciosAdicionales] = useState([]); // Estado para servicios adicionales global
+  const agregarHabitacion = (nuevaHabitacion) => {
+    setHabitaciones([...habitaciones, { ...nuevaHabitacion, id: habitaciones.length + 1 }]);
+  };
 
-  // Función que actualiza los servicios adicionales
-  const actualizarServiciosAdicionales = (index, servicios) => {
+  const actualizarSubtotal = (index, nuevoSubtotal) => {
     const updatedHabitaciones = [...habitaciones];
-    updatedHabitaciones[index] = {
-      ...updatedHabitaciones[index],
-      servicios,
-    };
-    setHabitaciones(updatedHabitaciones);
-
-    // Actualizamos el estado global de servicios adicionales
-    const nuevosServiciosAdicionales = updatedHabitaciones
-      .map((habitacion) => habitacion.servicios)
-      .flat();
-
-    setServiciosAdicionales(nuevosServiciosAdicionales);
-
-    // Actualizamos el subtotal de esa habitación
-    const nuevoSubtotal =
-      updatedHabitaciones[index].precioBase +
-      (updatedHabitaciones[index].precioTinaja || 0);
-    updatedHabitaciones[index].subtotal = nuevoSubtotal; // Actualizamos el subtotal en la habitación
+    updatedHabitaciones[index].subtotal = nuevoSubtotal;
     setHabitaciones(updatedHabitaciones);
   };
 
-  // Función para actualizar los totales de adultos y niños
   const actualizarTotales = (index, adultos, ninos) => {
     const updatedHabitaciones = [...habitaciones];
     updatedHabitaciones[index] = {
@@ -87,57 +52,60 @@ const Checkout = () => {
     setHabitaciones(updatedHabitaciones);
   };
 
-  // Calcular el total de la reserva sumando los subtotales de todas las habitaciones
-  const totalReserva = habitaciones.reduce(
-    (acc, habitacion) => acc + habitacion.subtotal,
-    0
-  );
-
-  useEffect(() => {
-    // Recalcular el totalReserva cada vez que cambien los subtotales
-  }, [habitaciones]); // Esto garantiza que el total se recalcule cuando cambien las habitaciones
+  const totalReserva = habitaciones.reduce((acc, habitacion) => acc + habitacion.subtotal, 0);
 
   return (
     <>
       <Header />
       <div className="container">
         <div className="row">
-          {/* Mostrar detalles de las habitaciones */}
           <div className="col-12 col-lg-8 mb-4">
             {habitaciones.map((habitacion, index) => (
               <ReserveDetails
-                key={habitacion.nombreHabitacion} // Usando nombreHabitacion como clave única
+                key={habitacion.id}
                 precioBase={habitacion.precioBase}
                 precioTinaja={habitacion.precioTinaja}
                 nombreHabitacion={habitacion.nombreHabitacion}
                 capacidad={habitacion.capacidad}
                 detalles={habitacion.detalles}
                 servicios={habitacion.servicios}
-                actualizarTotales={(adultos, ninos) =>
-                  actualizarTotales(index, adultos, ninos)
-                }
-                actualizarServiciosAdicionales={(servicios) =>
-                  actualizarServiciosAdicionales(index, servicios)
-                }
-                totalAdultos={habitacion.adultos}
-                totalNinos={habitacion.ninos}
+                tipoCabaña={habitacion.tipo}
+                subtotal={habitacion.subtotal}
+                actualizarSubtotal={(nuevoSubtotal) => actualizarSubtotal(index, nuevoSubtotal)}
+                actualizarTotales={(adultos, ninos) => actualizarTotales(index, adultos, ninos)}
               />
             ))}
+            <button className="btn btn-primary mt-3" onClick={() => agregarHabitacion({
+              precioBase: 91900,
+              precioTinaja: 45000,
+              nombreHabitacion: "Couple Room",
+              capacidad: 2,
+              detalles: [
+                "Vista: Lago General Carrera - Patagonia Chilena.",
+                "Tamaño: 14m².",
+                "Camas: (1) Cama Queen",
+                "Comodidades: Aire Acondicionado, Ducha, Baño privado, Toallas, Secador de pelo.",
+                "Estacionamiento: Gratuito.",
+              ],
+              servicios: ["No incluye servicio adicional"],
+              fechaEntrada: "Viernes, 30 Enero, 2025 desde las 15:00hrs",
+              fechaSalida: "Martes, 03 Febrero, 2025 hasta las 10:00am",
+              duracionNoches: 6,
+              adultos: 0,
+              ninos: 0,
+              subtotal: 91900,
+              tipo: "coupleRoom",
+            })}>
+              Agregar Cabaña Couple Room
+            </button>
           </div>
-          {/* Mostrar resumen de la reserva */}
+
           <div className="col-12 col-lg-4 mb-4">
             <ReserveResume
               habitaciones={habitaciones}
-              totalAdultos={habitaciones.reduce(
-                (acc, habitacion) => acc + habitacion.adultos,
-                0
-              )}
-              totalNinos={habitaciones.reduce(
-                (acc, habitacion) => acc + habitacion.ninos,
-                0
-              )}
-              serviciosAdicionales={serviciosAdicionales}
-              totalReserva={totalReserva} 
+              totalAdultos={habitaciones.reduce((acc, habitacion) => acc + habitacion.adultos, 0)}
+              totalNinos={habitaciones.reduce((acc, habitacion) => acc + habitacion.ninos, 0)}
+              totalReserva={totalReserva}
             />
           </div>
         </div>
