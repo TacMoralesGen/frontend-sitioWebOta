@@ -5,7 +5,6 @@ import ReserveDetails from "../../components/ReserveDetails/ReserveDetails";
 import ReserveResume from "../../components/ReserveResume/ReserveResume";
 import Footer from "../../components/Footer/Footer";
 import ContactInformationForm from "../../components/Contact-information-form/ContactInformationForm";
-import TermsConditions from "../../components/Terms-conditions/TermsConditions";
 
 const Checkout = () => {
   const [habitaciones, setHabitaciones] = useState([
@@ -112,7 +111,6 @@ const Checkout = () => {
         </div>
         <ContactInformationForm />
       </div>
-      <TermsConditions />
       <Footer />
     </>
   );

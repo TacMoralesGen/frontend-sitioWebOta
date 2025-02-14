@@ -32,7 +32,7 @@ const SectionMap = () => {
                   <li>Continúe por otros 163 kms hasta llegar a Chelenko Lodge.</li>
                 </ul>
                 <a
-                  href="https://www.google.com/maps/dir//Chelenko+Lodge,+Chile"
+                  href="https://www.google.com/maps/dir/Aeródromo+Balmaceda,+Coyhaique,+Aysén/Chelenko+Lodge"
                   className="btn btn-primary rounded-pill btn-custom text-white px-3"
                   target="_blank"
                   rel="noopener noreferrer">
