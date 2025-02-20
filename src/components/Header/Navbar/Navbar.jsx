@@ -24,15 +24,16 @@ const Navbar = ({ isUponBanner }) => {
   let classTogglerIcon;
 
   const changeColors = (navbarTrans) => {
-    console.log(
-      `cambiando colores: ${
-        navbarTrans ? "modo transparente" : "con fondo blanco"
-      }`
-    );
+    // console.log(
+    //   `cambiando colores: ${
+    //     navbarTrans ? "modo transparente" : "con fondo blanco"
+    //   }`
+    // );
     // Condicional para cambiar las clases dependiendo del estado de navbarTrans y isUponBanner
-    classForNav = `navbar navbar-expand-lg width-90 fixed-top justify-content-between ${
+    classForNav = `navbar navbar-expand-lg padding-navbar justify-content-between ${
       navbarTrans ? "" : "navbar-scrolled"
     }`;
+    classForNav += isUponBanner ? " fixed-top" : "";
     classLeftNav = `collapse navbar-collapse left-nav flex-lg-grow-0 order-1 order-lg-0 ${
       navbarTrans ? "navbar-dark" : ""
     }`;
@@ -47,14 +48,14 @@ const Navbar = ({ isUponBanner }) => {
     classTogglerIcon = `navbar-toggler-icon ${
       navbarTrans ? "" : "black-navbar-toggler-icon"
     }`;
-    console.log(
-      `Termine de definir los colores: ${
-        navbarTrans ? "modo transparente" : "con fondo blanco"
-      }`
-    );
+    // console.log(
+    //   `Termine de definir los colores: ${
+    //     navbarTrans ? "modo transparente" : "con fondo blanco"
+    //   }`
+    // );
   };
   const [navbarTrans, setNavbarTrans] = useState(isUponBanner); // Estado para determinar si la navbar está transparente o no
-  console.log("Primera vez mostrando navbarTrans" + navbarTrans);
+  // console.log("Primera vez mostrando navbarTrans" + navbarTrans);
   changeColors(navbarTrans);
 
   const checkScroll = () => {
@@ -76,11 +77,11 @@ const Navbar = ({ isUponBanner }) => {
           const isExpanded =
             navbarToggler.getAttribute("aria-expanded") === "true";
           if (isExpanded) {
-            console.log("Se ejecuta el callback: Está expandido el menú");
+            // console.log("Se ejecuta el callback: Está expandido el menú");
             setNavbarTrans(false);
             window.removeEventListener("scroll", checkScroll);
           } else {
-            console.log("Se ejecuta el callback: Se contrajo el menú");
+            // console.log("Se ejecuta el callback: Se contrajo el menú");
             checkScroll();
             window.addEventListener("scroll", checkScroll);
           }
