@@ -12,15 +12,17 @@ const ReserveDetails = ({
   actualizarTotales, 
   totalAdultos,
   totalNinos,
-  actualizarServiciosAdicionales
+  actualizarSubtotal, // Se recibe esta función desde Checkout para actualizar el subtotal
 }) => {
-  const [subtotal, setSubtotal] = useState(precioBase); // Subtotal que se actualizará
+  const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
   const [serviciosAdicionales, setServiciosAdicionales] = useState(servicios); // Servicios adicionales
   const [isOpen, setIsOpen] = useState(false); // Estado para manejar el desplegable
 
-  // Función que actualiza el subtotal cuando se cambian los servicios adicionales
-  const actualizarSubtotal = (costoAdicional) => {
-    setSubtotal(precioBase + costoAdicional); // Aquí actualizamos el subtotal sumando el costo de la tinaja
+  // Función para actualizar el subtotal cuando se seleccionan servicios adicionales
+  const manejarCambioSubtotal = (costoAdicional) => {
+    const nuevoSubtotal = precioBase + costoAdicional;
+    setSubtotal(nuevoSubtotal); 
+    actualizarSubtotal(nuevoSubtotal); // Se envía el nuevo subtotal a Checkout.jsx
   };
 
   // Función para alternar el estado del desplegable
@@ -65,10 +67,11 @@ const ReserveDetails = ({
               </div>
             </div>
 
-            {/* Nombre completo Huesped Representante */}
+
+            {/* Nombre completo Huésped Representante */}
             <div className="col-8">
               <label htmlFor="clienteNombre" className="form-label">
-                <strong>Nombre completo Huesped Representante :</strong>
+                <strong>Nombre completo Huésped Representante :</strong>
               </label>
               <input
                 type="text"
@@ -82,6 +85,7 @@ const ReserveDetails = ({
           </p>
 
           {/* Aquí incluimos el componente de selección de adultos y niños */}
+
           <div className="row">
             <Guests 
               capacidad={capacidad} 

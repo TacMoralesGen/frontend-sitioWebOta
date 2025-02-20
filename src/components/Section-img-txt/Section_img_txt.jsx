@@ -7,14 +7,14 @@ const SectionImgTxt = () => {
     <section className="section-container">
       <div className="row align-items-center">
         {/* Imagen */}
-        <div className="col-lg-6 mb-4 mb-lg-0">
+        <div className="col-lg-7 mb-4 mb-lg-0">
           <img src={img1} className="section-img" alt="Vista de la Patagonia Chilena" />
         </div>
         {/* Texto */}
-        <div className="col-lg-6 text-center text-lg-start section-text">
+        <div className="col-lg-5 text-center text-lg-start section-text">
           <div className="text-center text-lg-start p-4">
-            <h2 className="text-primary">
-              La Patagonia Chilena como nunca antes la habías visto
+            <h2 className="text-dark">
+              <strong>La Patagonia Chilena como nunca antes la habías visto</strong>
               <hr className="separador"/>
             </h2>
             <p className="lead">

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "compileBootstrap": "sass --no-source-map ./src/scss/customBootstrap.scss  ./src/customBootstrap.css",
-    "start": "vite",
+    "start": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -14,9 +14,9 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@popperjs/core": "2.11.8",
-    "bootstrap": "5.3.3",
+    "bootstrap": "^5.3.3",
     "dayjs": "^1.11.13",
+    "express": "^4.21.2",
     "prop-types": "15.8.1",
     "react": "18.3.1",
     "react-datepicker": "7.6.0",

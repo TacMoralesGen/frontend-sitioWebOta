@@ -10,7 +10,7 @@ const SectionImgTxtLn = ({imgSrc, title, subtitle, description, btnText, overlay
           <div className="col-md-4 text-center text-md-start exclusividad-text">
             <p className="text-primary"><strong>{subtitle}</strong></p>
             <h2>
-              {title}
+             <strong>{title}</strong> 
               <hr className="separador"/>
             </h2>
             <p className="lead">{description}</p>
