@@ -8,6 +8,7 @@ import imgTinyCabin from "../../assets/images/chalenco1.jpg";
 import imgCoupleRoom from "../../assets/images/chalenco2.avif";
 import ReserveResume2 from "../../components/Select-cabins/ReserveResume2/ReserveResume2";
 import TermsConditions from "../../components/Terms-conditions/TermsConditions";
+import SectionMap from "../../components/Map/Map";
 import Footer from "../../components/Footer/Footer";
 import "../../customBootstrap.css";
 import "./reserve.css"
@@ -481,7 +482,6 @@ const Reserve = () => {
 	const [checkIn, setCheckIn] = useState(null); //selectDates 
 	const [checkOut, setCheckOut] = useState(null); //selectDates
 	const [cabinsSelection, setCabinsSelection] = useState(generateCabinSelectionEmpty()); //selectCabins y reserveResume
-	// const [updateCabins, setUpdateCabins] = useState(false); //selectCabins y reserveResume (innecesario?)
 	const [reservedRange, setReservedRange] = useState([]); //selectCabins y reserveResume solo se pasa la variable.
 	const [total, setTotal] = useState(0); //setTotal pasarselo a selectCabins, total pasarselo a reserveResume.
 	const [cabinsAvailableInRange, setCabinsAvailableInRange] = useState(0); //setTotal pasarselo a selectCabins, total pasarselo a reserveResume.
@@ -510,7 +510,6 @@ const Reserve = () => {
 				<div className="row">
 					{/* Mostrar detalles de las habitaciones */}
 					<SelectCabins 
-						// updateCabins={updateCabins} //el disparador para actualizar las cabañas (re-render). Solo es un booleano. Innecesario?
 						reservedRange={reservedRange} //arreglo de fechas en que se solicita la reserva
 						cabinsTypes={cabinsTypes} //Objeto Map las llaves son los tipos de cabañas ("TinyCabin", "CoupleRoom") que su valor es un objeto con las caracteristicas de ese tipo de TinyCabin existen con sus caracteristicas.
 						cabinsSelection={cabinsSelection} //La cantidad seleccionada en los formularios de cabañas (selection)
@@ -521,7 +520,7 @@ const Reserve = () => {
 					<ReserveResume2 reservedRange={reservedRange} cabinsSelection={cabinsSelection} total={total} cabinsTypes={cabinsTypes}></ReserveResume2>
 				</div>
         <TermsConditions />
-
+        <SectionMap />
 			</main>
 			<Footer />
 		</div>
