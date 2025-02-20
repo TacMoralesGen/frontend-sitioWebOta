@@ -7,6 +7,7 @@ import SelectCabins from "../../components/Select-cabins/SelectCabins";
 import imgTinyCabin from "../../assets/images/chalenco1.jpg";
 import imgCoupleRoom from "../../assets/images/chalenco2.avif";
 import ReserveResume2 from "../../components/Select-cabins/ReserveResume2/ReserveResume2";
+import TermsConditions from "../../components/Terms-conditions/TermsConditions";
 import Footer from "../../components/Footer/Footer";
 import "../../customBootstrap.css";
 import "./reserve.css"
@@ -519,6 +520,8 @@ const Reserve = () => {
 					{/* Mostrar resumen de la reserva */}
 					<ReserveResume2 reservedRange={reservedRange} cabinsSelection={cabinsSelection} total={total} cabinsTypes={cabinsTypes}></ReserveResume2>
 				</div>
+        <TermsConditions />
+
 			</main>
 			<Footer />
 		</div>

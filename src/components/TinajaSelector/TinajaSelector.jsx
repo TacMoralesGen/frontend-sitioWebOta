@@ -8,9 +8,9 @@ const TinajaSelector = ({ precioBase, actualizarSubtotal, serviciosAdicionales, 
   const handleCheckboxChange = () => {
     setTinajaSeleccionada(!tinajaSeleccionada);
     if (!tinajaSeleccionada) {
-      setServiciosAdicionales([...serviciosAdicionales, 'Tinaja Caliente']);
+      setServiciosAdicionales(['Tinaja Caliente']); // Solo añadimos la Tinaja Caliente
     } else {
-      setServiciosAdicionales(serviciosAdicionales.filter(servicio => servicio !== 'Tinaja Caliente'));
+      setServiciosAdicionales([]); // Si no está seleccionada, eliminamos el servicio
     }
   };
 
@@ -69,4 +69,3 @@ const TinajaSelector = ({ precioBase, actualizarSubtotal, serviciosAdicionales, 
 };
 
 export default TinajaSelector;
-  

@@ -1,4 +1,3 @@
-/* Estilo general HOME POR SEPARAR CSS EN CADA COMPONENTE QUE CORRESPONDA*/
 .bg-overlay {
   position: absolute;
   top: 0;
@@ -51,7 +50,7 @@
   .banner-content img{
     object-fit: contain;
     margin-top: 20px;
-    max-width: 430px; /*tamaño máximo img*/
+    max-width: 430px;
     width: 100%; /* Img responsiva */
     height: auto; /* Mantiene la proporción de la imagen */
   }
@@ -76,8 +75,6 @@
     text-align: center;
   }
 
-
-  /* Media query para pantallas más pequeñas */
 @media (max-width: 768px) {
   .banner {
     padding-top: 100px; /* Espacio extra para el navbar */
@@ -99,7 +96,7 @@
   }
 
   .btn-reserva {
-    width: 90%; /* Se adapta mejor en móviles */
+    width: 90%;
     max-width: 200px;
     font-size: 0.9rem;
   }
