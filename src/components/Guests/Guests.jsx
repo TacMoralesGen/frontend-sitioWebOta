@@ -24,7 +24,7 @@ const Guests = ({ tipoCabaña, capacidad, actualizarTotales }) => {
     }
   };
 
-  // Cambio en el número de niños
+
   const handleNinosChange = (e) => {
     const nuevosNinos = parseInt(e.target.value);
 

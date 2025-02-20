@@ -16,7 +16,7 @@ const ReserveDetails = ({
 }) => {
   const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
   const [serviciosAdicionales, setServiciosAdicionales] = useState(servicios); // Servicios adicionales
-  const [isOpen, setIsOpen] = useState(false); // Estado del desplegable
+  const [isOpen, setIsOpen] = useState(false); // Estado para manejar el desplegable
 
   // Función para actualizar el subtotal cuando se seleccionan servicios adicionales
   const manejarCambioSubtotal = (costoAdicional) => {
@@ -25,7 +25,7 @@ const ReserveDetails = ({
     actualizarSubtotal(nuevoSubtotal); // Se envía el nuevo subtotal a Checkout.jsx
   };
 
-  // Función para alternar la visualización de detalles
+  // Función para alternar el estado del desplegable
   const toggleDetalles = () => setIsOpen(!isOpen);
 
   return (
@@ -67,6 +67,7 @@ const ReserveDetails = ({
               </div>
             </div>
 
+
             {/* Nombre completo Huésped Representante */}
             <div className="col-8">
               <label htmlFor="clienteNombre" className="form-label">
@@ -83,7 +84,8 @@ const ReserveDetails = ({
             </div>
           </p>
 
-          {/* Componente de selección de adultos y niños */}
+          {/* Aquí incluimos el componente de selección de adultos y niños */}
+
           <div className="row">
             <Guests 
               capacidad={capacidad} 
@@ -93,11 +95,11 @@ const ReserveDetails = ({
             />
           </div>
 
-          {/* Componente TinajaSelector */}
+          {/* Integración del componente TinajaSelector */}
           <div className="mt-3">
             <TinajaSelector 
               precioTinaja={precioTinaja} 
-              actualizarSubtotal={manejarCambioSubtotal} // Se pasa la función que actualizará el subtotal
+              actualizarSubtotal={actualizarSubtotal} // Pasamos la función para actualizar el subtotal
               serviciosAdicionales={serviciosAdicionales}
               setServiciosAdicionales={setServiciosAdicionales}
             />
