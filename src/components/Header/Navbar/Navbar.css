@@ -10,8 +10,7 @@
   /* -------------------------- */
   /*        navbar-parent       */
   /* -------------------------- */
-  .width-90 {
-    width: 100vw;
+  .padding-navbar {
     padding: 0.5rem 5vw !important;
   }
   

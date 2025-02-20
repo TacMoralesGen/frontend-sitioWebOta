@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-white py-4 mt-5">
-      <div className="width-90">
+    <footer className="bg-dark text-white py-4">
+      <div className="padding-footer">
         <div className="row text-nowrap">
           <section className="col-lg-3 col-sm-6 d-none d-sm-flex flex-column align-items-center">
             <h5>
@@ -96,6 +96,7 @@ const Footer = () => {
           <p className="mb-0">
             &copy; 2025 Chelenko Lodge. All rights reserved.
           </p>
+          <p>Website Design by <strong>FlexMinds</strong></p>
         </div>
       </div>
     </footer>

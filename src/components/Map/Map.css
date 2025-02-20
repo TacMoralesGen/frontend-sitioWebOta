@@ -1,0 +1,26 @@
+  .map-card {
+      max-width: 1220px;
+      border-radius: 0px;
+      margin: 0 auto;
+      height: auto;
+    }
+  .custom-shadow {
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .col-md-6.d-flex{
+      padding: 0;
+      margin: 0;
+      height: auto;
+  }
+
+  .btn-custom {
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 1rem;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+  }
+    
