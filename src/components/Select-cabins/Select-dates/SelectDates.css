@@ -7,10 +7,14 @@ input.input_person {
     min-height: 45px;
     padding-inline: 10px;
     border-radius: 10px;
-    border: 2px solid #78BD95;
     width: fit-content;
     min-width: 203px;
     align-self: center;
+}
+
+.react-datepicker__input-container input:not(:disabled),
+input.input_person {
+    border: 2px solid #78BD95;
 }
 
 label.label_datepicker {
@@ -38,13 +42,7 @@ label.label_datepicker {
     }
 }
 
-@media screen and (min-width: 576px) {
-    div.bg-body-secondary {
-        background-color: white !important;
-    }
-}
-
-button.search-cabins {
+button.search-cabins{
     min-height: 45px;
     padding-inline: 2rem;
     cursor: pointer !important;

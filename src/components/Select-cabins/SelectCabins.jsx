@@ -32,15 +32,17 @@ const SelectCabins = ({ reservedRange, cabinsTypes, cabinsSelection, manageCabin
 	if (reservedRange.length === 0) {
 		return (
 			<section className="col-12 col-lg-8 ps-0">
-				<section key={"QWEQWEQWEQWE"} className="card p-0 d-flex align-items-center h-100"></section>
+				<div className="card p-0 d-flex align-items-center h-100">
+					<h4 className="my-auto py-4">Aquí se desplegarán las cabañas disponibles.</h4>
+				</div>
 			</section>
 		);
 	} else {
 		return (
 			<section className="col-12 col-lg-8 ps-0">
-				<section key={"ASDASDASDASD"} className="card p-0 d-flex align-items-center">
+				<div key={"ASDASDASDASD"} className="card p-2 d-flex align-items-center">
 					{generateSelectCabins(cabinsTypes, cabinsAvailabilityByDateInRange)}
-				</section>
+				</div>
 			</section>
 		);
 	}

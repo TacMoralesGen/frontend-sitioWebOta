@@ -6,7 +6,7 @@ import { useState } from "react";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import { es } from "date-fns/locale"; // Spanish locale
 import { isSameDay, addDays, eachDayOfInterval, format } from "date-fns";
-import { MONTHS } from "../../../scripts/utils"
+import { MONTHS } from "../../../scripts/utils";
 
 registerLocale("es", es);
 setDefaultLocale("es");
@@ -26,7 +26,7 @@ const SelectDates = ({ disabledDates, checkIn, checkOut, manageCheckIn, manageCh
 
 	const isRangeValid = (start, end) => {
 		if (!start || !end) return true;
-		if (isSameDay(start,end)) return false;
+		if (isSameDay(start, end)) return false;
 		const range = eachDayOfInterval({ start: addDays(start, 1), end });
 		return !range.some((date) => isDateInList(date, disabledDatesEnd));
 	};
@@ -55,11 +55,11 @@ const SelectDates = ({ disabledDates, checkIn, checkOut, manageCheckIn, manageCh
 	};
 
 	return (
-		<>
-			<section className="date-section">
+		<section className="d-flex flex-column">
+			<section className="date-section order-2">
 				<form className="row justify-content-center">
 					{/* Check-in DatePicker */}
-					<div className="col-sm-auto col-12 text-center py-2 py-lg-0 d-flex flex-column select-date-container bg-body-secondary">
+					<div className="col-sm-auto col-12 text-center py-2 py-lg-0 d-flex flex-column select-date-container">
 						<label htmlFor="checkin" className="label_datepicker">
 							Fecha Llegada / Check In
 						</label>
@@ -115,17 +115,24 @@ const SelectDates = ({ disabledDates, checkIn, checkOut, manageCheckIn, manageCh
 					</div>
 					<div className="col-sm-auto col-12 text-center pt-2 pt-lg-0 d-flex align-items-end justify-content-center">
 						<button className="search-cabins btn btn-primary mt-3" id="reservar" disabled={!checkIn || !checkOut || (isSameDay(checkIn, reservedRange[0]) && isSameDay(checkOut, addDays(reservedRange[reservedRange.length - 1], 1)))} onClick={showAvailableCabins}>
-							<strong>Buscar Cabañas &gt;</strong>
+							<strong>Buscar Cabañas</strong>
 						</button>
 					</div>
 				</form>
 			</section>
-			<section>
-				{reservedRange.length > 0 ? <h4 className="text-center">
-					{`Disponibilidad de cabañas entre`} {`el ${format(reservedRange[0], "dd")} de ${MONTHS[format(reservedRange[0], "MMMM")]} y ${format(addDays(reservedRange[reservedRange.length - 1], 1), "dd")} de ${MONTHS[format(addDays(reservedRange[reservedRange.length - 1], 1), "MMMM")]}`}{" "}
-				</h4> : ""}
-			</section>
-		</>	
+
+			{reservedRange.length > 0 ? (
+				<section className="order-3">
+					<h4 className="text-center">
+						{`Disponibilidad de cabañas entre`} {`el ${format(reservedRange[0], "dd")} de ${MONTHS[format(reservedRange[0], "MMMM")]} y ${format(addDays(reservedRange[reservedRange.length - 1], 1), "dd")} de ${MONTHS[format(addDays(reservedRange[reservedRange.length - 1], 1), "MMMM")]}`}
+					</h4>
+				</section>
+			) : (
+				<section className="order-1">
+					<h3 className="text-center">Seleccione las fechas para desplegar cabañas disponibles</h3>
+				</section>
+			)}
+		</section>
 	);
 };
 
