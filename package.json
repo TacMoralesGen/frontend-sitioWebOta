@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "compileBootstrap": "sass --no-source-map ./src/scss/customBootstrap.scss  ./src/customBootstrap.css",
-    "start": "vite",
+    "start": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
