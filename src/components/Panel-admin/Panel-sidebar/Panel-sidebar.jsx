@@ -12,7 +12,7 @@ const PanelSidebar = ({ setActiveSection }) => {
 
   return (
     <div
-      className="d-flex flex-column bg-primary text-white vh-100 p-3 position-fixed"
+      className="d-flex flex-column bg-secondary text-white vh-100 p-3 position-fixed"
       style={{ width: "230px" }}
     >
       <h2 className="text-izq mb-4">Panel Admin.</h2>
