@@ -13,7 +13,7 @@ import Footer from "../../components/Footer/Footer";
 import "../../customBootstrap.css";
 import "./reserve.css"
 
-import { dateToString, getDatesBetween, getTotalOnlyCabins } from "../../scripts/utils";
+import { dateToString, getDatesBetween, getTotalReserve } from "../../scripts/utils";
 import { addDays } from "date-fns";
 
 const cabins = [
@@ -498,7 +498,7 @@ const Reserve = () => {
 		const newCabinsSelection = new Map(qtyCabinsSelection);
 		newCabinsSelection.set(cabinType, newQty);
 		setCabinsSelection(newCabinsSelection);
-		setTotal(getTotalOnlyCabins(newCabinsSelection, cabinsTypes));
+		setTotal(getTotalReserve(newCabinsSelection, cabinsTypes, reservationRange.length));
 	}
 
 	return (
@@ -516,7 +516,12 @@ const Reserve = () => {
 						cabinsAvailabilityByDateInRange={cabinsAvailableInRange} //La llave de este objeto map es la fecha en string (hay dos funciónes en utils que lo transforma de date a string y de string a date) y su valor también es un map con llaves cabinType y sus valores es la cantidad máxima disponible en el rango especificado por reservationRange 
 						/>
 					{/* Mostrar resumen de la reserva */}
-					<ReserveResume2 reservationRange={reservationRange} qtyCabinsSelection={qtyCabinsSelection} total={total} cabinsTypes={cabinsTypes}></ReserveResume2>
+					<ReserveResume2
+						reservationRange={reservationRange}
+						qtyCabinsSelection={qtyCabinsSelection}
+						total={total}
+						cabinsTypes={cabinsTypes}>
+					</ReserveResume2>
 				</div>
         <TermsConditions />
         <SectionMap />
