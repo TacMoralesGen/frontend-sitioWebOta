@@ -4,14 +4,14 @@ import { addDays, format } from "date-fns";
 import { MONTHS, numberWithDot } from "../../../scripts/utils";
 import { Link } from "react-router-dom";
 
-const ReserveResume2 = ({ reservedRange, cabinsSelection, total, cabinsTypes }) => {
-	const qtyOfNights = reservedRange.length;
+const ReserveResume2 = ({ reservationRange, qtyCabinsSelection, total, cabinsTypes }) => {
+	const qtyOfNights = reservationRange.length;
 	const checkInCapture = () => {
-		if (reservedRange.length) return reservedRange[0];
+		if (reservationRange.length) return reservationRange[0];
 		else return "check in";
 	};
 	const checkOutCapture = () => {
-		if (reservedRange.length) return addDays(reservedRange[reservedRange.length - 1], 1);
+		if (reservationRange.length) return addDays(reservationRange[reservationRange.length - 1], 1);
 		else return "check out";
 	};
 
@@ -21,29 +21,29 @@ const ReserveResume2 = ({ reservedRange, cabinsSelection, total, cabinsTypes }) 
 	// Verificar si 'Tinaja Caliente' está incluido en los servicios adicionales
 	// const tinajaSeleccionada = serviciosAdicionales.includes("Tinaja Caliente") ? "Tinaja Caliente" : "No incluye servicio adicional";
 
-	const generateListCabins = (cabinsSelection, cabinsTypes) => {
-		const liElements = [];
+	const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights) => {
+		const divElements = [];
 		let i = 1;
-		for (const cabinTypeName of cabinsSelection.keys()) {
-			if (cabinsSelection.has(cabinTypeName)) {
-				const qtyOfaType = cabinsSelection.get(cabinTypeName);
+		for (const cabinTypeName of qtyCabinsSelection.keys()) {
+			if (qtyCabinsSelection.has(cabinTypeName)) {
+				const qtyOfaType = qtyCabinsSelection.get(cabinTypeName);
 				for (let j = 1; j <= qtyOfaType; j++) {
 					const liElement = (
 						<div key={`cabinResume-${i}`}>
-							#{i} {cabinTypeName} ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight)}
+							#{i} {cabinTypeName} ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight)} x {qtyOfNights} = ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight * qtyOfNights)}
 						</div>
 					);
-					liElements.push(liElement);
+					divElements.push(liElement);
 					i++;
 				}
 			}
 		}
-		return liElements;
+		return divElements;
 	};
 
 	const maxAdults = () => {
 		let maxAdultos = 0;
-		for (let cabinTypeQty of cabinsSelection.values()) {
+		for (let cabinTypeQty of qtyCabinsSelection.values()) {
 			maxAdultos += cabinTypeQty * 2;
 		}
 		return maxAdultos;
@@ -51,7 +51,7 @@ const ReserveResume2 = ({ reservedRange, cabinsSelection, total, cabinsTypes }) 
 
 	const maxChildrens = () => {
 		let maxNinos = 0;
-		for (let [cabinTypeName, cabinTypeQty] of cabinsSelection) {
+		for (let [cabinTypeName, cabinTypeQty] of qtyCabinsSelection) {
 			if (cabinTypeName === "Tiny Cabin") maxNinos += cabinTypeQty * 2;
 			else if (cabinTypeName === "Couple Room") maxNinos += 0;
 		}
@@ -60,7 +60,7 @@ const ReserveResume2 = ({ reservedRange, cabinsSelection, total, cabinsTypes }) 
 
 	const msgNoCabinSelected = "No ha seleccionado cabañas";
 
-	if (reservedRange.length === 0) {
+	if (reservationRange.length === 0) {
 		return (
 			<section className="col-12 col-lg-4 ">
 				<div className="card p-0 d-flex align-items-center h-100">
@@ -96,7 +96,7 @@ const ReserveResume2 = ({ reservedRange, cabinsSelection, total, cabinsTypes }) 
 
 						<li>
 							<strong>Cabañas:</strong>
-							<div>{maxAdults() > 0 ? generateListCabins(cabinsSelection, cabinsTypes) : msgNoCabinSelected}</div>
+							<div>{maxAdults() > 0 ? generateListCabins(qtyCabinsSelection, cabinsTypes, reservationRange.length) : msgNoCabinSelected}</div>
 						</li>
 						<li className="pt-3">
 							<strong>Capacidad Máxima:</strong>
@@ -132,7 +132,10 @@ const ReserveResume2 = ({ reservedRange, cabinsSelection, total, cabinsTypes }) 
 						<div className="mt-4">
 							<Link className={maxAdults() === 0 ? 
 								"to-checkout btn btn-primary d-flex align-items-center justify-content-center m-auto disabled" : 
-								"to-checkout btn btn-primary d-flex align-items-center justify-content-center m-auto"} to="/checkout">
+								"to-checkout btn btn-primary d-flex align-items-center justify-content-center m-auto"}
+								to="/checkout"
+								state={{reservationRange: reservationRange, qtyCabinsSelection: qtyCabinsSelection}}
+							>
 								<strong>Confirmar Reserva &gt;</strong>
 							</Link>
 						</div>

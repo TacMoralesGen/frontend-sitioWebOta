@@ -18,7 +18,7 @@ const isDateInList = (date, disabledList) => {
 	return disabledList.some((disabledDate) => isSameDay(date, disabledDate));
 };
 
-const SelectDates = ({ disabledDates, checkIn, checkOut, manageCheckIn, manageCheckOut, showAvailableCabins, reservedRange }) => {
+const SelectDates = ({ disabledDates, checkIn, checkOut, manageCheckIn, manageCheckOut, showAvailableCabins, reservationRange }) => {
 	const disabledDatesEndBackup = disabledDates.map((day) => addDays(day, 1));
 	const [isCheckInOpen, setIsCheckInOpen] = useState(false);
 	const [isCheckOutOpen, setIsCheckOutOpen] = useState(false);
@@ -114,17 +114,17 @@ const SelectDates = ({ disabledDates, checkIn, checkOut, manageCheckIn, manageCh
 						/>
 					</div>
 					<div className="col-sm-auto col-12 text-center pt-2 pt-lg-0 d-flex align-items-end justify-content-center">
-						<button className="search-cabins btn btn-primary mt-3" id="reservar" disabled={!checkIn || !checkOut || (isSameDay(checkIn, reservedRange[0]) && isSameDay(checkOut, addDays(reservedRange[reservedRange.length - 1], 1)))} onClick={showAvailableCabins}>
+						<button className="search-cabins btn btn-primary mt-3" id="reservar" disabled={!checkIn || !checkOut || (isSameDay(checkIn, reservationRange[0]) && isSameDay(checkOut, addDays(reservationRange[reservationRange.length - 1], 1)))} onClick={showAvailableCabins}>
 							<strong>Buscar Cabañas</strong>
 						</button>
 					</div>
 				</form>
 			</section>
 
-			{reservedRange.length > 0 ? (
+			{reservationRange.length > 0 ? (
 				<section className="order-3">
 					<h4 className="text-center">
-						{`Disponibilidad de cabañas entre`} {`el ${format(reservedRange[0], "dd")} de ${MONTHS[format(reservedRange[0], "MMMM")]} y ${format(addDays(reservedRange[reservedRange.length - 1], 1), "dd")} de ${MONTHS[format(addDays(reservedRange[reservedRange.length - 1], 1), "MMMM")]}`}
+						{`Disponibilidad de cabañas entre`} {`el ${format(reservationRange[0], "dd")} de ${MONTHS[format(reservationRange[0], "MMMM")]} y ${format(addDays(reservationRange[reservationRange.length - 1], 1), "dd")} de ${MONTHS[format(addDays(reservationRange[reservationRange.length - 1], 1), "MMMM")]}`}
 					</h4>
 				</section>
 			) : (

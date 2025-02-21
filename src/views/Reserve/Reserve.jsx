@@ -13,7 +13,7 @@ import Footer from "../../components/Footer/Footer";
 import "../../customBootstrap.css";
 import "./reserve.css"
 
-import { dateToString, getDatesBetween, getTotal } from "../../scripts/utils";
+import { dateToString, getDatesBetween, getTotalOnlyCabins } from "../../scripts/utils";
 import { addDays } from "date-fns";
 
 const cabins = [
@@ -394,7 +394,6 @@ const getCabinsActiveByType = (cabinsTypes, cabinsActive) => {
 	});
 	return qtyCabinsAvailableByType;
 };
-
 const getCabinsOccupancyByDate = (cabinsTypes, cabinsActive) => {
 	const reservationsMap = new Map();
 	cabinsActive.forEach((cabin) => {
@@ -453,11 +452,11 @@ const generateCabinSelectionEmpty = () => {
 	return selection;
 };
 
-const getCabinsAvailableInRangeByType = (reservedRange, cabinsAvailabilityByDate, cabinsTypes, cabinsActiveByType) => {
-	const reservedRangeString = []
-	reservedRange.forEach(date => reservedRangeString.push(dateToString(date)));
+const getCabinsAvailableInRangeByType = (reservationRange, cabinsAvailabilityByDate, cabinsTypes, cabinsActiveByType) => {
+	const reservationRangeString = []
+	reservationRange.forEach(date => reservationRangeString.push(dateToString(date)));
 	let cabinsAvailabilityByDateInRange = new Map();
-	for (const date of reservedRangeString) {
+	for (const date of reservationRangeString) {
 		let cabinAvailabilityOfADayByType = 
 			cabinsAvailabilityByDate.has(date) ? cabinsAvailabilityByDate.get(date) : Object.fromEntries(cabinsActiveByType);
 		cabinsAvailabilityByDateInRange.set(date, cabinAvailabilityOfADayByType);
@@ -481,43 +480,43 @@ const getCabinsAvailableInRangeByType = (reservedRange, cabinsAvailabilityByDate
 const Reserve = () => {
 	const [checkIn, setCheckIn] = useState(null); //selectDates 
 	const [checkOut, setCheckOut] = useState(null); //selectDates
-	const [cabinsSelection, setCabinsSelection] = useState(generateCabinSelectionEmpty()); //selectCabins y reserveResume
-	const [reservedRange, setReservedRange] = useState([]); //selectCabins y reserveResume solo se pasa la variable.
+	const [qtyCabinsSelection, setCabinsSelection] = useState(generateCabinSelectionEmpty()); //selectCabins y reserveResume
+	const [reservationRange, setreservationRange] = useState([]); //selectCabins y reserveResume solo se pasa la variable.
 	const [total, setTotal] = useState(0); //setTotal pasarselo a selectCabins, total pasarselo a reserveResume.
 	const [cabinsAvailableInRange, setCabinsAvailableInRange] = useState(0); //setTotal pasarselo a selectCabins, total pasarselo a reserveResume.
 
 	const showAvailableCabins = (event) => {
 		event.preventDefault();
-		let newReservedRange = getDatesBetween(checkIn, checkOut)
-		setReservedRange(newReservedRange);
+		let newreservationRange = getDatesBetween(checkIn, checkOut)
+		setreservationRange(newreservationRange);
 		setTotal(0);
-		setCabinsAvailableInRange(getCabinsAvailableInRangeByType(newReservedRange, cabinsAvailabilityByDate, cabinsTypes, cabinsActiveByType));
+		setCabinsAvailableInRange(getCabinsAvailableInRangeByType(newreservationRange, cabinsAvailabilityByDate, cabinsTypes, cabinsActiveByType));
 		setCabinsSelection(generateCabinSelectionEmpty())
 	}
 
 	const changeSelectOfACabinType = (cabinType, newQty) => {
-		const newCabinsSelection = new Map(cabinsSelection);
+		const newCabinsSelection = new Map(qtyCabinsSelection);
 		newCabinsSelection.set(cabinType, newQty);
 		setCabinsSelection(newCabinsSelection);
-		setTotal(getTotal(newCabinsSelection, cabinsTypes));
+		setTotal(getTotalOnlyCabins(newCabinsSelection, cabinsTypes));
 	}
 
 	return (
 		<div className="container-first d-flex flex-column">
 			<Header />
 			<main className="container-fluid container-xl">
-				<SelectDates disabledDates={disabledDates} checkIn={checkIn} checkOut={checkOut} manageCheckIn={(newCheckIn) => setCheckIn(newCheckIn)} manageCheckOut={(newCheckOut) => setCheckOut(newCheckOut)} showAvailableCabins={showAvailableCabins} reservedRange={reservedRange} />
+				<SelectDates disabledDates={disabledDates} checkIn={checkIn} checkOut={checkOut} manageCheckIn={(newCheckIn) => setCheckIn(newCheckIn)} manageCheckOut={(newCheckOut) => setCheckOut(newCheckOut)} showAvailableCabins={showAvailableCabins} reservationRange={reservationRange} />
 				<div className="row">
 					{/* Mostrar detalles de las habitaciones */}
 					<SelectCabins 
-						reservedRange={reservedRange} //arreglo de fechas en que se solicita la reserva
+						reservationRange={reservationRange} //arreglo de fechas en que se solicita la reserva
 						cabinsTypes={cabinsTypes} //Objeto Map las llaves son los tipos de cabañas ("TinyCabin", "CoupleRoom") que su valor es un objeto con las caracteristicas de ese tipo de TinyCabin existen con sus caracteristicas.
-						cabinsSelection={cabinsSelection} //La cantidad seleccionada en los formularios de cabañas (selection)
+						qtyCabinsSelection={qtyCabinsSelection} //La cantidad seleccionada en los formularios de cabañas (selection)
 						manageCabinsSelection={(cabinType, newQty) => changeSelectOfACabinType(cabinType, newQty)} //Función a ejecutar cuando se cambie la seleccion de cabañas.
-						cabinsAvailabilityByDateInRange={cabinsAvailableInRange} //La llave de este objeto map es la fecha en string (hay dos funciónes en utils que lo transforma de date a string y de string a date) y su valor también es un map con llaves cabinType y sus valores es la cantidad máxima disponible en el rango especificado por reservedRange 
+						cabinsAvailabilityByDateInRange={cabinsAvailableInRange} //La llave de este objeto map es la fecha en string (hay dos funciónes en utils que lo transforma de date a string y de string a date) y su valor también es un map con llaves cabinType y sus valores es la cantidad máxima disponible en el rango especificado por reservationRange 
 						/>
 					{/* Mostrar resumen de la reserva */}
-					<ReserveResume2 reservedRange={reservedRange} cabinsSelection={cabinsSelection} total={total} cabinsTypes={cabinsTypes}></ReserveResume2>
+					<ReserveResume2 reservationRange={reservationRange} qtyCabinsSelection={qtyCabinsSelection} total={total} cabinsTypes={cabinsTypes}></ReserveResume2>
 				</div>
         <TermsConditions />
         <SectionMap />

@@ -28,10 +28,10 @@ export const getDatesBetween = (initDate, endDate) => {
 export const dateToString = date => date.toISOString().split("T")[0];
 // export const stringDateToDate = date => date.toISOString().split("T")[0];
 
-export const getTotal = (cabinsSelection, cabinsTypes) => { //se usa cuando se consulta un nuevo rango de fecha (por default se reinician a 1). Y también se usa cuando cambie la option seleccionada (selected) a otro numero
+export const getTotalOnlyCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights) => { //se usa cuando se consulta un nuevo rango de fecha (por default se reinician a 1). Y también se usa cuando cambie la option seleccionada (selected) a otro numero
 	let total = 0;
-	for (const [cabinType, qtySelected] of cabinsSelection) {
-		total += qtySelected * cabinsTypes.get(cabinType).pricePerNight;
+	for (const [cabinType, qtySelected] of qtyCabinsSelection) {
+		total += qtySelected * cabinsTypes.get(cabinType).pricePerNight * qtyOfNights;
 	}
 	return total;
 }
