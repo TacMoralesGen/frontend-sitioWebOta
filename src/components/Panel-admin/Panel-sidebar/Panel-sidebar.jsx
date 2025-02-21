@@ -13,9 +13,9 @@ const PanelSidebar = ({ setActiveSection }) => {
   return (
     <div
       className="d-flex flex-column bg-primary text-white vh-100 p-3 position-fixed"
-      style={{ width: "250px" }}
+      style={{ width: "230px" }}
     >
-      <h2 className="text-izq mb-4">Panel Administrador</h2>
+      <h2 className="text-izq mb-4">Panel Admin.</h2>
       <ul className="nav flex-column">
         {[
           { name: "Dashboard", icon: <FaHome /> },
@@ -25,7 +25,7 @@ const PanelSidebar = ({ setActiveSection }) => {
           <li key={item.name} className="nav-item">
             <button
               className={`btn btn-outline-light d-flex align-items-center w-100 text-start p-2 mb-2 ${
-                active === item.name ? "active bg-success" : ""
+                active === item.name ? "active bg-white" : ""
               }`}
               onClick={() => handleClick(item.name)}
             >
