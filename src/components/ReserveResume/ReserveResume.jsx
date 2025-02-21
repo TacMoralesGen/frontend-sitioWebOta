@@ -1,11 +1,16 @@
 import React from 'react';
 
-const ReserveResume = ({ 
-  habitaciones, 
-  totalAdultos, 
-  totalNinos, 
-  totalReserva  
-}) => {
+const ReserveResume = ({ habitaciones, totalAdultos, totalNinos, serviciosAdicionales, totalReserva }) => {
+  const fechaEntrada = habitaciones[0]?.fechaEntrada || "Fecha no disponible";
+  const fechaSalida = habitaciones[0]?.fechaSalida || "Fecha no disponible";
+  const duracionEstadia = habitaciones[0]?.duracionNoches || 0;
+
+  // Verificar si 'Tinaja Caliente' está incluido en los servicios adicionales
+  const tinajaSeleccionada = Array.isArray(serviciosAdicionales) && serviciosAdicionales.includes('Tinaja Caliente') 
+    ? 'Tinaja Caliente' 
+    : 'No agrega servicio adicional';
+
+
   return (
     <div className="col">
       <div className="card">
@@ -15,9 +20,9 @@ const ReserveResume = ({
             {/* Bloque de cabañas */}
             <li>
               <strong>Cabañas:</strong>
-              {habitaciones.map((habitacion, index) => (
-                <div key={index}> 
-                  {habitacion.nombreHabitacion} ({habitacion.capacidad} Personas)
+              {habitaciones.map((habitacion) => (
+                <div key={habitacion.id || habitacion.nombreHabitacion}> 
+                  #{habitacion.id || habitacion.nombreHabitacion} {habitacion.nombreHabitacion} ({habitacion.capacidad} Personas)
                 </div>
               ))}
             </li>
