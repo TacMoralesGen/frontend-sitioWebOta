@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 
 import "./Checkout.css";
+
 import Header from "../../components/Header/Header";
-import { useState } from "react";
 import ReserveDetails from "../../components/ReserveDetails/ReserveDetails";
 import ReserveResume from "../../components/ReserveResume/ReserveResume";
 import imgTinyCabin from "../../assets/images/chalenco1.jpg";
@@ -12,13 +11,12 @@ import Footer from "../../components/Footer/Footer";
 import ContactInformationForm from "../../components/Contact-information-form/ContactInformationForm";
 import TermsConditions from "../../components/Terms-conditions/TermsConditions";
 import SectionMap from "../../components/Map/Map";
+
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { isSameDay, addDays } from "date-fns";
-import { dateToString, getTotalCheckout, getTotalReserve } from "../../scripts/utils";
+import { getTotalCheckout, getTotalReserve } from "../../scripts/utils";
 
-/*--------------------------*/
-/*LLAMADA A LA BASE DE DATOS*/
-/*--------------------------*/
 const cabins = [
 	{
 		typeName: "Tiny Cabin",
@@ -413,6 +411,7 @@ const getCabinByNumber = (number, cabins) => {
 	return null;
 };
 
+// COMIENZA EL COMPONENTE
 const Checkout = () => {
 	const { reservationRange, qtyCabinsSelection } = useLocation().state;
 	const cabinsAvailableInRange = getCabinsAvailableInRange(reservationRange, cabinsActive);
@@ -475,7 +474,6 @@ const Checkout = () => {
 		console.log("updatedReservation:", updatedReservation);
 		setReservation(updatedReservation);
   }
-	// return <button onClick={() => actualizarFechasTinajas(203, [new Date(2025, 1, 8), new Date(2025, 1, 9)])}>click</button>;
 
 	return (
 		<>
@@ -521,5 +519,4 @@ const Checkout = () => {
 		</>
 	);
 };
-
 export default Checkout;
