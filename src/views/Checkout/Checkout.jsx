@@ -464,6 +464,9 @@ const Checkout = () => {
 		setReservation(updatedReservation);
 	};
 
+  const actualizarGests = (cabinNumber, isAdult, newQtyGuests) => {
+    
+  }
 	// return <button onClick={() => actualizarFechasTinajas(203, [new Date(2025, 1, 8), new Date(2025, 1, 9)])}>click</button>;
 
 	return (
@@ -475,18 +478,25 @@ const Checkout = () => {
 					<div className="col-12 col-lg-8 mb-4">
 						{reservation.reservationCabins.map(({ cabinNumber, adults, childrens, mainGuest, datesHotTub, priceCabin, priceHotTub }) => {
               const cabin = getCabinByNumber(cabinNumber)
+              let amenitiesText = "Comodidades: " + cabin.amenities.reduce((texto, amenitie) => texto + amenitie + ", " );
+              amenitiesText = amenitiesText.slice(0, amenitiesText.length - 2)
+              const detalles = [
+                "Vista: Lago General Carrera - Patagonia Chilena.",
+                cabin.size,
+                cabin.bedType,
+                amenitiesText,
+                "Estacionamiento: Gratuito."]
               return (<ReserveDetails
                   key={cabinNumber} // Usando nombreHabitacion como clave única
                   precioBase={cabin.pricePerNight}
                   precioTinaja={cabin.priceHotTubPerInstance}
                   nombreHabitacion={cabin.typeName}
                   capacidad={cabin.capacity}
-                  detalles={habitacion.detalles}
-                  servicios={habitacion.servicios}
-                  actualizarTotales={(adultos, ninos) => actualizarTotales(index, adultos, ninos)}
-                  actualizarServiciosAdicionales={(servicios) => actualizarServiciosAdicionales(index, servicios)}
-                  totalAdultos={habitacion.adultos}
-                  totalNinos={habitacion.ninos}
+                  detalles={detalles}
+                  servicios={["No incluye desayuno."]}
+                  reservation={reservation}
+                  manageFechasTinajas = {(cabinNumber, hotTubDates) => actualizarFechasTinajas(cabinNumber, hotTubDates)}
+                  manageGuests = {(cabinNumber, hotTubDates) => actualizarGests(cabinNumber, isAdult, newQtyGuests)}
                 />
               )})};
 					</div>
