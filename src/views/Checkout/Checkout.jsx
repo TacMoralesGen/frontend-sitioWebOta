@@ -1,159 +1,549 @@
+/* eslint-disable react/prop-types */
+import React from 'react';
+
+
 import "./Checkout.css";
 import Header from "../../components/Header/Header";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ReserveDetails from "../../components/ReserveDetails/ReserveDetails";
 import ReserveResume from "../../components/ReserveResume/ReserveResume";
+import imgTinyCabin from "../../assets/images/chalenco1.jpg";
+import imgCoupleRoom from "../../assets/images/chalenco2.avif";
 import Footer from "../../components/Footer/Footer";
 import ContactInformationForm from "../../components/Contact-information-form/ContactInformationForm";
 import TermsConditions from "../../components/Terms-conditions/TermsConditions";
 import SectionMap from "../../components/Map/Map";
+import { useLocation } from 'react-router-dom';
+import { isSameDay, addDays } from "date-fns";
+import { dateToString, getTotalOnlyCabins } from "../../scripts/utils";
 
+
+
+/*--------------------------*/
+/*LLAMADA A LA BASE DE DATOS*/
+/*--------------------------*/
+const cabins = [
+  {
+    typeName: "Tiny Cabin",
+    number: 201,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 3), new Date(2025, 1, 4), new Date(2025, 1, 6), new Date(2025, 1, 7), new Date(2025, 1, 8), new Date(2025, 1, 9), new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12)],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 202,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 6), new Date(2025, 1, 7), new Date(2025, 1, 8), new Date(2025, 1, 9), new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12), new Date(2025, 1, 13), new Date(2025, 1, 17), new Date(2025, 1, 18)],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 203,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12), new Date(2025, 1, 13)],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 204,
+    statusCabin: "Mantencion",
+    statusHotTub: "Disponible",
+    reservedDates: [],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 205,
+    statusCabin: "Mantencion",
+    statusHotTub: "Disponible",
+    reservedDates: [],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 206,
+    statusCabin: "Mantencion",
+    statusHotTub: "Disponible",
+    reservedDates: [],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 207,
+    statusCabin: "Mantencion",
+    statusHotTub: "Disponible",
+    reservedDates: [],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 208,
+    statusCabin: "Mantencion",
+    statusHotTub: "Disponible",
+    reservedDates: [],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 209,
+    statusCabin: "Mantencion",
+    statusHotTub: "Disponible",
+    reservedDates: [],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Tiny Cabin",
+    number: 210,
+    statusCabin: "Mantencion",
+    statusHotTub: "Disponible",
+    reservedDates: [],
+    maxAdults: 2,
+    maxChildren: 3,
+    capacity: 4,
+    priceHotTubPerInstance: 60_000,
+    pricePerNight: 160_900,
+    amenities: ["Cocina", "Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 25,
+    bedType: "1 Cama Queen + 2 Literas niños",
+    img: imgTinyCabin,
+  },
+  {
+    typeName: "Couple Room",
+    number: 101,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 102,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 11), new Date(2025, 1, 12), new Date(2025, 1, 13)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 103,
+    statusCabin: "Disponible",
+    statusHotTub: "Mantencion",
+    reservedDates: [new Date(2025, 1, 11), new Date(2025, 1, 12), new Date(2025, 1, 13)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 104,
+    statusCabin: "Disponible",
+    statusHotTub: "Mantencion",
+    reservedDates: [new Date(2025, 1, 11), new Date(2025, 1, 12), new Date(2025, 1, 13)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 105,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 11), new Date(2025, 1, 12), new Date(2025, 1, 13), new Date(2025, 1, 14), new Date(2025, 1, 15)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 106,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 9), new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 107,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 9), new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 108,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 109,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+  {
+    typeName: "Couple Room",
+    number: 110,
+    statusCabin: "Disponible",
+    statusHotTub: "Disponible",
+    reservedDates: [new Date(2025, 1, 8), new Date(2025, 1, 9), new Date(2025, 1, 10), new Date(2025, 1, 11), new Date(2025, 1, 12), new Date(2025, 1, 13)],
+    maxAdults: 2,
+    maxChildren: 1,
+    capacity: 2,
+    priceHotTubPerInstance: 45_000,
+    pricePerNight: 91_900,
+    amenities: ["Aire Acondicionado", "Baño Privado", "Ducha", "Estacionamiento Gratuito", "Secador de pelo", "Tinaja Caliente (costo adicional por uso)", "Toallas"],
+    size: 14,
+    bedType: "1 Cama Queen",
+    img: imgCoupleRoom,
+  },
+];
+const cabinsTypes = (() => {
+  const cabinSummary = new Map();
+  cabins.forEach((cabin) => {
+    if (!cabinSummary.get(cabin.typeName)) {
+      cabinSummary.set(cabin.typeName, {
+        idCabinType: cabin.idCabinType,
+        typeName: cabin.typeName,
+        maxAdults: cabin.maxAdults,
+        maxChildrens: cabin.maxChildren,
+        capacity: cabin.capacity,
+        priceHotTubPerInstance: cabin.priceHotTubPerInstance,
+        pricePerNight: cabin.pricePerNight,
+        amenities: [...cabin.amenities],
+        size: cabin.size,
+        bedType: cabin.bedType,
+        img: cabin.img,
+      });
+    }
+  });
+  return cabinSummary;
+})();
+const cabinsActive = cabins.filter((cabin) => cabin.statusCabin === "Disponible");
+
+const initialReservation = {
+  documentTypeClient: null,
+  documentNumberClient: null,
+  nameClient: null,
+  countryOfResidence: null,
+  phoneClient: null,
+  emailClient: null,
+  checkinDate: null,
+  checkoutDate: null, 
+  statusReservation: "Pendiente", 
+  totalPrice: null,
+  notes: null,
+  reservationCabins: []
+}
+
+const getCabinsAvailableInRange = (reservationRange, cabins) => {
+  const cabinsAvailable = [];
+  for ( const cabin of cabins ) {
+    const reservedDatesOfACabin = cabin.reservedDates;
+    let isCabinAvailable = true;
+    for (const reservedDateOfACabin of reservedDatesOfACabin){
+      if (reservationRange.some(reservationDate => isSameDay(reservationDate, reservedDateOfACabin))){
+        isCabinAvailable = false
+        break;
+      }
+    }
+    if (isCabinAvailable){
+      cabinsAvailable.push(cabin);
+    }
+  }
+  return cabinsAvailable
+}
+
+const getSpecificCabinsSelected = (cabinsAvailableInRange, qtyCabinsSelection) => {
+  const cabinsSelection = [];
+	for (let [keyCabinType, qtySelection] of qtyCabinsSelection) {
+    if (qtySelection > 0){
+      const cabinsAvailableInRangeOfAType = cabinsAvailableInRange.filter(cabin => cabin.typeName === keyCabinType);
+      cabinsSelection.splice(cabinsSelection.length, 0, ...cabinsAvailableInRangeOfAType.splice(0,qtySelection));
+    }
+  }
+  return cabinsSelection;
+} 
 
 const Checkout = () => {
-  const [habitaciones, setHabitaciones] = useState([
-    {
-      id: 1,
-      precioBase: 160900,
-      precioTinaja: 60000,
-      nombreHabitacion: "Tiny Cabin",
-      capacidad: 4,
-      detalles: [
-        "Vista: Lago General Carrera - Patagonia Chilena.",
-        "Tamaño: 25m².",
-        "Camas: (1) Cama Queen - (2) Literas.",
-        "Comodidades: Aire Acondicionado, Ducha, Baño privado, Toallas, Secador de pelo.",
-        "Estacionamiento: Gratuito.",
-      ],
-      servicios: ["No incluye desayuno"],
-      fechaEntrada: "Martes, 28 Enero, 2025 desde las 15:00hrs",
-      fechaSalida: "Lunes, 03 Febrero, 2025 hasta las 10:00am",
-      duracionNoches: 6,
-      adultos: 0,
-      ninos: 0,
-      subtotal: 160900,
-    },
-    {
-      precioBase: 91900,
-      precioTinaja: 45000,
-      nombreHabitacion: "Couple Room",
-      capacidad: 2,
-      detalles: [
-        "Vista: Lago General Carrera - Patagonia Chilena.",
-        "Tamaño: 14m².",
-        "Camas: (1) Cama Queen",
-        "Comodidades: Aire Acondicionado, Ducha, Baño privado, Toallas, Secador de pelo.",
-        "Estacionamiento: Gratuito.",
-      ],
-      servicios: ["No incluye servicio adicional"],
-      fechaEntrada: "Viernes, 30 Enero, 2025 desde las 15:00hrs",
-      fechaSalida: "Martes, 03 Febrero, 2025 hasta las 10:00am",
-      duracionNoches: 6,
-      adultos: 0,
-      ninos: 0,
-      subtotal: 91900,
-    },
-  ]);
+  const { reservationRange, qtyCabinsSelection } = useLocation().state;
+  console.log ("reservationRange:", reservationRange)
+  console.log ("qtyCabinsSelection:", qtyCabinsSelection)
 
-  const agregarHabitacion = (nuevaHabitacion) => {
-    setHabitaciones([...habitaciones, { ...nuevaHabitacion, id: habitaciones.length + 1 }]);
-  };
+  const cabinsAvailableInRange = getCabinsAvailableInRange(reservationRange, cabinsActive);
+  console.log ("cabinsAvailableInRange:", cabinsAvailableInRange);
+  const specificCabinsSelected = getSpecificCabinsSelected(cabinsAvailableInRange, qtyCabinsSelection)
+  console.log ("specificCabinsSelected:", specificCabinsSelected);
 
-  const actualizarSubtotal = (index, nuevoSubtotal) => {
-    const updatedHabitaciones = [...habitaciones];
-    updatedHabitaciones[index].subtotal = nuevoSubtotal;
-    setHabitaciones(updatedHabitaciones);
-  };
-
-  const actualizarTotales = (index, adultos, ninos) => {
-    const updatedHabitaciones = [...habitaciones];
-    updatedHabitaciones[index] = {
-      ...updatedHabitaciones[index],
-      adultos,
-      ninos,
-    };
-    setHabitaciones(updatedHabitaciones);
-  };
-
-  // Calcular el total de la reserva sumando los subtotales de todas las habitaciones
-  const totalReserva = habitaciones.reduce(
-    (acc, habitacion) => acc + habitacion.subtotal,
-    0
-  );
-
-  useEffect(() => {
-    // Recalcular el totalReserva cada vez que cambien los subtotales
-  }, [habitaciones]); // Esto garantiza que el total se recalcule cuando cambien las habitaciones
+  const checkIn = reservationRange[0];
+  const checkOut = addDays(reservationRange[reservationRange.length - 1], 1);
+  const total = getTotalOnlyCabins(qtyCabinsSelection, cabinsTypes, reservationRange.length);
+  const reservationCabinsInit = [];
+  for (const cabin of specificCabinsSelected){
+    const cabinReservation = {
+      cabinNumber: cabin.number,
+      adults: 0,
+      childrens: 0, 
+      mainGuest: null,
+      datesHotTub: [],
+      priceCabin: cabin.pricePerNight * reservationRange.length,
+      priceHotTub: 0
+    }
+    reservationCabinsInit.push(cabinReservation)
+  }
+  initialReservation.reservationCabins = reservationCabinsInit;
+  initialReservation.checkinDate = checkIn;
+  initialReservation.checkoutDate = checkOut;
+  initialReservation.totalPrice = total;
+  console.log ("initialReservation:", initialReservation)
 
 
-  return (
-    <>
-      <Header />
-      <div className="container">
-        <div className="row">
-          <div className="col-12 col-lg-8 mb-4">
-            {habitaciones.map((habitacion, index) => (
-              <ReserveDetails
-                key={habitacion.nombreHabitacion} // Usando nombreHabitacion como clave única
-                precioBase={habitacion.precioBase}
-                precioTinaja={habitacion.precioTinaja}
-                nombreHabitacion={habitacion.nombreHabitacion}
-                capacidad={habitacion.capacidad}
-                detalles={habitacion.detalles}
-                servicios={habitacion.servicios}
-                tipoCabaña={habitacion.tipo}
-                subtotal={habitacion.subtotal}
-                actualizarSubtotal={(nuevoSubtotal) => actualizarSubtotal(index, nuevoSubtotal)}
-                actualizarTotales={(adultos, ninos) => actualizarTotales(index, adultos, ninos)}
-              />
-            ))}
-            <button className="btn btn-primary mt-3" onClick={() => agregarHabitacion({
-              precioBase: 91900,
-              precioTinaja: 45000,
-              nombreHabitacion: "Couple Room",
-              capacidad: 2,
-              detalles: [
-                "Vista: Lago General Carrera - Patagonia Chilena.",
-                "Tamaño: 14m².",
-                "Camas: (1) Cama Queen",
-                "Comodidades: Aire Acondicionado, Ducha, Baño privado, Toallas, Secador de pelo.",
-                "Estacionamiento: Gratuito.",
-              ],
-              servicios: ["No incluye servicio adicional"],
-              fechaEntrada: "Viernes, 30 Enero, 2025 desde las 15:00hrs",
-              fechaSalida: "Martes, 03 Febrero, 2025 hasta las 10:00am",
-              duracionNoches: 6,
-              adultos: 0,
-              ninos: 0,
-              subtotal: 91900,
-              tipo: "coupleRoom",
-            })}>
-              Agregar Cabaña Couple Room
-            </button>
-          </div>
+  // const [reservation, setReservation] = useState(initialReservation);
 
-          <div className="col-12 col-lg-4 mb-4">
-            <ReserveResume
-              habitaciones={habitaciones}
-              totalAdultos={habitaciones.reduce(
-                (acc, habitacion) => acc + habitacion.adultos,
-                0
-              )}
-              totalNinos={habitaciones.reduce(
-                (acc, habitacion) => acc + habitacion.ninos,
-                0
-              )}
-              serviciosAdicionales={serviciosAdicionales}
-              totalReserva={totalReserva} 
-            />
-          </div>
-        </div>
-        <ContactInformationForm />
-      </div>
-      <TermsConditions />
-      <SectionMap />
-      <Footer />
-    </>
-  );
+  // // Función que actualiza los servicios adicionales
+  // const actualizarServiciosAdicionales = (cabinNumber, hotTubDates) => {
+  //   const updatedReservation = [...reservation];
+  //   updatedReservation[index] = {
+  //     ...updatedHabitaciones[index],
+  //     servicios,
+  //   };
+  //   // Actualizamos el estado global de servicios adicionales
+  //   const nuevosServiciosAdicionales = updatedHabitaciones
+  //     .map((habitacion) => habitacion.servicios)
+  //     .flat();
+  //   setServiciosAdicionales(nuevosServiciosAdicionales);
+  //   // Actualizamos el subtotal de esa habitación
+  //   const nuevoSubtotal =
+  //     updatedHabitaciones[index].precioBase +
+  //     (updatedHabitaciones[index].precioTinaja || 0);
+  //   updatedHabitaciones[index].subtotal = nuevoSubtotal; // Actualizamos el subtotal en la habitación
+  //   setHabitaciones(updatedHabitaciones);
+  // };
+
+  // actualizarServiciosAdicionales(201, [new Date(2025, 1, 8), new Date(2025, 1, 9)]);
+
+
+
+
+
+  // // Función para actualizar los totales de adultos y niños
+  // const actualizarTotales = (index, adultos, ninos) => {
+  //   const updatedHabitaciones = [...habitaciones];
+  //   updatedHabitaciones[index] = {
+  //     ...updatedHabitaciones[index],
+  //     adultos,
+  //     ninos,
+  //   };
+  //   setHabitaciones(updatedHabitaciones);
+  // };
+
+  // // Calcular el total de la reserva sumando los subtotales de todas las habitaciones
+  // const totalReserva = habitaciones.reduce(
+  //   (acc, habitacion) => acc + habitacion.subtotal,
+  //   0
+  // );
+
+  // // useEffect(() => {
+  // //   // Recalcular el totalReserva cada vez que cambien los subtotales
+  // // }, [habitaciones]); // Esto garantiza que el total se recalcule cuando cambien las habitaciones
+
+  // return (
+  //   <>
+  //     <Header />
+  //     <div className="container">
+  //       <div className="row">
+  //         {/* Mostrar detalles de las habitaciones */}
+  //         <div className="col-12 col-lg-8 mb-4">
+  //           {habitaciones.map((habitacion, index) => (
+  //             <ReserveDetails
+  //               key={habitacion.nombreHabitacion} // Usando nombreHabitacion como clave única
+  //               precioBase={habitacion.precioBase}
+  //               precioTinaja={habitacion.precioTinaja}
+  //               nombreHabitacion={habitacion.nombreHabitacion}
+  //               capacidad={habitacion.capacidad}
+  //               detalles={habitacion.detalles}
+  //               servicios={habitacion.servicios}
+  //               actualizarTotales={(adultos, ninos) =>
+  //                 actualizarTotales(index, adultos, ninos)
+  //               }
+  //               actualizarServiciosAdicionales={(servicios) =>
+  //                 actualizarServiciosAdicionales(index, servicios)
+  //               }
+  //               totalAdultos={habitacion.adultos}
+  //               totalNinos={habitacion.ninos}
+  //             />
+  //           ))}
+  //         </div>
+  //         {/* Mostrar resumen de la reserva */}
+  //         <div className="col-12 col-lg-4 mb-4">
+  //           <ReserveResume
+  //             habitaciones={habitaciones}
+  //             totalAdultos={habitaciones.reduce(
+  //               (acc, habitacion) => acc + habitacion.adultos,
+  //               0
+  //             )}
+  //             totalNinos={habitaciones.reduce(
+  //               (acc, habitacion) => acc + habitacion.ninos,
+  //               0
+  //             )}
+  //             serviciosAdicionales={serviciosAdicionales}
+  //             totalReserva={totalReserva} 
+  //           />
+  //         </div>
+  //       </div>
+  //       <ContactInformationForm />
+  //     </div>
+  //     <TermsConditions></TermsConditions>
+  //     <SectionMap></SectionMap>
+  //     <Footer />
+  //   </>
+  // );
 };
 
 export default Checkout;

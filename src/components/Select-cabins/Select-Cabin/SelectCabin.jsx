@@ -4,12 +4,12 @@ import "./SelectCabin.css";
 import { numberWithDot, generateNumberOptionsElements } from "../../../scripts/utils";
 import { useEffect } from "react";
 
-const SelectCabin = ({ keyValue, cabinType, qtyAvailable, cabinsSelection, manageCabinsSelection, reservedRange }) => {
+const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, manageCabinsSelection, reservationRange }) => {
 
 	useEffect(() => {
 		const selectElement = document.getElementById(`${keyValue}select`);
 		selectElement.value = 0;
-	}, [reservedRange, keyValue])
+	}, [reservationRange, keyValue])
 
 	const { typeName, capacity, priceHotTubPerInstance, pricePerNight, amenities, size, bedType, img } = cabinType;
 
@@ -65,14 +65,14 @@ const SelectCabin = ({ keyValue, cabinType, qtyAvailable, cabinsSelection, manag
 						</div>
 					</div>
 				</div>
-				{cabinsSelection.get(typeName) === 0? "" :
+				{qtyCabinsSelection.get(typeName) === 0? "" :
 					<p className="text-end mt-1 mb-0">Ha seleccionado&nbsp;
 						<strong>
-							{cabinsSelection.get(typeName)} {cabinsSelection.get(typeName) === 1? "cabaña":"cabañas"} {typeName}:
+							{qtyCabinsSelection.get(typeName)} {qtyCabinsSelection.get(typeName) === 1? "cabaña":"cabañas"} {typeName}:
 						</strong><br/>
 						Suma una <strong>capacidad para&nbsp;
-							{typeName === "Couple Room"? cabinsSelection.get(typeName)*capacity : cabinsSelection.get(typeName)*capacity/2} adultos&nbsp;
-							{typeName === "Couple Room"? "" : `y ${cabinsSelection.get(typeName)*capacity/2} niños`}</strong>
+							{typeName === "Couple Room"? qtyCabinsSelection.get(typeName)*capacity : qtyCabinsSelection.get(typeName)*capacity/2} adultos&nbsp;
+							{typeName === "Couple Room"? "" : `y ${qtyCabinsSelection.get(typeName)*capacity/2} niños`}</strong>
 					</p>}
 			</div>
 			<div className="modal fade" id={`modal${keyValue}`} tabIndex="-1" aria-labelledby={`modal${typeName}Label`} aria-hidden="true">
