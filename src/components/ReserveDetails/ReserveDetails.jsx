@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import Guests from '../Guests/Guests';
 import TinajaSelector from '../TinajaSelector/TinajaSelector';
@@ -101,7 +102,7 @@ const ReserveDetails = ({
               precioTinaja={precioTinaja} 
               actualizarSubtotal={actualizarSubtotal} // Pasamos la función para actualizar el subtotal
               serviciosAdicionales={serviciosAdicionales}
-              setServiciosAdicionales={setServiciosAdicionales}
+              setServiciosAdicionales={(nuevosServicios) => setServiciosAdicionales(nuevosServicios)}
             />
           </div>
 

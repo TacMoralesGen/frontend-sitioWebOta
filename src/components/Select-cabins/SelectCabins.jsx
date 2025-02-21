@@ -3,33 +3,32 @@
 import "./SelectCabins.css";
 import SelectCabin from "./Select-Cabin/SelectCabin";
 
-const SelectCabins = ({ reservedRange, cabinsTypes, cabinsSelection, manageCabinsSelection, cabinsAvailabilityByDateInRange}) => {
+const SelectCabins = ({ reservationRange, cabinsTypes, qtyCabinsSelection, manageCabinsSelection, cabinsAvailabilityByDateInRange}) => {
 	const generateSelectCabins = (cabinsTypes, qtyAvailable) => {
 		let collectionSelectCabin = [];
 		for (let keyType of cabinsTypes.keys()) {
 			const qtyAvailableOfSpecificType = qtyAvailable.get(keyType);
 			if (qtyAvailableOfSpecificType > 0) {
 				const cabinType = cabinsTypes.get(keyType);
-				const idCabinType = cabinType.idCabinType;
 				const selectCabinComponent = 
 					<SelectCabin 
-						key={`${idCabinType}${keyType}selectCabin`}
-						keyValue={`${idCabinType}${keyType}selectCabin`}
+						key={`${keyType}selectCabin`}
+						keyValue={`${keyType}selectCabin`}
 						cabinType={cabinType}
 						qtyAvailable={qtyAvailableOfSpecificType}
-						cabinsSelection={cabinsSelection}
+						qtyCabinsSelection={qtyCabinsSelection}
 						manageCabinsSelection={manageCabinsSelection}
-						reservedRange={reservedRange}
+						reservationRange={reservationRange}
 					/>;
 				collectionSelectCabin.push(selectCabinComponent);
-				collectionSelectCabin.push(<hr key={idCabinType + "hr"} className="m-0 w-100" />);
+				collectionSelectCabin.push(<hr key={keyType + "hr"} className="m-0 w-100" />);
 			}
 		}
 		collectionSelectCabin.pop();
 		return collectionSelectCabin;
 	};
 
-	if (reservedRange.length === 0) {
+	if (reservationRange.length === 0) {
 		return (
 			<section className="col-12 col-lg-8 ps-0">
 				<div className="card p-0 d-flex align-items-center h-100">
