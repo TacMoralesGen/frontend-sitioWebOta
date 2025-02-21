@@ -362,9 +362,7 @@ const cabinsTypes = (() => {
 	});
 	return cabinSummary;
 })();
-
 const cabinsActive = cabins.filter((cabin) => cabin.statusCabin === "Disponible");
-
 const initialReservation = {
 	documentTypeClient: null,
 	documentNumberClient: null,
@@ -379,7 +377,6 @@ const initialReservation = {
 	notes: null,
 	reservationCabins: [],
 };
-
 const getCabinsAvailableInRange = (reservationRange, cabins) => {
 	const cabinsAvailable = [];
 	for (const cabin of cabins) {
@@ -397,7 +394,6 @@ const getCabinsAvailableInRange = (reservationRange, cabins) => {
 	}
 	return cabinsAvailable;
 };
-
 const getSpecificCabinsSelected = (cabinsAvailableInRange, qtyCabinsSelection) => {
 	const cabinsSelection = [];
 	for (let [keyCabinType, qtySelection] of qtyCabinsSelection) {
@@ -408,7 +404,6 @@ const getSpecificCabinsSelected = (cabinsAvailableInRange, qtyCabinsSelection) =
 	}
 	return cabinsSelection;
 };
-
 const getCabinByNumber = (number, cabins) => {
 	for (const cabin of cabins) {
 		if (number === cabin.number) {
@@ -464,8 +459,21 @@ const Checkout = () => {
 		setReservation(updatedReservation);
 	};
 
-  const actualizarGests = (cabinNumber, isAdult, newQtyGuests) => {
-    
+  const actualizarGuests = (cabinNumber, isAdult, newQtyAdultsOrChildren) => {
+    const updatedReservation = { ...reservation };
+		const arregloReservasCabanas = [...reservation.reservationCabins];
+    for (const reservaCabana of arregloReservasCabanas) {
+			const index = arregloReservasCabanas.indexOf(reservaCabana);
+			if (reservaCabana.cabinNumber === cabinNumber) {
+        if (isAdult) reservaCabana.adults = newQtyAdultsOrChildren
+        else reservaCabana.childrens = newQtyAdultsOrChildren
+        arregloReservasCabanas[index] = reservaCabana;
+				break;
+			}
+		}
+		updatedReservation.reservationCabins = arregloReservasCabanas;
+		console.log("updatedReservation:", updatedReservation);
+		setReservation(updatedReservation);
   }
 	// return <button onClick={() => actualizarFechasTinajas(203, [new Date(2025, 1, 8), new Date(2025, 1, 9)])}>click</button>;
 
@@ -476,7 +484,7 @@ const Checkout = () => {
 				<div className="row">
 					{/* Mostrar detalles de las habitaciones */}
 					<div className="col-12 col-lg-8 mb-4">
-						{reservation.reservationCabins.map(({ cabinNumber, adults, childrens, mainGuest, datesHotTub, priceCabin, priceHotTub }) => {
+						{reservation.reservationCabins.map(({ cabinNumber }) => {
               const cabin = getCabinByNumber(cabinNumber)
               let amenitiesText = "Comodidades: " + cabin.amenities.reduce((texto, amenitie) => texto + amenitie + ", " );
               amenitiesText = amenitiesText.slice(0, amenitiesText.length - 2)
@@ -496,13 +504,13 @@ const Checkout = () => {
                   servicios={["No incluye desayuno."]}
                   reservation={reservation}
                   manageFechasTinajas = {(cabinNumber, hotTubDates) => actualizarFechasTinajas(cabinNumber, hotTubDates)}
-                  manageGuests = {(cabinNumber, hotTubDates) => actualizarGests(cabinNumber, isAdult, newQtyGuests)}
+                  manageGuests = {(cabinNumber, isAdult, newQtyGuests) => actualizarGuests(cabinNumber, isAdult, newQtyGuests)}
                 />
               )})};
 					</div>
 					{/* Mostrar resumen de la reserva */}
 					<div className="col-12 col-lg-4 mb-4">
-						<ReserveResume habitaciones={habitaciones} totalAdultos={habitaciones.reduce((acc, habitacion) => acc + habitacion.adultos, 0)} totalNinos={habitaciones.reduce((acc, habitacion) => acc + habitacion.ninos, 0)} serviciosAdicionales={serviciosAdicionales} totalReserva={totalReserva} />
+						{/* <ReserveResume habitaciones={habitaciones} totalAdultos={habitaciones.reduce((acc, habitacion) => acc + habitacion.adultos, 0)} totalNinos={habitaciones.reduce((acc, habitacion) => acc + habitacion.ninos, 0)} serviciosAdicionales={serviciosAdicionales} totalReserva={totalReserva} /> */}
 					</div>
 				</div>
 				<ContactInformationForm />
