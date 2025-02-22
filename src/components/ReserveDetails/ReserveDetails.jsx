@@ -4,19 +4,19 @@ import Guests from '../Guests/Guests';
 import TinajaSelector from '../TinajaSelector/TinajaSelector';
 
 const ReserveDetails = ({ 
+  key,
   precioBase, 
   precioTinaja, 
   nombreHabitacion, 
   capacidad,
   detalles = [],
-  servicios = [], 
-  actualizarTotales, 
-  totalAdultos,
-  totalNinos,
-  actualizarSubtotal, // Se recibe esta función desde Checkout para actualizar el subtotal
+  servicios = [],
+  reservation,
+  manageFechasTinajas,
+  manageGuests
 }) => {
-  const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
-  const [serviciosAdicionales, setServiciosAdicionales] = useState(servicios); // Servicios adicionales
+  // const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
+  // const [serviciosAdicionales, setServiciosAdicionales] = useState(servicios); // Servicios adicionales
   const [isOpen, setIsOpen] = useState(false); // Estado para manejar el desplegable
 
   // Función para actualizar el subtotal cuando se seleccionan servicios adicionales

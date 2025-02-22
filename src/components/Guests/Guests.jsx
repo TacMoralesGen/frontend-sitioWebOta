@@ -16,7 +16,7 @@ const Guests = ({ tipoCabaña, capacidad, actualizarTotales }) => {
         setNinos(prev => nuevosAdultos === 1 ? Math.min(prev, 3) : Math.min(prev, 2));
       }
     } else {
-      
+      // Couple Room
       if (nuevosAdultos <= capacidad) {
         setAdultos(nuevosAdultos);
         setNinos(prev => Math.min(prev, capacidad - nuevosAdultos));
@@ -36,7 +36,7 @@ const Guests = ({ tipoCabaña, capacidad, actualizarTotales }) => {
         if (nuevosNinos <= 2) setNinos(nuevosNinos); // 2 adultos => max 2 niños
       }
     } else {
-      // Lógica para otras habitaciones
+      // Lógica para otras habitaciones Couple Room
       if (nuevosNinos <= capacidad - adultos) setNinos(nuevosNinos);
     }
   };
@@ -51,8 +51,8 @@ const Guests = ({ tipoCabaña, capacidad, actualizarTotales }) => {
         <div>
           <label>Adultos</label>
           <select value={adultos} onChange={handleAdultosChange}>
-            {[...Array(3)].map((_, index) => (
-              <option key={index} value={index}>{index}</option>
+            {[...Array(2)].map((_, index) => (
+              <option key={index+1} value={index+1}>{index+1}</option>
             ))}
           </select>
         </div>
