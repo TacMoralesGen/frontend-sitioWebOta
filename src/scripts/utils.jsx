@@ -4,10 +4,10 @@ export const numberWithDot = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-export const generateNumberOptionsElements = (number) => {
+export const generateNumberOptionsElements = (inicio, fin) => {
   let options = [];
-  let i = 0;
-  for ( ; i <= number; i++ ){
+  let i = inicio;
+  for ( ; i <= fin; i++ ){
     options.push(<option key={i} value={i}>{i}</option>);
   }
   return options
@@ -44,6 +44,15 @@ export const getTotalCheckout = (reservation) => { //se usa cuando se consulta u
 	}
 	return total;
 }
+
+const getCabinByNumber = (number, cabins) => {
+	for (const cabin of cabins) {
+		if (number === cabin.number) {
+			return cabin;
+		}
+	}
+	return null;
+};
 
 export const MONTHS = {
   January: "Enero",

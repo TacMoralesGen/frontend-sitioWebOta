@@ -60,7 +60,7 @@ const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, ma
 								aria-label="selecciona cantidad de cabañas"
 								onChange={runManageCabinsSelection}
 							>
-								{generateNumberOptionsElements(qtyAvailable)}
+								{generateNumberOptionsElements(0,qtyAvailable)}
 							</select>
 						</div>
 					</div>

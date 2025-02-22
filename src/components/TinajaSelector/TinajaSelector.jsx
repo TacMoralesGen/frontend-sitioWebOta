@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-const TinajaSelector = ({ precioBase, actualizarSubtotal, serviciosAdicionales, setServiciosAdicionales, precioTinaja }) => {
+const TinajaSelector = ({ cabinNumber, precioTinaja, manageFechasTinajas, fechas }) => {
+  
   const [tinajaSeleccionada, setTinajaSeleccionada] = useState(false); // Estado para el checkbox
   const [diasSeleccionados, setDiasSeleccionados] = useState(new Set()); // Para almacenar los días seleccionados
 

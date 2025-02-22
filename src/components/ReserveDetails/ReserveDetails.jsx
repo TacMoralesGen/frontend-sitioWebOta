@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Guests from '../Guests/Guests';
 import TinajaSelector from '../TinajaSelector/TinajaSelector';
+import { getDatesBetween,  } from '../../scripts/utils';
 
 const ReserveDetails = ({ 
   key,
@@ -10,8 +11,9 @@ const ReserveDetails = ({
   nombreHabitacion, 
   capacidad,
   detalles = [],
-  servicios = [],
-  reservation,
+  cabins,
+  reservationCabin,
+  reservationRange,
   manageFechasTinajas,
   manageGuests
 }) => {
@@ -20,11 +22,11 @@ const ReserveDetails = ({
   const [isOpen, setIsOpen] = useState(false); // Estado para manejar el desplegable
 
   // Función para actualizar el subtotal cuando se seleccionan servicios adicionales
-  const manejarCambioSubtotal = (costoAdicional) => {
-    const nuevoSubtotal = precioBase + costoAdicional;
-    setSubtotal(nuevoSubtotal); 
-    actualizarSubtotal(nuevoSubtotal); // Se envía el nuevo subtotal a Checkout.jsx
-  };
+  // const manejarCambioSubtotal = (costoAdicional) => {
+  //   const nuevoSubtotal = precioBase + costoAdicional;
+  //   setSubtotal(nuevoSubtotal); 
+  //   actualizarSubtotal(nuevoSubtotal); // Se envía el nuevo subtotal a Checkout.jsx
+  // };
 
   // Función para alternar el estado del desplegable
   const toggleDetalles = () => setIsOpen(!isOpen);
@@ -89,27 +91,26 @@ const ReserveDetails = ({
 
           <div className="row">
             <Guests 
-              capacidad={capacidad} 
-              totalAdultos={totalAdultos} 
-              totalNinos={totalNinos}
-              actualizarTotales={actualizarTotales}  
+              cabinNumber={key}
+              tipoCabana={nombreHabitacion}
+              manageGuests={manageGuests}
             />
           </div>
 
           {/* Integración del componente TinajaSelector */}
           <div className="mt-3">
             <TinajaSelector 
+              cabinNumber={key}
               precioTinaja={precioTinaja} 
-              actualizarSubtotal={actualizarSubtotal} // Pasamos la función para actualizar el subtotal
-              serviciosAdicionales={serviciosAdicionales}
-              setServiciosAdicionales={(nuevosServicios) => setServiciosAdicionales(nuevosServicios)}
+              manageFechasTinajas={manageFechasTinajas}
+              fechas={reservationRange}
             />
           </div>
 
           {/* Subtotal Cabaña */}
           <div className="d-flex justify-content-between mt-3">
             <span className="h4">Sub Total Cabaña:</span>
-            <span className="h4" id="subTotal">CLP${subtotal}</span>
+            <span className="h4" id="subTotal">CLP${reservationCabin.priceHotTub + reservationCabin.priceCabin}</span>
           </div>
 
         </div>

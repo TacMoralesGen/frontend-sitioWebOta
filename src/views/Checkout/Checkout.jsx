@@ -482,7 +482,8 @@ const Checkout = () => {
 				<div className="row">
 					{/* Mostrar detalles de las habitaciones */}
 					<div className="col-12 col-lg-8 mb-4">
-						{reservation.reservationCabins.map(({ cabinNumber }) => {
+						{reservation.reservationCabins.map((reservationCabin) => {
+							const cabinNumber = reservationCabin.cabinNumber
               const cabin = getCabinByNumber(cabinNumber)
               let amenitiesText = "Comodidades: " + cabin.amenities.reduce((texto, amenitie) => texto + amenitie + ", " );
               amenitiesText = amenitiesText.slice(0, amenitiesText.length - 2)
@@ -499,8 +500,10 @@ const Checkout = () => {
                   nombreHabitacion={cabin.typeName}
                   capacidad={cabin.capacity}
                   detalles={detalles}
+									cabins={cabinsActive}
                   servicios={["No incluye desayuno."]}
-                  reservation={reservation}
+                  reservationCabin={reservationCabin}
+									reservationRange={reservationRange}
                   manageFechasTinajas = {(cabinNumber, hotTubDates) => actualizarFechasTinajas(cabinNumber, hotTubDates)}
                   manageGuests = {(cabinNumber, isAdult, newQtyGuests) => actualizarGuests(cabinNumber, isAdult, newQtyGuests)}
                 />

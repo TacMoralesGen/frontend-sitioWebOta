@@ -1,67 +1,46 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import { useState} from 'react';
+import { generateNumberOptionsElements } from '../../scripts/utils';
 
-const Guests = ({ tipoCabaña, capacidad, actualizarTotales }) => {
-  const [adultos, setAdultos] = useState(0);
-  const [ninos, setNinos] = useState(0);
+const Guests = ({ cabinNumber, tipoCabana, manageGuests }) => {
+  const maxNinosInicial = tipoCabana === "Tiny Cabin" ? 3 : 1 
+  const [maxNinos, setMaxNinos] = useState(maxNinosInicial)
 
   // Función que maneja el cambio en el número de adultos
   const handleAdultosChange = (e) => {
     const nuevosAdultos = parseInt(e.target.value);
-
-    if (tipoCabaña === "tinyCabin") {
-      // Para Tiny Cabin  máximo de adultos  2
-      if (nuevosAdultos <= 2) {
-        setAdultos(nuevosAdultos);
-        
-        setNinos(prev => nuevosAdultos === 1 ? Math.min(prev, 3) : Math.min(prev, 2));
-      }
-    } else {
-      // Couple Room
-      if (nuevosAdultos <= capacidad) {
-        setAdultos(nuevosAdultos);
-        setNinos(prev => Math.min(prev, capacidad - nuevosAdultos));
-      }
+    let newMaxNinos;
+    if (tipoCabana === "Tiny Cabin"){
+      newMaxNinos = nuevosAdultos === 1 ? 3 : nuevosAdultos === 2 ? 2 : null; 
+    } else if (tipoCabana === "Couple Room"){
+      newMaxNinos = nuevosAdultos === 1 ? 1 : nuevosAdultos === 2 ? 0 : null; 
     }
+    setMaxNinos(newMaxNinos)
+    manageGuests(cabinNumber, true, nuevosAdultos)
   };
-
 
   const handleNinosChange = (e) => {
     const nuevosNinos = parseInt(e.target.value);
-
-    if (tipoCabaña === "tinyCabin") {
-      // Restricciones para Tiny Cabin
-      if (adultos === 1) {
-        if (nuevosNinos <= 3) setNinos(nuevosNinos); // 1 adulto => max 3 niños
-      } else if (adultos === 2) {
-        if (nuevosNinos <= 2) setNinos(nuevosNinos); // 2 adultos => max 2 niños
-      }
-    } else {
-      // Lógica para otras habitaciones Couple Room
-      if (nuevosNinos <= capacidad - adultos) setNinos(nuevosNinos);
-    }
+    manageGuests(cabinNumber, false, nuevosNinos)
   };
 
-  useEffect(() => {
-    actualizarTotales(adultos, ninos);
-  }, [adultos, ninos, actualizarTotales]);
+  // useEffect(() => {
+  //   actualizarHuespedes(adultos, ninos);
+  // }, [adultos, ninos, actualizarHuespedes]); //???
 
   return (
     <div className="col-md-6">
       <div className="d-flex justify-content-between">
         <div>
           <label>Adultos</label>
-          <select value={adultos} onChange={handleAdultosChange}>
-            {[...Array(2)].map((_, index) => (
-              <option key={index+1} value={index+1}>{index+1}</option>
-            ))}
+          <select onChange={handleAdultosChange}>
+            {generateNumberOptionsElements(1,2)}
           </select>
         </div>
         <div>
           <label>Niños</label>
-          <select value={ninos} onChange={handleNinosChange}>
-            {[...Array(adultos === 1 ? 4 : 3)].map((_, index) => (
-              <option key={index} value={index}>{index}</option>
-            ))}
+          <select onChange={handleNinosChange}>
+            {generateNumberOptionsElements(0, maxNinos)}
           </select>
         </div>
       </div>
