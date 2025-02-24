@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
 import "./SelectCabin.css";
+import { useState } from "react";
 
 import { numberWithDot, generateNumberOptionsElements } from "../../../scripts/utils";
 import { useEffect } from "react";
+import { Modal } from "react-bootstrap";
 
 const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, manageCabinsSelection, reservationRange }) => {
+	const [showModal, setShowModal] = useState(false);
+
 
 	// Ejecución de la función usEffect con su callback (código arbitrario)
 	useEffect(() => { 
@@ -54,7 +58,7 @@ const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, ma
 					</label>
 				</div>
 				<div className="d-flex flex-row justify-content-between align-items-center">
-					<button className="btn btn-outline-primary mb-1 d-flex align-self-end details-btn" data-bs-toggle="modal" data-bs-target={`#modal${keyValue}`}>
+					<button className="btn btn-outline-primary mb-1 d-flex align-self-end details-btn" onClick={()=> setShowModal(true)}>
 						<span className="eye-icon" /> Ver detalles
 					</button>
 					<div className="d-flex flex-row flex-wrap">
@@ -81,14 +85,14 @@ const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, ma
 							{typeName === "Couple Room"? "" : `y ${qtyCabinsSelection.get(typeName)*capacity/2} niños`}</strong>
 					</p>}
 			</div>
-			<div className="modal fade" id={`modal${keyValue}`} tabIndex="-1" aria-labelledby={`modal${typeName}Label`} aria-hidden="true">
+			<Modal className="modal fade" show={showModal} onHide={() => setShowModal(false)}>
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
 						<div className="modal-header">
 							<h1 className="modal-title fs-5" id={`modal${typeName}Label`}>
 								{`${typeName}, capacidad máxima de ${capacity} personas`}
 							</h1>
-							<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
 						</div>
 						<div className="modal-body">
 							<div className="container-fluid">
@@ -110,9 +114,9 @@ const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, ma
 												return result.slice(0, result.length - 3);
 											})()}
 										</li>
-										<li className="mb-2">{`Area de la cabaña: ${size} m2`}</li>
-										<li className="mb-2">{`Precio de cabaña por noche: $${pricePerNight}`}</li>
-										<li className="mb-2">{`Precio de tinaja por instancia (1 día): $${priceHotTubPerInstance}`}</li>
+										<li className="mb-2">{`Area de la cabaña: ${size} m²`}</li>
+										<li className="mb-2">{`Precio de cabaña por noche: $${numberWithDot(pricePerNight)}`}</li>
+										<li className="mb-2">{`Precio de tinaja por instancia (1 día): $${numberWithDot(priceHotTubPerInstance)}`}</li>
 									</ul>
 								</div>
 								<div />
@@ -125,7 +129,7 @@ const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, ma
 						</div>
 					</div>
 				</div>
-			</div>
+			</Modal>
 		</article>
 	);
 };
