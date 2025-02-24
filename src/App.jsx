@@ -6,6 +6,7 @@ import Checkout from "./views/Checkout/Checkout.jsx";
 import PanelAdmin from "./views/PanelAdmin/Panel-admin.jsx";
 // import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { BrowserRouter, Routes, Route} from "react-router-dom";
+import ContactInformationForm from "./components/Contact-information-form/ContactInformationForm.jsx";
 
 
 const App = () => {
@@ -16,7 +17,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/reservar" element={<Reserve />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin" element={<PanelAdmin />} />        
+        <Route path="/admin" element={<PanelAdmin />} />  
+        <Route path="/contact" element={<ContactInformationForm/>}/>      
       </Routes>
     </BrowserRouter>
   );
