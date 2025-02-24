@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { getCabinByNumber, numberWithDot, getTotalAdults, getTotalChildrens, isHotTubDateSelected, formatToChileanDate, getSubTotal, maxAdults, maxChildrens } from "../../scripts/utils";
+import { getCabinByNumber, numberWithDot, getTotalAdults, getTotalChildrens, isHotTubDateSelected, formatToChileanDate, getSubTotal, maxAdults } from "../../scripts/utils";
 
 const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights, reservationCabins, cabins) => {
 	const divElements = [];
@@ -8,25 +8,28 @@ const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights, reserv
 		totalQtyCabins += qtyCabinType;
 	}
 	for (let i = 1; i <= reservationCabins.length; i++) {
-		const reservationCabin = reservationCabins[i-1]
-		const cabin = getCabinByNumber(reservationCabin.cabinNumber, cabins);
+		const reservationCabin = reservationCabins[i-1];
+
+		const subTotal = reservationCabin.priceHotTub + reservationCabin.priceCabin
+		const cabinNumber = reservationCabin.cabinNumber
+		const cabin = getCabinByNumber(cabinNumber, cabins);
 		const cabinTypeName = cabin.typeName
 		const qtyInstanceHotTub = reservationCabin.datesHotTub.length;
 		const classList = `${i === totalQtyCabins ? "" : "pb-3"}`;
 		const divElement = (
 			<div key={`cabinResume-${i}`} className={classList}>
-				<strong>#{i}</strong> {cabinTypeName} <br />
+				<strong>#{i}</strong> {cabinTypeName} sub-total ${numberWithDot(subTotal )}<br />
 				<div className="cabin-detail-resume">
 					<div className="ic-cabin"></div>&nbsp;
 					<div>
-						Cabaña: ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight)} x {qtyOfNights} {qtyOfNights > 1 ? "noches" : "noche"} = ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight * qtyOfNights)}
+						Cabaña: ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight)} x {qtyOfNights} {qtyOfNights > 1 ? "noches" : "noche"} = ${numberWithDot(reservationCabin.priceCabin)}
 					</div>
 				</div>
-				{isHotTubDateSelected(reservationCabins) ? (
+				{qtyInstanceHotTub > 0 ? (
 					<div className="cabin-detail-resume">
 						<div className="ic-hot-tub"></div>&nbsp;
 						<div>
-							Tinaja: ${numberWithDot(cabinsTypes.get(cabinTypeName).priceHotTubPerInstance)} x {qtyInstanceHotTub} {qtyInstanceHotTub > 1 ? "usos" : "uso"} = ${numberWithDot(cabinsTypes.get(cabinTypeName).priceHotTubPerInstance * qtyInstanceHotTub)}
+							Tinaja: ${numberWithDot(cabinsTypes.get(cabinTypeName).priceHotTubPerInstance)} x {qtyInstanceHotTub} {qtyInstanceHotTub > 1 ? "usos" : "uso"} = ${numberWithDot(reservationCabin.priceHotTub)}
 						</div>
 					</div>
 				) : (
