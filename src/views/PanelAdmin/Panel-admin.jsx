@@ -14,6 +14,13 @@ const PanelAdmin = () => {
 
   const cabinsData = [
     {
+      id: "",
+      name: "",
+      description: "",
+      status: "",
+      capacity: "",
+    },
+    {
       id: 101,
       name: "Tiny Lodge 1",
       description: "Frente al lago",

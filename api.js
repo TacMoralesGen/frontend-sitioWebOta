@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/contacto"; // Asegúrate de que este puerto sea el correcto para tu backend
+const API_URL = "http://localhost:3000/api/contacto"; // Asegúrate de que este puerto sea el correcto para tu backend
 
 // Función para crear un nuevo contacto (POST)
 const createContact = async (formData) => {
