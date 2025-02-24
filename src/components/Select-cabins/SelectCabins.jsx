@@ -6,14 +6,15 @@ import SelectCabin from "./Select-Cabin/SelectCabin";
 const SelectCabins = ({ reservationRange, cabinsTypes, qtyCabinsSelection, manageCabinsSelection, cabinsAvailabilityByDateInRange}) => {
 	const generateSelectCabins = (cabinsTypes, qtyAvailable) => {
 		let collectionSelectCabin = [];
+		let i = 0;
 		for (let keyType of cabinsTypes.keys()) {
 			const qtyAvailableOfSpecificType = qtyAvailable.get(keyType);
 			if (qtyAvailableOfSpecificType > 0) {
 				const cabinType = cabinsTypes.get(keyType);
 				const selectCabinComponent = 
 					<SelectCabin 
-						key={`${keyType}selectCabin`}
-						keyValue={`${keyType}selectCabin`}
+						key={`${i}${keyType}selectCabin`}
+						keyValue={`${i}${keyType}selectCabin`}
 						cabinType={cabinType}
 						qtyAvailable={qtyAvailableOfSpecificType}
 						qtyCabinsSelection={qtyCabinsSelection}
@@ -23,6 +24,7 @@ const SelectCabins = ({ reservationRange, cabinsTypes, qtyCabinsSelection, manag
 				collectionSelectCabin.push(selectCabinComponent);
 				collectionSelectCabin.push(<hr key={keyType + "hr"} className="m-0 w-100" />);
 			}
+			i++
 		}
 		collectionSelectCabin.pop();
 		return collectionSelectCabin;
