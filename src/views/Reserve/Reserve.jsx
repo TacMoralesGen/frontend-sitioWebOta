@@ -474,9 +474,6 @@ const getCabinsAvailableInRangeByType = (reservationRange, cabinsAvailabilityByD
 	return minAvailableInRangeByType;
 };
 
-
-
-
 const Reserve = () => {
 	const [checkIn, setCheckIn] = useState(null); //selectDates 
 	const [checkOut, setCheckOut] = useState(null); //selectDates
@@ -491,7 +488,7 @@ const Reserve = () => {
 		setreservationRange(newreservationRange);
 		setTotal(0);
 		setCabinsAvailableInRange(getCabinsAvailableInRangeByType(newreservationRange, cabinsAvailabilityByDate, cabinsTypes, cabinsActiveByType));
-		setCabinsSelection(generateCabinSelectionEmpty())
+		setCabinsSelection(generateCabinSelectionEmpty());
 	}
 
 	const changeSelectOfACabinType = (cabinType, newQty) => {

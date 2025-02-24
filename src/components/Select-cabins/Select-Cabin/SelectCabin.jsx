@@ -6,7 +6,12 @@ import { useEffect } from "react";
 
 const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, manageCabinsSelection, reservationRange }) => {
 
-	useEffect(() => {
+	// Ejecución de la función usEffect con su callback (código arbitrario)
+	useEffect(() => { 
+		//El código arbitrario es resetear el input
+		//(no la variable de estado qtyCabinsSelection, si no que solo el elemento visual: el tag select)
+		//El codigo que corre en el front-end, es decir las interfaces document y window, deben colocarse en useEffect
+		//Altamente usado para suscribirse a eventos, para interfaces con alta interactividad (editor de imagen, videojuego)
 		const selectElement = document.getElementById(`${keyValue}select`);
 		selectElement.value = 0;
 	}, [reservationRange, keyValue])
@@ -25,7 +30,8 @@ const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, ma
 			</div>
 			<div className="col-12 col-md-7 py-0 px-4 d-flex flex-column">
 				<div className="d-flex justify-content-between align-items-center">
-					<h6 className="mb-3 title-select-qty-cabin"><strong>{typeName}</strong>: hay {qtyAvailable} {qtyAvailable > 1 ? `cabañas disponibles` : "cabaña disponible"}</h6>
+					<h6 className="mb-3 title-select-qty-cabin">Cabañas <strong>{typeName}</strong></h6>
+					{/* <h6 className="mb-3 title-select-qty-cabin">Cabaña <strong>{typeName}</strong>: hay {qtyAvailable} {qtyAvailable > 1 ? `cabañas disponibles` : "cabaña disponible"}</h6> */}
 				</div>
 				<div>
 					<span>
@@ -42,7 +48,7 @@ const SelectCabin = ({ keyValue, cabinType, qtyAvailable, qtyCabinsSelection, ma
 					</p>
 					<p className="mb-1">Precio por noche: ${numberWithDot(pricePerNight)}</p>
 					<label className="form-label w-100 text-end mt-2" htmlFor={`${keyValue}select`}>
-						{qtyAvailable > 1 ? `Hay ${qtyAvailable} cabañas disponibles` : "Solo hay 1 Cabaña disponible"}
+						{qtyAvailable > 1 ? `Hay ${qtyAvailable} cabañas disponibles` : "Solo hay 1 cabaña disponible"}
 						<br />
 						<strong>{qtyAvailable > 1 ? "¿Cuantas cabañas reserva?" : "¿Desea reservar la cabaña?"}</strong>
 					</label>

@@ -2,21 +2,21 @@
 import { useState } from 'react';
 import Guests from '../Guests/Guests';
 import TinajaSelector from '../TinajaSelector/TinajaSelector';
-import { getDatesBetween,  } from '../../scripts/utils';
+import { numberWithDot } from '../../scripts/utils';
 
 const ReserveDetails = ({ 
-  key,
+  keyValue,
   precioBase, 
   precioTinaja, 
   nombreHabitacion, 
   capacidad,
   detalles = [],
-  cabins,
   reservationCabin,
   reservationRange,
   manageFechasTinajas,
   manageGuests
 }) => {
+  console.log("key o cabinNumber al renderizar reserveDetails: ", keyValue);
   // const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
   // const [serviciosAdicionales, setServiciosAdicionales] = useState(servicios); // Servicios adicionales
   const [isOpen, setIsOpen] = useState(false); // Estado para manejar el desplegable
@@ -55,7 +55,7 @@ const ReserveDetails = ({
                     Ver detalles de cabaña
                   </span>
                   <strong className="mt-2 fw-bold" id="precioBase">
-                    CLP${precioBase}
+                    CLP${numberWithDot(precioBase)}
                   </strong>
                 </div>
               </div>
@@ -91,7 +91,7 @@ const ReserveDetails = ({
 
           <div className="row">
             <Guests 
-              cabinNumber={key}
+              cabinNumber={keyValue}
               tipoCabana={nombreHabitacion}
               manageGuests={manageGuests}
             />
@@ -100,17 +100,18 @@ const ReserveDetails = ({
           {/* Integración del componente TinajaSelector */}
           <div className="mt-3">
             <TinajaSelector 
-              cabinNumber={key}
+              cabinNumber={keyValue}
               precioTinaja={precioTinaja} 
               manageFechasTinajas={manageFechasTinajas}
               fechas={reservationRange}
+              fechasSeleccionadas={reservationCabin.datesHotTub}
             />
           </div>
 
           {/* Subtotal Cabaña */}
           <div className="d-flex justify-content-between mt-3">
             <span className="h4">Sub Total Cabaña:</span>
-            <span className="h4" id="subTotal">CLP${reservationCabin.priceHotTub + reservationCabin.priceCabin}</span>
+            <span className="h4" id="subTotal">CLP${numberWithDot(reservationCabin.priceHotTub + reservationCabin.priceCabin)}</span>
           </div>
 
         </div>

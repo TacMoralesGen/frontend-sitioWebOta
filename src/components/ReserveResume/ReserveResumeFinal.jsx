@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import "./ReserveResume2.css";
-import { numberWithDot, formatToChileanDate, maxAdults, maxChildrens, checkInCapture, checkOutCapture, isHotTubDateSelected } from "../../../scripts/utils";
+import { numberWithDot, formatToChileanDate, maxAdults, maxChildrens, checkInCapture, checkOutCapture, isHotTubDateSelected, getTotalAdults, getTotalChildrens } from "../../../scripts/utils";
 import { Link } from "react-router-dom";
 
-const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights) => {
+const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights, reservationCabins) => {
 	const divElements = [];
 	let i = 1;
 	let totalQtyCabins = 0;
@@ -24,6 +24,16 @@ const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights) => {
 								Cabaña: ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight)} x {qtyOfNights} {qtyOfNights > 1 ? "noches" : "noche"} = ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight * qtyOfNights)}
 							</div>
 						</div>
+						{isHotTubDateSelected(reservationCabins) ? (
+							<div className="cabin-detail-resume">
+								<div className="ic-hot-tub"></div>&nbsp;
+								<div>
+									Tinaja: ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight)} x {qtyOfNights} {qtyOfNights > 1 ? "noches" : "noche"} = ${numberWithDot(cabinsTypes.get(cabinTypeName).pricePerNight * qtyOfNights)}
+								</div>
+							</div>
+						) : (
+							""
+						)}
 					</div>
 				);
 				divElements.push(divElement);
@@ -34,16 +44,9 @@ const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights) => {
 	return divElements;
 };
 
-const ReserveResume2 = ({ reservationRange, qtyCabinsSelection, total, cabinsTypes }) => {
+const ReserveResume = ({ reservationRange, qtyCabinsSelection, total, cabinsTypes, reservation, cabins }) => {
 	const qtyOfNights = reservationRange.length;
 	const msgNoCabinSelected = "No ha seleccionado cabañas";
-	const totalCabins = (() => {
-		let total = 0;
-		for (const value of qtyCabinsSelection.entries()){
-			total += value[1]
-		}
-		return total
-	})()
 
 	if (reservationRange.length === 0) {
 		return (
@@ -80,9 +83,21 @@ const ReserveResume2 = ({ reservationRange, qtyCabinsSelection, total, cabinsTyp
 						<hr />
 
 						<li>
-							<strong>Detalle {totalCabins} {totalCabins > 1 ? "Cabañas" : "Cabaña"}:</strong>
+							<strong>Total de Huéspedes:</strong>
+						</li>
+						<li>
+							<strong>Adultos:</strong> <span>{getTotalAdults(qtyCabinsSelection)}</span>
+						</li>
+						<li>
+							<strong>Niños:</strong> <span>{getTotalChildrens(qtyCabinsSelection)}</span>
+						</li>
+						<hr />
+
+						<li>
+							<strong>Detalle Cabañas:</strong>
 							<div>{maxAdults(qtyCabinsSelection) > 0 ? generateListCabins(qtyCabinsSelection, cabinsTypes, reservationRange.length) : msgNoCabinSelected}</div>
 						</li>
+
 						<li className="pt-3">
 							<strong>Capacidad Máxima:</strong>
 						</li>
@@ -101,21 +116,40 @@ const ReserveResume2 = ({ reservationRange, qtyCabinsSelection, total, cabinsTyp
 							""
 						)}
 						<hr />
+
 						<li>
-							<strong>Total precio {maxAdults(qtyCabinsSelection) > 2 ? "cabañas" : "cabaña"}:</strong>
+							<strong>Total de Huéspedes:</strong>
 						</li>
-						{maxAdults(qtyCabinsSelection) > 0 ? (
-							<li id="precioTotal">
-								CLP ${numberWithDot(total)} <strong>IVA incluido</strong>
-							</li>
-						) : (
-							<li id="precioTotal">{msgNoCabinSelected}</li>
-						)}
-						<li id="mensajeIvaExento" style={{ display: "none" }}>
-							*turistas extranjeros exentos de IVA
+						<li>
+							<strong>Adultos:</strong> <span>{getTotalAdults()}</span>
 						</li>
+						<li>
+							<strong>Niños:</strong> <span>{getTotalChildrens()}</span>
+						</li>
+
+						<hr />
+						{/* Total a Pagar */}
+						<li>
+							<strong>Total a pagar:</strong>
+						</li>
+						<li id="precioTotal">
+							CLP${numberWithDot(total)} <strong>IVA incluido</strong>
+							{total > 0 && (
+								<li id="mensajeIvaExento" style={{ display: "block" }}>
+									*turistas extranjeros exentos de IVA
+								</li>
+							)}
+						</li>
+
+						{/* Botón ir al checkout */}
+						<div className="mt-4 text-center">
+							<button type="button" className="btn btn-success opacity-50">
+								Confirmar reserva
+							</button>
+						</div>
+						{/* Botón ir a pasarela de pago */}
 						<div className="mt-4">
-							<Link className={maxAdults(qtyCabinsSelection) === 0 ?
+							<Link className={maxAdults(qtyCabinsSelection) === 0 ? 
 								"to-checkout btn btn-primary d-flex align-items-center justify-content-center m-auto disabled" :
 								"to-checkout btn btn-primary d-flex align-items-center justify-content-center m-auto"}
 								to="/checkout" state={{ reservationRange: reservationRange, qtyCabinsSelection: qtyCabinsSelection }}>

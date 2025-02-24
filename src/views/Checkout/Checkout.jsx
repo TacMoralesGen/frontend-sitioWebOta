@@ -15,7 +15,7 @@ import SectionMap from "../../components/Map/Map";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { isSameDay, addDays } from "date-fns";
-import { getTotalCheckout, getTotalReserve } from "../../scripts/utils";
+import { getTotalCheckout, getTotalReserve, getCabinByNumber } from "../../scripts/utils";
 
 const cabins = [
 	{
@@ -402,14 +402,6 @@ const getSpecificCabinsSelected = (cabinsAvailableInRange, qtyCabinsSelection) =
 	}
 	return cabinsSelection;
 };
-const getCabinByNumber = (number, cabins) => {
-	for (const cabin of cabins) {
-		if (number === cabin.number) {
-			return cabin;
-		}
-	}
-	return null;
-};
 
 // COMIENZA EL COMPONENTE
 const Checkout = () => {
@@ -423,7 +415,7 @@ const Checkout = () => {
 	for (const cabin of specificCabinsSelected) {
 		const cabinReservation = {
 			cabinNumber: cabin.number,
-			adults: 0,
+			adults: 1,
 			childrens: 0,
 			mainGuest: null,
 			datesHotTub: [],
@@ -436,6 +428,7 @@ const Checkout = () => {
 	initialReservation.checkinDate = checkIn;
 	initialReservation.checkoutDate = checkOut;
 	initialReservation.totalPrice = total;
+
 	const [reservation, setReservation] = useState(initialReservation);
 
 	// Función que actualiza los servicios adicionales
@@ -444,7 +437,10 @@ const Checkout = () => {
 		const arregloReservasCabanas = [...reservation.reservationCabins];
 		for (const reservaCabana of arregloReservasCabanas) {
 			const index = arregloReservasCabanas.indexOf(reservaCabana);
-			const priceHotTubPerInstance = getCabinByNumber(cabinNumber, cabinsActive).priceHotTubPerInstance;
+			console.log("cabinNumber en actualizarFechasTinajas:", cabinNumber);
+			const cabana = getCabinByNumber(cabinNumber, cabinsActive);
+			console.log("cabana en actualizarFechasTinajas:", cabana);
+			const priceHotTubPerInstance = cabana.priceHotTubPerInstance;
 			if (reservaCabana.cabinNumber === cabinNumber) {
 				reservaCabana.datesHotTub = hotTubDates;
 				reservaCabana.priceHotTub = hotTubDates.length * priceHotTubPerInstance;
@@ -481,10 +477,12 @@ const Checkout = () => {
 			<div className="container">
 				<div className="row">
 					{/* Mostrar detalles de las habitaciones */}
-					<div className="col-12 col-lg-8 mb-4">
+					<div className="col-12 col-lg-8 mb-4 ps-0">
 						{reservation.reservationCabins.map((reservationCabin) => {
 							const cabinNumber = reservationCabin.cabinNumber
-              const cabin = getCabinByNumber(cabinNumber)
+							console.log("reservationCabin:", reservationCabin)
+							console.log("cabinNumber:", cabinNumber)
+              const cabin = getCabinByNumber(cabinNumber, cabinsActive)
               let amenitiesText = "Comodidades: " + cabin.amenities.reduce((texto, amenitie) => texto + amenitie + ", " );
               amenitiesText = amenitiesText.slice(0, amenitiesText.length - 2)
               const detalles = [
@@ -495,6 +493,7 @@ const Checkout = () => {
                 "Estacionamiento: Gratuito."]
               return (<ReserveDetails
                   key={cabinNumber} // Usando nombreHabitacion como clave única
+									keyValue={cabinNumber}
                   precioBase={cabin.pricePerNight}
                   precioTinaja={cabin.priceHotTubPerInstance}
                   nombreHabitacion={cabin.typeName}
@@ -510,8 +509,13 @@ const Checkout = () => {
               )})};
 					</div>
 					{/* Mostrar resumen de la reserva */}
-					<div className="col-12 col-lg-4 mb-4">
-						{/* <ReserveResume habitaciones={habitaciones} totalAdultos={habitaciones.reduce((acc, habitacion) => acc + habitacion.adultos, 0)} totalNinos={habitaciones.reduce((acc, habitacion) => acc + habitacion.ninos, 0)} serviciosAdicionales={serviciosAdicionales} totalReserva={totalReserva} /> */}
+					<div className="col-12 col-lg-4 px-0">
+						<ReserveResume
+						reservation={reservation}
+						reservationRange={reservationRange}
+						cabins={cabinsActive}
+						qtyCabinsSelection={qtyCabinsSelection}
+						cabinsTypes={cabinsTypes}/>
 					</div>
 				</div>
 				<ContactInformationForm />
