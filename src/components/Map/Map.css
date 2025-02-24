@@ -1,71 +1,26 @@
-.map-card {
-    max-width: 1100px;
-    border-radius: 0px;
-    margin: 0 auto;
-    height: 100%;
-  }
-.custom-shadow {
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.col-md-6.d-flex{
-    padding: 0;
-    margin: 0;
-    height: auto;
-}
-
-.btn-custom {
-    padding: 12px 24px;
-    border-radius: 50px;
-    font-size: 1rem;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 10px;
-}
-/* 
- }
-
- }
-
-  } */
-  
-  @media (max-width: 992px) {
-    .map-card {
-      max-width: 90%;
-    }
-  
-    .map-frame {
-      height: 300px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .map-card {
+  .map-card {
+      max-width: 1220px;
+      border-radius: 0px;
+      margin: 0 auto;
       height: auto;
-      width: 100%;
     }
-  
-    .map-frame {
-      height: 250px;
-    }
-  
-    .btn-custom {
-      width: 100%;
-      padding: 10px 20px;
+  .custom-shadow {
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .col-md-6.d-flex{
+      padding: 0;
+      margin: 0;
+      height: auto;
+  }
+
+  .btn-custom {
+      padding: 12px 24px;
+      border-radius: 50px;
       font-size: 1rem;
-      display: block;
-      text-align: center;
-    }
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
   }
-  
-  @media (max-width: 576px) {
-    .map-frame {
-      height: 200px;
-    }
-  
-    .btn-custom  {
-      width: 100%;
-    }
-  }
-  
+    

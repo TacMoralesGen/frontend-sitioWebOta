@@ -1,31 +1,34 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import Guests from '../Guests/Guests';
 import TinajaSelector from '../TinajaSelector/TinajaSelector';
+import { numberWithDot } from '../../scripts/utils';
 
 const ReserveDetails = ({ 
+  keyValue,
   precioBase, 
   precioTinaja, 
   nombreHabitacion, 
   capacidad,
   detalles = [],
-  servicios = [], 
-  actualizarTotales, 
-  totalAdultos,
-  totalNinos,
-  actualizarSubtotal, // Se recibe esta función desde Checkout para actualizar el subtotal
+  reservationCabin,
+  reservationRange,
+  manageFechasTinajas,
+  manageGuests
 }) => {
-  const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
-  const [serviciosAdicionales, setServiciosAdicionales] = useState(servicios); // Servicios adicionales
-  const [isOpen, setIsOpen] = useState(false); // Estado del desplegable
+  console.log("key o cabinNumber al renderizar reserveDetails: ", keyValue);
+  // const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
+  // const [serviciosAdicionales, setServiciosAdicionales] = useState(servicios); // Servicios adicionales
+  const [isOpen, setIsOpen] = useState(false); // Estado para manejar el desplegable
 
   // Función para actualizar el subtotal cuando se seleccionan servicios adicionales
-  const manejarCambioSubtotal = (costoAdicional) => {
-    const nuevoSubtotal = precioBase + costoAdicional;
-    setSubtotal(nuevoSubtotal); 
-    actualizarSubtotal(nuevoSubtotal); // Se envía el nuevo subtotal a Checkout.jsx
-  };
+  // const manejarCambioSubtotal = (costoAdicional) => {
+  //   const nuevoSubtotal = precioBase + costoAdicional;
+  //   setSubtotal(nuevoSubtotal); 
+  //   actualizarSubtotal(nuevoSubtotal); // Se envía el nuevo subtotal a Checkout.jsx
+  // };
 
-  // Función para alternar la visualización de detalles
+  // Función para alternar el estado del desplegable
   const toggleDetalles = () => setIsOpen(!isOpen);
 
   return (
@@ -52,7 +55,7 @@ const ReserveDetails = ({
                     Ver detalles de cabaña
                   </span>
                   <strong className="mt-2 fw-bold" id="precioBase">
-                    CLP${precioBase}
+                    CLP${numberWithDot(precioBase)}
                   </strong>
                 </div>
               </div>
@@ -66,6 +69,7 @@ const ReserveDetails = ({
                 </ul>
               </div>
             </div>
+
 
             {/* Nombre completo Huésped Representante */}
             <div className="col-8">
@@ -83,30 +87,31 @@ const ReserveDetails = ({
             </div>
           </p>
 
-          {/* Componente de selección de adultos y niños */}
+          {/* Aquí incluimos el componente de selección de adultos y niños */}
+
           <div className="row">
             <Guests 
-              capacidad={capacidad} 
-              totalAdultos={totalAdultos} 
-              totalNinos={totalNinos}
-              actualizarTotales={actualizarTotales}  
+              cabinNumber={keyValue}
+              tipoCabana={nombreHabitacion}
+              manageGuests={manageGuests}
             />
           </div>
 
-          {/* Componente TinajaSelector */}
+          {/* Integración del componente TinajaSelector */}
           <div className="mt-3">
             <TinajaSelector 
+              cabinNumber={keyValue}
               precioTinaja={precioTinaja} 
-              actualizarSubtotal={manejarCambioSubtotal} // Se pasa la función que actualizará el subtotal
-              serviciosAdicionales={serviciosAdicionales}
-              setServiciosAdicionales={setServiciosAdicionales}
+              manageFechasTinajas={manageFechasTinajas}
+              fechas={reservationRange}
+              fechasSeleccionadas={reservationCabin.datesHotTub}
             />
           </div>
 
           {/* Subtotal Cabaña */}
           <div className="d-flex justify-content-between mt-3">
             <span className="h4">Sub Total Cabaña:</span>
-            <span className="h4" id="subTotal">CLP${subtotal}</span>
+            <span className="h4" id="subTotal">CLP${numberWithDot(reservationCabin.priceHotTub + reservationCabin.priceCabin)}</span>
           </div>
 
         </div>

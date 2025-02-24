@@ -16,7 +16,7 @@ const IndicatorStages = ({stage}) => {
     classSpan = "d-none d-sm-inline";
   }
   return (
-    <section className="stage-indicator row bg-success-subtle fw">
+    <section className="stage-indicator row bg-success-subtle fw w-100">
       <div className={class1}>
         1 Seleccionar <span className={classSpan}>Reserva</span>
       </div>

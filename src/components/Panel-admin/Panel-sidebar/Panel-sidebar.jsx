@@ -1,9 +1,9 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { FaHome, FaClipboardList, FaBed } from "react-icons/fa";
 
+// eslint-disable-next-line react/prop-types
 const PanelSidebar = ({ setActiveSection }) => {
-  const [active, setActive] = useState("Reservaciones");
+  const [active, setActive] = useState("Reservas");
 
   const handleClick = (section) => {
     setActive(section);
@@ -12,20 +12,20 @@ const PanelSidebar = ({ setActiveSection }) => {
 
   return (
     <div
-      className="d-flex flex-column bg-primary text-white vh-100 p-3 position-fixed"
-      style={{ width: "250px" }}
+      className="d-flex flex-column bg-secondary text-white vh-100 p-3 position-fixed"
+      style={{ width: "230px" }}
     >
-      <h2 className="text-izq mb-4">Panel Administrador</h2>
+      <h2 className="text-izq mb-4">Panel Admin.</h2>
       <ul className="nav flex-column">
         {[
           { name: "Dashboard", icon: <FaHome /> },
-          { name: "Reservaciones", icon: <FaClipboardList /> },
+          { name: "Reservas", icon: <FaClipboardList /> },
           { name: "Cabañas", icon: <FaBed /> },
         ].map((item) => (
           <li key={item.name} className="nav-item">
             <button
               className={`btn btn-outline-light d-flex align-items-center w-100 text-start p-2 mb-2 ${
-                active === item.name ? "active bg-success" : ""
+                active === item.name ? "active bg-white" : ""
               }`}
               onClick={() => handleClick(item.name)}
             >
@@ -36,10 +36,6 @@ const PanelSidebar = ({ setActiveSection }) => {
       </ul>
     </div>
   );
-};
-
-PanelSidebar.propTypes = {
-  setActiveSection: PropTypes.func.isRequired,
 };
 
 export default PanelSidebar;

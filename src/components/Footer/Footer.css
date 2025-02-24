@@ -14,3 +14,6 @@ footer li a:hover{
     color: #9edbb8 !important;
 }
 
+.padding-footer {
+    padding: 0.5rem 5vw !important;
+  }
