@@ -5,9 +5,9 @@ import Reserve from "./views/Reserve/Reserve.jsx";
 import Checkout from "./views/Checkout/Checkout.jsx";
 import PanelAdmin from "./views/PanelAdmin/Panel-admin.jsx";
 // import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ContactInformationForm from "./components/Contact-information-form/ContactInformationForm.jsx";
-
+import Payment from "./views/Payment/Payment.jsx";
 
 const App = () => {
   return (
@@ -17,8 +17,9 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/reservar" element={<Reserve />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin" element={<PanelAdmin />} />  
-        <Route path="/contact" element={<ContactInformationForm/>}/>      
+        <Route path="/admin" element={<PanelAdmin />} />
+        <Route path="/contact" element={<ContactInformationForm />} />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </BrowserRouter>
   );

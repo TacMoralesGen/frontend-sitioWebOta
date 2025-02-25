@@ -47,7 +47,7 @@ const PanelHeader = ({
           className="form-select"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          style={{ width: "180px", height: "40px", fontSize: "18px" }}
+          style={{ width: "200px", height: "40px", fontSize: "18px" }}
         >
           <option value="all">Todos</option>
           <option value="pendiente">Pendiente</option>
@@ -65,7 +65,6 @@ const PanelHeader = ({
           className="form-control"
           placeholderText="Fecha Inicio"
           locale={es}
-          style={{ width: "200px", height: "40px", fontSize: "18px" }}
         />
 
         <DatePicker
@@ -78,7 +77,6 @@ const PanelHeader = ({
           className="form-control"
           placeholderText="Fecha Fin"
           locale={es}
-          style={{ width: "200px", height: "40px", fontSize: "18px" }}
         />
 
         <button className="btn btn-primary text-white" onClick={resetFilters}>
