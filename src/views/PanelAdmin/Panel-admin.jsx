@@ -4,6 +4,7 @@ import PanelHeader from "../../components/Panel-admin/Panel-header/Panel-header.
 import PanelReservation from "../../components/Panel-admin/Panel-reservation/Panel-reservation.jsx";
 import PanelSidebar from "../../components/Panel-admin/Panel-sidebar/Panel-sidebar.jsx";
 import PanelCabins from "../../components/Panel-admin/Panel-Cabins/Panel-Cabins.jsx";
+import PanelDashboard from "../../components/Panel-admin/Panel-dashboard/Panel-dashboard.jsx";
 
 const PanelAdmin = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,13 +14,6 @@ const PanelAdmin = () => {
   const [endDate, setEndDate] = useState(null);
 
   const cabinsData = [
-    {
-      id: "",
-      name: "",
-      description: "",
-      status: "",
-      capacity: "",
-    },
     {
       id: 101,
       name: "Tiny Lodge 1",
@@ -176,6 +170,7 @@ const PanelAdmin = () => {
           endDate={endDate}
           setEndDate={setEndDate}
         />
+        {activeSection === "Dashboard" && <PanelDashboard />}
         {activeSection === "Reservas" && (
           <PanelReservation
             searchTerm={searchTerm}

@@ -277,7 +277,9 @@ const PanelReservation = ({ searchTerm, filter, startDate, endDate }) => {
                   </span>
                 </td>
                 <td>
-                  <button className="btn btn-sm btn-primary text-white">Ver Más</button>
+                  <button className="btn btn-sm btn-primary text-white">
+                    Ver Más
+                  </button>
                 </td>
               </tr>
             ))}
