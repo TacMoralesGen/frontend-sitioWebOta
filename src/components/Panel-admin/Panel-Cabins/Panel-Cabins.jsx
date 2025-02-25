@@ -4,7 +4,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { FaHome, FaCheckCircle, FaTimesCircle, FaClock, FaEdit, FaPlus } from "react-icons/fa";
 
 // Importamos la función para crear cabaña
-import { createCabin } from "../../../../api.admin";
+// import { createCabin } from "../../../../api.admin";
 
 function PanelCabins({ cabins: initialCabins = [] }) {
   const [cabins, setCabins] = useState(initialCabins);
@@ -60,27 +60,27 @@ function PanelCabins({ cabins: initialCabins = [] }) {
 
   // Se llama al presionar "Agregar" en el modal de nueva cabaña
   const handleAddCabin = async () => {
-    try {
-      // 1. Llamamos a la API
-      const data = await createCabin(newCabin);
-      // 2. Si todo va bien, 'data' debería tener algo como { message: "...", cabin: {...} }
-      if (data && data.cabin) {
-        // 3. Actualizamos el estado local agregando la cabaña nueva
-        setCabins([...cabins, data.cabin]);
-        // 4. Cerramos el modal y reseteamos el formulario
-        setShowAddModal(false);
-        setNewCabin({
-          name: "",
-          description: "",
-          capacity: 0,
-          status: "Disponible",
-        });
-        alert("Cabaña agregada correctamente");
-      }
-    } catch (error) {
-      // Manejo de error: puede ser un error del servidor o de conexión
-      alert("Error al agregar cabaña: " + error.message);
-    }
+    // try {
+    //   // 1. Llamamos a la API
+    //   const data = await createCabin(newCabin);
+    //   // 2. Si todo va bien, 'data' debería tener algo como { message: "...", cabin: {...} }
+    //   if (data && data.cabin) {
+    //     // 3. Actualizamos el estado local agregando la cabaña nueva
+    //     setCabins([...cabins, data.cabin]);
+    //     // 4. Cerramos el modal y reseteamos el formulario
+    //     setShowAddModal(false);
+    //     setNewCabin({
+    //       name: "",
+    //       description: "",
+    //       capacity: 0,
+    //       status: "Disponible",
+    //     });
+    //     alert("Cabaña agregada correctamente");
+    //   }
+    // } catch (error) {
+    //   // Manejo de error: puede ser un error del servidor o de conexión
+    //   alert("Error al agregar cabaña: " + error.message);
+    // }
   };
 
   return (

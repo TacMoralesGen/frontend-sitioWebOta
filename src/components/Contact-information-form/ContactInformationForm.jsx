@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PersonalInfo from './PersonalInfo';
 import LocationInfo from './LocationInfo';
 import AdditionalInfo from './AdditionalInfo';
-import { createContact } from "../../../api"; // Importamos la función 'createContact'
+// import { createContact } from "../../../api"; // Importamos la función 'createContact'
 
 function ContactInformationForm() {
     const [formData, setFormData] = useState({
@@ -54,35 +54,35 @@ function ContactInformationForm() {
         event.preventDefault(); // Evita el comportamiento por defecto de envío del formulario
         setIsSubmitted(true);
     
-        if (validateForm()) {
-            console.log("Formulario validado, enviando datos:", formData); // Log de los datos antes de enviarlos
+        // if (validateForm()) {
+        //     console.log("Formulario validado, enviando datos:", formData); // Log de los datos antes de enviarlos
     
-            // Llamamos a la función 'createContact' para enviar los datos del formulario
-            createContact(formData)
-                .then(response => {
-                    console.log("Respuesta del backend:", response); // Ver la respuesta del backend
-                    // Si la API responde correctamente, mostramos un mensaje de éxito
-                    alert('Formulario enviado con éxito');
+        //     // Llamamos a la función 'createContact' para enviar los datos del formulario
+        //     createContact(formData)
+        //         .then(response => {
+        //             console.log("Respuesta del backend:", response); // Ver la respuesta del backend
+        //             // Si la API responde correctamente, mostramos un mensaje de éxito
+        //             alert('Formulario enviado con éxito');
                     
-                    // Reseteamos el formulario
-                    setFormData({
-                        name: '',
-                        email: '',
-                        phone: '',
-                        country: '',
-                        otherCountry: '',
-                        message: '',
-                        terms: false,
-                    });
+        //             // Reseteamos el formulario
+        //             setFormData({
+        //                 name: '',
+        //                 email: '',
+        //                 phone: '',
+        //                 country: '',
+        //                 otherCountry: '',
+        //                 message: '',
+        //                 terms: false,
+        //             });
     
-                    setIsSubmitted(false);
-                })
-                .catch(error => {
-                    console.error("Error al enviar el formulario:", error); // Log para errores
-                    // Si ocurre un error, mostramos un mensaje de error
-                    alert('Error al enviar el formulario');
-                });
-        }
+        //             setIsSubmitted(false);
+        //         })
+        //         .catch(error => {
+        //             console.error("Error al enviar el formulario:", error); // Log para errores
+        //             // Si ocurre un error, mostramos un mensaje de error
+        //             alert('Error al enviar el formulario');
+        //         });
+        // }
     };
 
     return (
