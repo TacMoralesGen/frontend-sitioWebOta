@@ -10,8 +10,7 @@ import {
 } from "react-icons/fa";
 import { Modal, Button, Form } from "react-bootstrap";
 
-function PanelCabins({ cabins: initialCabins = [] }) {
-const PanelCabins = ({ cabins: initialCabins }) => {
+const PanelCabins = ({ cabins: initialCabins = [] }) => {
   const [cabins, setCabins] = useState(initialCabins);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
