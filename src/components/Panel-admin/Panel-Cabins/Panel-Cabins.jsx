@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { Modal, Button, Form } from "react-bootstrap";
 
+function PanelCabins({ cabins: initialCabins = [] }) {
 const PanelCabins = ({ cabins: initialCabins }) => {
   const [cabins, setCabins] = useState(initialCabins);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -42,16 +43,30 @@ const PanelCabins = ({ cabins: initialCabins }) => {
     setShowEditModal(false);
   };
 
-  const handleAddCabin = () => {
-    const newCabin = {
-      id: cabins.length + 1,
-      name: "Nueva Cabaña",
-      description: "Descripción de la nueva cabaña",
-      status: "disponible",
-      capacity: 2,
-    };
-    setCabins([...cabins, newCabin]);
-    setShowAddModal(false);
+
+  // Se llama al presionar "Agregar" en el modal de nueva cabaña
+  const handleAddCabin = async () => {
+    // try {
+    //   // 1. Llamamos a la API
+    //   const data = await createCabin(newCabin);
+    //   // 2. Si todo va bien, 'data' debería tener algo como { message: "...", cabin: {...} }
+    //   if (data && data.cabin) {
+    //     // 3. Actualizamos el estado local agregando la cabaña nueva
+    //     setCabins([...cabins, data.cabin]);
+    //     // 4. Cerramos el modal y reseteamos el formulario
+    //     setShowAddModal(false);
+    //     setNewCabin({
+    //       name: "",
+    //       description: "",
+    //       capacity: 0,
+    //       status: "Disponible",
+    //     });
+    //     alert("Cabaña agregada correctamente");
+    //   }
+    // } catch (error) {
+    //   // Manejo de error: puede ser un error del servidor o de conexión
+    //   alert("Error al agregar cabaña: " + error.message);
+    // }
   };
 
   return (

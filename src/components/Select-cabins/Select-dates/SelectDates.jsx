@@ -18,11 +18,9 @@ const isDateInList = (date, disabledList) => {
 	return disabledList.some((disabledDate) => isSameDay(date, disabledDate));
 };
 
-const SelectDates = ({ disabledDates, checkIn, checkOut, manageCheckIn, manageCheckOut, showAvailableCabins, reservationRange }) => {
-	const disabledDatesEndBackup = disabledDates.map((day) => addDays(day, 1));
+const SelectDates = ({ disabledDates, disabledDatesEnd, manageDisabledDatesEnd, checkIn, checkOut, manageCheckIn, manageCheckOut, showAvailableCabins, reservationRange }) => {
 	const [isCheckInOpen, setIsCheckInOpen] = useState(false);
 	const [isCheckOutOpen, setIsCheckOutOpen] = useState(false);
-	const [disabledDatesEnd, setDisabledDatesEnd] = useState(disabledDatesEndBackup);
 
 	const isRangeValid = (start, end) => {
 		if (!start || !end) return true;
@@ -39,7 +37,7 @@ const SelectDates = ({ disabledDates, checkIn, checkOut, manageCheckIn, manageCh
 			if (!isSameDay(disabledDateEnd, date)) return true;
 			return false;
 		});
-		setDisabledDatesEnd(disabledDatesEndUpdated);
+		manageDisabledDatesEnd(disabledDatesEndUpdated);
 
 		// Reset Check-out if invalid
 		if (checkOut && (!isRangeValid(date, checkOut) || checkOut <= date)) {
