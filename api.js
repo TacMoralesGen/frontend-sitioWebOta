@@ -49,7 +49,6 @@ const getCabins = async () => await getData(URL_GET_CABANA)
 
 const createReservation = async data => await postData(URL_POST_RESERVA, data)
 
-const getReservations = async () => await postData(URL_GET_RESERVA)
-
+const getReservations = async () => await getData(URL_GET_RESERVA)
 
 export { createReservation, createCabana, getReservations, getCabins };
