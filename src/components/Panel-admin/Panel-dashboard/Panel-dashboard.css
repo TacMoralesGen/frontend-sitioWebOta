@@ -1,0 +1,24 @@
+.dashboard-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-card .card-body {
+  padding: 20px;
+  flex-grow: 1; /* Permite que el contenido crezca de manera uniforme */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Espaciado uniforme dentro de la tarjeta */
+}
+
+.dashboard-card .card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+}
