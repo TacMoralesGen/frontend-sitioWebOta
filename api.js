@@ -66,7 +66,29 @@ const createCabana = async data => await postData(URL_POST_CABANA, data)
 const updateCabana = async data => await patchData(URL_PATCH_CABANA, data)
 const getCabanas = async () => await getData(URL_GET_CABANA)
 
-const createReservation = async data => await postData(URL_POST_RESERVA, data)
+const createReservation = async (reservationData) => {
+	try {
+	  const response = await fetch("/api/reservation", {
+		method: "POST",
+		headers: {
+		  "Content-Type": "application/json",
+		},
+		// Se envuelve la data en la propiedad "reservation"
+		body: JSON.stringify({ reservation: reservationData }),
+	  });
+  
+	  if (!response.ok) {
+		const errorResponse = await response.json();
+		throw new Error(errorResponse.message || "Error al crear la reserva");
+	  }
+  
+	  const data = await response.json();
+	  return data;
+	} catch (error) {
+	  console.error("Error en createReservation:", error);
+	  throw error;
+	}
+  };
 
 const getReservations = async () => await getData(URL_GET_RESERVA)
 

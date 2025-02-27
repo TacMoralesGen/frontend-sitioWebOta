@@ -44,7 +44,7 @@ const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights, reserv
 
 const msgNoCabinSelected = "No ha seleccionado cabañas";
 
-const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelection, cabinsTypes }) => {
+const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelection, cabinsTypes, onConfirmReservation }) => {
 	const fechaEntrada = reservation.checkinDate;
 	const fechaSalida = reservation.checkoutDate;
 	const total = reservation.totalPrice;
@@ -116,7 +116,7 @@ const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelecti
 
 						{/* Botón de confirmación */}
 						<div className="mt-4 text-center">
-							<button type="button" className="btn btn-success opacity-50">
+							<button onClick = {onConfirmReservation} type="button" className="btn btn-success opacity-50 ">
 								Confirmar reserva
 							</button>
 						</div>
