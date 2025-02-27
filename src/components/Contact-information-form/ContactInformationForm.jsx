@@ -34,7 +34,6 @@ function ContactInformationForm({ reservation, onChange, errors, isSubmitted }) 
                 errors={errors}
                 isSubmitted={isSubmitted}
               />
-
               {/* Ejemplo de un campo directo aquí mismo (checkbox 'terms') */}
               <div className="form-check mb-3">
                 <input

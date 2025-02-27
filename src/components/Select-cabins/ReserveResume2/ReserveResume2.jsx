@@ -48,14 +48,14 @@ const ReserveResume2 = ({ reservationRange, qtyCabinsSelection, total, cabinsTyp
 	if (reservationRange.length === 0) {
 		return (
 			<section className="col-12 col-lg-4 ">
-				<div className="card p-0 d-flex align-items-center h-100">
+				<div className="card p-0 d-flex align-items-center h-100 rounded-0">
 					<h4 className=" my-auto">Resumen de la reserva</h4>
 				</div>
 			</section>
 		);
 	} else {
 		return (
-			<section className="col-12 col-lg-4 mb-4 card p-2">
+			<section className="col-12 col-lg-4 mb-4 card p-2 rounded-0">
 				<div className="card-body">
 					<h4 className="card-title">Resumen de la Reserva</h4>
 					<ul className="list-unstyled text-start">
@@ -117,7 +117,7 @@ const ReserveResume2 = ({ reservationRange, qtyCabinsSelection, total, cabinsTyp
 						<div className="mt-4">
 							<Link className={maxAdults(qtyCabinsSelection) === 0 ?
 								"to-checkout btn btn-primary d-flex align-items-center justify-content-center m-auto disabled" :
-								"to-checkout btn btn-primary d-flex align-items-center justify-content-center m-auto"}
+								"to-checkout btn btn-primary d-flex align-items-center justify-content-center m-auto white-text"}
 								to="/checkout" state={{ reservationRange: reservationRange, qtyCabinsSelection: qtyCabinsSelection }}>
 								<strong>Confirmar Reserva &gt;</strong>
 							</Link>

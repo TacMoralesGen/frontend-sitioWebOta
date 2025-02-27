@@ -22,7 +22,7 @@ const ReserveConfCard = () => {
                 Revise que tenga los fondos suficientes en su cuenta bancaria.
               </li>
               <li class="list-group-item">
-                Contacte su banco si el problema persiste.
+                Contacte a su banco si el problema persiste.
               </li>
             </ul>
             <a href="/retry" class="btn btn-danger mt-4 opacity-50">

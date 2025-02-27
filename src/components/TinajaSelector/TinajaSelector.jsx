@@ -20,7 +20,7 @@ const TinajaSelector = ({ cabinNumber, precioTinaja, manageFechasTinajas, fechas
   return (
     <div className="tinaja-selector">
       {/* <div className="mt-3"> */}
-        <p>Tinaja Caliente (CLP${numberWithDot(precioTinaja)} por uso)</p>
+        <p><strong>Tinaja Caliente</strong> (CLP${numberWithDot(precioTinaja)} por uso)</p>
       {/* </div> */}
       {(
         <div className="mt-3">
@@ -29,7 +29,7 @@ const TinajaSelector = ({ cabinNumber, precioTinaja, manageFechasTinajas, fechas
             {fechas.map((dia) => (
               <button 
                 key={dia+cabinNumber} 
-                className={`btn ${fechasSeleccionadas.findIndex(oldDia => isSameDay(oldDia, dia)) !== -1 ? 'btn-warning' : 'btn-light'}`} 
+                className={`btn ${fechasSeleccionadas.findIndex(oldDia => isSameDay(oldDia, dia)) !== -1 ? 'btn-primary' : 'btn-light'} m-1`} 
                 onClick={() => seleccionarDia(dia)}
               >
                 {`${format(dia,"dd")}-${MONTHSSHORT[format(dia,"MMMM")]}`}
