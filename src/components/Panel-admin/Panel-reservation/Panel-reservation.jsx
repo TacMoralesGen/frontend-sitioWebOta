@@ -1,541 +1,385 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSort } from "react-icons/fa";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import "react-datepicker/dist/react-datepicker.css";
-//import { getReservations } from "../../../../api";
+import PanelHeader from "../Panel-header/Panel-header";
+import { getReservations } from "../../../../api";
+import { Modal, Button } from "react-bootstrap";
+import { formatToChileanDateShort } from "../../../scripts/utils"
 
 const formatDate = (date) => {
-  if (!(date instanceof Date)) {
-    date = new Date(date);
-  }
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = String(date.getFullYear()).slice(-2);
-  return `${day}-${month}-${year}`;
+	if (!(date instanceof Date)) {
+		date = new Date(date);
+	}
+	const day = String(date.getDate()).padStart(2, "0");
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const year = String(date.getFullYear()).slice(-2);
+	return `${day}-${month}-${year}`;
 };
 
-const PanelReservation = ({ searchTerm, filter, startDate, endDate }) => {
-  const [sortColumn, setSortColumn] = useState(null);
-  const [sortDirection, setSortDirection] = useState("asc");
-  const [currentPage, setCurrentPage] = useState(1);
-  const reservationsPerPage = 10;
+const PanelReservation = () => {
+	const [searchTerm, setSearchTerm] = useState("");
+	const [filter, setFilter] = useState("all");
+	const [startDate, setStartDate] = useState(null);
+	const [endDate, setEndDate] = useState(null);
 
-  //  useEffect(() => {
-  //   const getData = async (apiUrl) => {
-  //   try {
-  //   const response = await fetch(apiUrl);
-  // const data = await response.json(); // Parseamos la respuesta del servidor
-  //if (!response.ok) {
-  //throw new Error(
-  // data.message || `Error al guardar en el servidor la data: ${data}`
-  //);
-  // }
-  //return data;
-  // } catch (error) {
-  // console.error("Error al enviar la data:", error);
-  //throw error; // Lanzamos el error para que sea manejado en el componente
-  // }
-  //};
+	const [sortColumn, setSortColumn] = useState(null);
+	const [sortDirection, setSortDirection] = useState("asc");
+	const [currentPage, setCurrentPage] = useState(1);
+	const [reservations, setReservations] = useState([]);
+	const [sortedReservations, setSortedReservations] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [filteredReservations, setFilteredReservations] = useState([]);
+	const [currentReservations, setCurrentReservations] = useState([]);
+	const [totalPages, setTotalPages] = useState(1);
+	
+	// New state for handling the detail modal
+	const [showDetailModal, setShowDetailModal] = useState(false);
+	const [selectedReservation, setSelectedReservation] = useState(null);
 
-  // getData();
-  //}, []);
+	const reservationsPerPage = 10;
 
-  const reservations = [
-    {
-      id: 1,
-      documentTypeClient: "RUT",
-      documentNumberClient: "14790916-0",
-      nameClient: "Maria Sol Gordo",
-      countryOfResidence: "Chile",
-      phoneClient: "+56956102829",
-      emailClient: "maria.sol.gordo@hotmail.com",
-      checkinDate: new Date(2025, 1, 3),
-      checkoutDate: new Date(2025, 1, 5),
-      statusReservation: "Completada",
-      totalPrice: 250_000,
-      notes: "Precios son más bajos, porque los precios subieron el 06/02",
-      detailCabins: [
-        {
-          cabin: 100,
-          qty: 2,
-          adults: 2,
-          children: 0,
-          mainGuest: "Daniel Jimenez",
-          datesHotTub: [new Date(2025, 1, 3), new Date(2025, 1, 4)],
-          priceCabin: 160_000, //precio mas bajo porque es antiguo (80.000 por noche, en vez de 91.900)
-          priceHotTub: 90_000, //45.000 * 2 usos de tinaja
-        },
-      ],
-    },
-    {
-      id: 2,
-      documentTypeClient: "Pasaporte",
-      documentNumberClient: "11527374-P",
-      nameClient: "Abderrahim Miranda",
-      countryOfResidence: "País Vasco",
-      phoneClient: "+9454827499",
-      emailClient: "abderrahim.miranda@hotmail.com",
-      checkinDate: new Date(2025, 1, 6),
-      checkoutDate: new Date(2025, 1, 8),
-      statusReservation: "Completada",
-      totalPrice: 228_800,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 102,
-          reservation: 2,
-          adults: 2,
-          children: 0,
-          mainGuest: "Hector Mendoza",
-          datesHotTub: [new Date(2025, 1, 6)],
-          priceCabin: 183_800,
-          priceHotTub: 60_000,
-        },
-      ],
-    },
-    {
-      id: 3,
-      documentTypeClient: "Pasaporte",
-      documentNumberClient: "44628399-P",
-      nameClient: "Jose Pablo Marcos",
-      countryOfResidence: "Uruguay",
-      phoneClient: "+59839462754",
-      emailClient: "jose.pablo.marcos@hotmail.com",
-      checkinDate: new Date(2025, 1, 6),
-      checkoutDate: new Date(2025, 1, 13),
-      statusReservation: "Confirmada",
-      totalPrice: 643_300,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 101,
-          reservation: 3,
-          adults: 2,
-          children: 0,
-          mainGuest: "Juan Ruiz",
-          datesHotTub: [],
-          priceCabin: 643_300,
-          priceHotTub: 0,
-        },
-      ],
-    },
-    {
-      id: 4,
-      documentTypeClient: "RUT",
-      documentNumberClient: "12329970-1",
-      nameClient: "Lorena Bustamante",
-      countryOfResidence: "Chile",
-      phoneClient: "+56956102829",
-      emailClient: "lorena.bustamante@hotmail.com",
-      checkinDate: new Date(2025, 1, 17),
-      checkoutDate: new Date(2025, 1, 19),
-      statusReservation: "Confirmada",
-      totalPrice: 273_800,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 102,
-          reservation: 4,
-          adults: 1,
-          children: 1,
-          mainGuest: "Patricio Mena",
-          datesHotTub: [new Date(2025, 1, 11), new Date(2025, 1, 12)],
-          priceCabin: 183_800,
-          priceHotTub: 90_000,
-        },
-      ],
-    },
-    {
-      id: 5,
-      documentTypeClient: "Pasaporte",
-      documentNumberClient: "93746154-L",
-      nameClient: "Gaizka Molero",
-      countryOfResidence: "España",
-      phoneClient: "+349A8242552",
-      emailClient: "gaizka.molero@hotmail.com",
-      checkinDate: new Date(2025, 1, 10),
-      checkoutDate: new Date(2025, 1, 14),
-      statusReservation: "Confirmada",
-      totalPrice: 367_600,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 103,
-          reservation: 5,
-          adults: 1,
-          children: 1,
-          mainGuest: "Luis Cardenas",
-          datesHotTub: [],
-          priceCabin: 367_600,
-          priceHotTub: 0,
-        },
-      ],
-    },
-    {
-      id: 6,
-      documentTypeClient: "Pasaporte",
-      documentNumberClient: "02916749-L",
-      nameClient: "Salma Cobo",
-      countryOfResidence: "España",
-      phoneClient: "+349A9313425",
-      emailClient: "salma.cobo@hotmail.com",
-      checkinDate: new Date(2025, 1, 10),
-      checkoutDate: new Date(2025, 1, 13),
-      statusReservation: "Confirmada",
-      totalPrice: 542_700,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 201,
-          reservation: 6,
-          adults: 2,
-          children: 2,
-          mainGuest: "Ruben Jimenez",
-          datesHotTub: [new Date(2025, 1, 10)],
-          priceCabin: 482_700,
-          priceHotTub: 60_000,
-        },
-      ],
-    },
-    {
-      id: 7,
-      documentTypeClient: "RUT",
-      documentNumberClient: "18592325-8",
-      nameClient: "Bernat Freire",
-      countryOfResidence: "Chile",
-      phoneClient: "+56956102829",
-      emailClient: "bernat.freire@hotmail.com",
-      checkinDate: new Date(2025, 1, 11),
-      checkoutDate: new Date(2025, 1, 14),
-      statusReservation: "Confirmada",
-      totalPrice: 1_508_100,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 202,
-          reservation: 7,
-          adults: 3,
-          children: 1,
-          mainGuest: "Alexander Perez",
-          datesHotTub: [new Date(2025, 1, 11)],
-          priceCabin: 482_700,
-          priceHotTub: 60_000,
-        },
-        {
-          cabin: 203,
-          reservation: 7,
-          adults: 3,
-          children: 1,
-          mainGuest: "Ximena Navarrete",
-          datesHotTub: [],
-          priceCabin: 482_700,
-          priceHotTub: 0,
-        },
-        {
-          cabin: 204,
-          reservation: 7,
-          adults: 2,
-          children: 2,
-          mainGuest: "Dayana Escuadro",
-          datesHotTub: [],
-          priceCabin: 482_700,
-          priceHotTub: 0,
-        },
-      ],
-    },
-    {
-      id: 8,
-      documentTypeClient: "Pasaporte",
-      documentNumberClient: "12345678-L",
-      nameClient: "Yanzhen Lou",
-      countryOfResidence: "China",
-      phoneClient: "130-8462-4710",
-      emailClient: "yanzhen.lou@hotmail.com",
-      checkinDate: new Date(2025, 1, 11),
-      checkoutDate: new Date(2025, 1, 16),
-      statusReservation: "Confirmada",
-      totalPrice: 984_500,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 205,
-          reservation: 8,
-          adults: 4,
-          children: 0,
-          mainGuest: "Mathew Cyr",
-          datesHotTub: [
-            new Date(2025, 1, 11),
-            new Date(2025, 1, 12),
-            new Date(2025, 1, 15),
-          ],
-          priceCabin: 804_500,
-          priceHotTub: 180_000,
-        },
-      ],
-    },
-    {
-      id: 9,
-      documentTypeClient: "Pasaporte",
-      documentNumberClient: "84027563-L",
-      nameClient: "Jere Lawson",
-      countryOfResidence: "EEUU",
-      phoneClient: "+1(408) 453-2425",
-      emailClient: "jere.lawson123@hotmail.com",
-      checkinDate: new Date(2025, 1, 9),
-      checkoutDate: new Date(2025, 1, 13),
-      statusReservation: "Confirmada",
-      totalPrice: 1_467_200,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 206,
-          reservation: 9,
-          adults: 4,
-          children: 0,
-          mainGuest: "Mandy Scott",
-          datesHotTub: [new Date(2025, 1, 9), new Date(2025, 1, 12)],
-          priceCabin: 643_600,
-          priceHotTub: 120_000,
-        },
-        {
-          cabin: 207,
-          reservation: 9,
-          adults: 2,
-          children: 2,
-          mainGuest: "Billy Mandy",
-          datesHotTub: [new Date(2025, 1, 12)],
-          priceCabin: 643_600,
-          priceHotTub: 60_000,
-        },
-      ],
-    },
-    {
-      id: 10,
-      documentTypeClient: "RUT",
-      documentNumberClient: "24018888-0",
-      nameClient: "Mario Cespedes",
-      countryOfResidence: "Chile",
-      phoneClient: "+56956102829",
-      emailClient: "mario.cespedes.corto@hotmail.com",
-      checkinDate: new Date(2025, 1, 10),
-      checkoutDate: new Date(2025, 1, 13),
-      statusReservation: "Confirmada",
-      totalPrice: 965_400,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 208,
-          reservation: 10,
-          adults: 4,
-          children: 0,
-          mainGuest: "Patrick Liu",
-          datesHotTub: [],
-          priceCabin: 482_700,
-          priceHotTub: 0,
-        },
-        {
-          cabin: 209,
-          reservation: 10,
-          adults: 3,
-          children: 0,
-          mainGuest: "Ho Chi Min",
-          datesHotTub: [],
-          priceCabin: 482_700,
-          priceHotTub: 0,
-        },
-      ],
-    },
-    {
-      id: 11,
-      documentTypeClient: "RUT",
-      documentNumberClient: "14790916-0",
-      nameClient: "Angela Maria Santos",
-      countryOfResidence: "Chile",
-      phoneClient: "+56956102829",
-      emailClient: "angel.mari.santo@hotmail.com",
-      checkinDate: new Date(2025, 1, 8),
-      checkoutDate: new Date(2025, 1, 14),
-      statusReservation: "Confirmada",
-      totalPrice: 1_726_800,
-      notes: "",
-      detailCabins: [
-        {
-          cabin: 210,
-          reservation: 11,
-          adults: 2,
-          children: 2,
-          mainGuest: "Sayid Mohammed",
-          datesHotTub: [new Date(2025, 1, 8), new Date(2025, 1, 13)],
-          priceCabin: 965_400,
-          priceHotTub: 120_000,
-        },
-        {
-          cabin: 102,
-          reservation: 11,
-          adults: 2,
-          children: 0,
-          mainGuest: "Doña Florinda",
-          datesHotTub: [new Date(2025, 1, 8), new Date(2025, 1, 13)],
-          priceCabin: 551_400,
-          priceHotTub: 90_000,
-        },
-      ],
-    },
-  ];
+	const getQtyCabins = (cabinType, cabinList) => {
+		let count = 0;
+		for (const cabin of cabinList){
+			if (cabin.typeName === cabinType) count++
+		}
+		return count
+	}
 
-  const handleSort = (column) => {
-    const newDirection =
-      sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
-    setSortColumn(column);
-    setSortDirection(newDirection);
-  };
+	useEffect(() => {
+		const fetchReservations = async () => {
+			try {
+				setLoading(true);
+				let { reservations }  = await getReservations();
+				reservations = reservations.map((reservation) => {return {...reservation, "Tiny Cabin": getQtyCabins("Tiny Cabin", reservation.reservationCabins), "Couple Room": getQtyCabins("Couple Room", reservation.reservationCabins)}})
+				setReservations(reservations);
+				// console.log("Fetched reservations:", reservations);
+				setError(null);
+			} catch (err) {
+				setError(err.message);
+				// console.error("Error al obtener las reservas:", err);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchReservations();
+	}, []);
 
-  const filteredReservations = reservations
-    .filter((res) =>
-      filter === "all"
-        ? true
-        : res.statusReservation.toLowerCase() === filter.toLowerCase()
-    )
-    .filter((res) =>
-      res.nameClient.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((res) => {
-      if (!startDate || !endDate) return true;
-      const checkInDate = new Date(res.checkinDate);
-      return checkInDate >= startDate && checkInDate <= endDate;
-    });
+	useEffect(() => {
+		if (!loading && reservations.length > 0) {
+			// console.log("Filtering reservations. Current filters:", { filter, searchTerm, startDate, endDate });
+			
+			const newFilteredReservations = reservations
+				.filter((res) => (filter === "all" ? true : res.statusReservation.toLowerCase() === filter.toLowerCase()))
+				.filter((res) => res.nameClient.toLowerCase().includes(searchTerm.toLowerCase()))
+				.filter((res) => {
+					if (!startDate || !endDate) return true; // Don't filter by date if either date is not set
+					const checkInDate = new Date(res.checkinDate);
+					return checkInDate >= startDate && checkInDate <= endDate;
+				});
+			
+			// console.log("Filtered reservations:", newFilteredReservations.length);
+			setFilteredReservations(newFilteredReservations);
+			
+			// Reset to first page when filters change
+			setCurrentPage(1);
+		} else if (!loading) {
+			// If we have no reservations but we're not loading, set filtered to empty array
+			setFilteredReservations([]);
+		}
+	}, [reservations, startDate, endDate, filter, searchTerm, loading]);
 
-  const getSortedReservations = () => {
-    if (!sortColumn) return filteredReservations;
-    return [...filteredReservations].sort((a, b) => {
-      let aValue = a[sortColumn];
-      let bValue = b[sortColumn];
+	useEffect(() => {
+		const getSortedReservations = () => {
+			if (!sortColumn || !filteredReservations.length) return filteredReservations;
+			return [...filteredReservations].sort((a, b) => {
+				let aValue, bValue;
+				
+				// Handle nested properties
+				if (sortColumn.includes('.') || sortColumn.includes('[')) {
+					const parts = sortColumn.split(/[\.\[\]]+/).filter(Boolean);
+					aValue = a;
+					bValue = b;
+					
+					for (const part of parts) {
+						aValue = aValue && typeof aValue === 'object' ? aValue[part] : undefined;
+						bValue = bValue && typeof bValue === 'object' ? bValue[part] : undefined;
+					}
+				} else {
+					aValue = a[sortColumn];
+					bValue = b[sortColumn];
+				}
+				
+				if (sortColumn === "checkinDate" || sortColumn === "checkoutDate") {
+					aValue = aValue ? new Date(aValue) : new Date(0);
+					bValue = bValue ? new Date(bValue) : new Date(0);
+				}
+				
+				if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+				if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+				return 0;
+			});
+		};
+		
+		if (!loading) {
+			const newSortedReservations = getSortedReservations();
+			// console.log("Sorted reservations:", newSortedReservations.length);
+			setSortedReservations(newSortedReservations);
+			setTotalPages(Math.max(1, Math.ceil(newSortedReservations.length / reservationsPerPage)));
+		}
+	}, [filteredReservations, sortColumn, sortDirection, loading]);
 
-      if (sortColumn === "checkinDate" || sortColumn === "checkoutDate") {
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
-      }
+	useEffect(() => {
+		if (!loading) {
+			const indexOfLastReservation = currentPage * reservationsPerPage;
+			const indexOfFirstReservation = indexOfLastReservation - reservationsPerPage;
+			const newCurrentReservations = sortedReservations.slice(indexOfFirstReservation, indexOfLastReservation);
+			// console.log("Current page reservations:", newCurrentReservations.length);
+			setCurrentReservations(newCurrentReservations);
+		}
+	}, [currentPage, sortedReservations, loading]);
 
-      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
-      return 0;
-    });
-  };
+	const handleSort = (column) => {
+		const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+		setSortColumn(column);
+		setSortDirection(newDirection);
+	};
 
-  const sortedReservations = getSortedReservations();
-  const indexOfLastReservation = currentPage * reservationsPerPage;
-  const indexOfFirstReservation = indexOfLastReservation - reservationsPerPage;
-  const currentReservations = sortedReservations.slice(
-    indexOfFirstReservation,
-    indexOfLastReservation
-  );
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const totalPages = Math.ceil(sortedReservations.length / reservationsPerPage);
+	const exportToPDF = () => {
+		const doc = new jsPDF();
+		doc.text("Historial de Reservas", 14, 15);
 
-  // 2. Función para exportar a PDF
-  const exportToPDF = () => {
-    const doc = new jsPDF();
-    doc.text("Historial de Reservas", 14, 15);
+		autoTable(doc, {
+			startY: 20,
+			head: [["Huésped", "ID", "Cabaña", "Check-In", "Check-Out", "Estado"]],
+			body: reservations.map((res) => [
+				res.nameClient, 
+				res.id, 
+				res.detailCabins && res.detailCabins[0] ? res.detailCabins[0].cabin : 'N/A', 
+				formatDate(res.checkinDate), 
+				formatDate(res.checkoutDate), 
+				res.statusReservation
+			]),
+		});
 
-    autoTable(doc, {
-      startY: 20,
-      head: [["Huésped", "ID", "Cabaña", "Check-In", "Check-Out", "Estado"]],
-      body: reservations.map((res) => [
-        res.nameClient,
-        res.id,
-        res.detailCabins[0].cabin,
-        formatDate(res.checkinDate),
-        formatDate(res.checkoutDate),
-        res.statusReservation,
-      ]),
-    });
+		doc.save("Historial_Reservas.pdf");
+	};
 
-    doc.save("Historial_Reservas.pdf");
-  };
+	// Function to handle showing reservation detail
+	const handleShowDetail = (reservation) => {
+		setSelectedReservation(reservation);
+		setShowDetailModal(true);
+	};
 
-  return (
-    <section className="container-fluid mt-4">
-      <div className="table-responsive">
-        <table className="table table-hover table-striped w-100">
-          <thead className="table-success">
-            <tr>
-              <th onClick={() => handleSort("nameClient")}>
-                Huésped <FaSort />
-              </th>
-              <th onClick={() => handleSort("id")}>
-                ID <FaSort />
-              </th>
-              <th onClick={() => handleSort("detailCabins[0].cabin")}>
-                Cabaña <FaSort />
-              </th>
-              <th onClick={() => handleSort("checkinDate")}>
-                Check-In <FaSort />
-              </th>
-              <th onClick={() => handleSort("checkoutDate")}>
-                Check-Out <FaSort />
-              </th>
-              <th onClick={() => handleSort("statusReservation")}>
-                Estado <FaSort />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentReservations.map((res, index) => (
-              <tr key={index}>
-                <td>{res.nameClient}</td>
-                <td>{res.id}</td>
-                <td>{res.detailCabins[0].cabin}</td>
-                <td>{formatDate(res.checkinDate)}</td>
-                <td>{formatDate(res.checkoutDate)}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      res.statusReservation === "Pendiente"
-                        ? "bg-warning"
-                        : res.statusReservation === "Confirmada"
-                        ? "bg-success"
-                        : res.statusReservation === "Completada"
-                        ? "bg-secondary"
-                        : "bg-danger"
-                    }`}
-                  >
-                    {res.statusReservation}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+	// Function to close the detail modal
+	const handleCloseDetail = () => {
+		setShowDetailModal(false);
+		setSelectedReservation(null);
+	};
 
-      <nav>
-        <ul className="pagination justify-content-center">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <li
-              key={index}
-              className={`page-item ${
-                currentPage === index + 1 ? "active" : ""
-              }`}
-            >
-              <button className="page-link" onClick={() => paginate(index + 1)}>
-                {index + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
+	return loading ? (
+		<section className="container-fluid mt-4">
+			<div className="spinner-border text-primary" role="status"></div>
+			<span>Cargando...</span>
+		</section>
+	) : (
+		<section className="container-fluid mt-4">
+			<PanelHeader 
+				searchTerm={searchTerm} 
+				setSearchTerm={setSearchTerm} 
+				filter={filter} 
+				setFilter={setFilter} 
+				setStartDate={setStartDate} 
+				setEndDate={setEndDate} 
+				startDate={startDate} 
+				endDate={endDate} 
+			/>
 
-      {/* Botón de exportar PDF */}
-      <div className="d-flex justify-content-end mt-3">
-        <button className="btn btn-primary text-white" onClick={exportToPDF}>
-          Exportar PDF
-        </button>
-      </div>
-    </section>
-  );
+			{error && (
+				<div className="alert alert-danger" role="alert">
+					Error: {error}
+				</div>
+			)}
+
+			{!error && sortedReservations.length === 0 ? (
+				<div className="alert alert-info" role="alert">
+					No se encontraron reservas con los criterios de búsqueda.
+				</div>
+			) : (
+				<>
+					<div className="table-responsive">
+						<table className="table table-hover table-striped w-100">
+							<thead className="table-success">
+								<tr>
+									<th onClick={() => handleSort("numReservation")}>
+										Num <FaSort />
+									</th>
+									<th onClick={() => handleSort("nameClient")}>
+										Cliente <FaSort />
+									</th>
+									<th onClick={() => handleSort("Tiny Cabin")}>
+										Cabañas reservadas <FaSort />
+									</th>
+									<th onClick={() => handleSort("checkinDate")}>
+										Check-In <FaSort />
+									</th>
+									<th onClick={() => handleSort("checkoutDate")}>
+										Check-Out <FaSort />
+									</th>
+									<th onClick={() => handleSort("statusReservation")}>
+										Estado <FaSort />
+									</th>
+									<th>
+										Detalle
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{currentReservations && currentReservations.map((res, index) => (
+									<tr key={index}>
+										<td>{res.numReservation}</td>
+										<td>{res.nameClient}</td>
+										<td>{`Tiny C.: ${res["Tiny Cabin"]} | Couple R.: ${res["Couple Room"]}`}</td>
+										<td>{formatDate(res.checkinDate)}</td>
+										<td>{formatDate(res.checkoutDate)}</td>
+										<td>
+											<span className={`badge ${
+												res.statusReservation === "Pendiente" 
+													? "bg-warning" 
+													: res.statusReservation === "Confirmada" 
+														? "bg-success" 
+														: res.statusReservation === "Completada" 
+															? "bg-secondary" 
+															: "bg-danger"
+											}`}>
+												{res.statusReservation}
+											</span>
+										</td>
+										<td>
+											<Button 
+												variant="primary" 
+												size="sm" 
+												onClick={() => handleShowDetail(res)}
+											>
+												Ver Detalle
+											</Button>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+
+					<nav>
+						<ul className="pagination justify-content-center">
+							{Array.from({ length: totalPages }, (_, index) => (
+								<li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+									<button className="page-link" onClick={() => paginate(index + 1)}>
+										{index + 1}
+									</button>
+								</li>
+							))}
+						</ul>
+					</nav>
+
+					<div className="d-flex justify-content-end mt-3">
+						<button className="btn btn-primary text-white" onClick={exportToPDF}>
+							Exportar PDF
+						</button>
+					</div>
+
+					{/* Detail Modal */}
+					<Modal show={showDetailModal} onHide={handleCloseDetail} size="lg">
+						<Modal.Header closeButton>
+							<Modal.Title>
+								Detalle de Reserva #{selectedReservation?.numReservation}
+							</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>
+							{selectedReservation && (
+								<div>
+									<h5>Información de Cliente</h5>
+									<div className="row mb-3">
+										<div className="col-md-6">
+											<p><strong>Nombre:</strong> {selectedReservation.nameClient}</p>
+											<p><strong>Documento:</strong> {selectedReservation.documentTypeClient} {selectedReservation.documentNumberClient}</p>
+											<p><strong>País:</strong> {selectedReservation.countryOfResidence}</p>
+										</div>
+										<div className="col-md-6">
+											<p><strong>Teléfono:</strong> {selectedReservation.phoneClient}</p>
+											<p><strong>Email:</strong> {selectedReservation.emailClient}</p>
+											<p><strong>Precio Total:</strong> ${selectedReservation.totalPrice.toLocaleString()}</p>
+										</div>
+									</div>
+
+									<h5>Cabañas Reservadas</h5>
+									<div className="table-responsive">
+										<table className="table table-bordered">
+											<thead className="table-light">
+												<tr>
+													<th>Cabaña</th>
+													<th>Tipo</th>
+													<th>Huésped Principal</th>
+													<th>Adultos</th>
+													<th>Niños</th>
+													<th>Precio</th>
+													<th>Tinaja</th>
+													<th>Fechas Tinaja</th>
+												</tr>
+											</thead>
+											<tbody>
+												{selectedReservation.reservationCabins.map((cabin, idx) => (
+													<tr key={idx}>
+														<td>{cabin.number}</td>
+														<td>{cabin.typeName}</td>
+														<td>{cabin.caGuest}</td>
+														<td>{cabin.adults}</td>
+														<td>{cabin.childrens}</td>
+														<td>${cabin.priceCabin.toLocaleString()}</td>
+														<td>
+															{cabin.datesHotTub && cabin.datesHotTub.length > 0 ? (
+																<>
+																	<span className="badge bg-success me-2">Sí</span>
+																	${cabin.priceHotTub.toLocaleString()}
+																</>
+															) : (
+																<span className="badge bg-secondary">No</span>
+															)}
+														</td>
+                            <td>{cabin.datesHotTub.map((date) => {
+                              return formatToChileanDateShort(date)
+                            }).join(", ")}</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
+
+									{selectedReservation.notes && (
+										<>
+											<h5>Notas</h5>
+											<div className="alert alert-info">
+												{selectedReservation.notes}
+											</div>
+										</>
+									)}
+								</div>
+							)}
+						</Modal.Body>
+						<Modal.Footer>
+							<Button variant="secondary" onClick={handleCloseDetail}>
+								Cerrar
+							</Button>
+						</Modal.Footer>
+					</Modal>
+				</>
+			)}
+		</section>
+	);
 };
 
 export default PanelReservation;

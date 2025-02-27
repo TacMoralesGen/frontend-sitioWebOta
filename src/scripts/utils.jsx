@@ -118,6 +118,10 @@ export function isHotTubDateSelected (reservationCabins) {
 export function formatToChileanDate (date) {
 	return `${format(date, "dd")} de ${MONTHS[format(date, "MMMM")]}, ${format(date, "yyyy")}`;
 };
+//Formate para 01 de Enero, 2025 
+export function formatToChileanDateShort (date) {
+	return `${format(date, "dd")}-${format(date, "MM")}`;
+};
 //obtiene el subtotal (priceHotTub + priceCabin) de la cabaña con el numero cabinNumber 
 export function getSubTotal (cabinNumber, reservationCabins) {
 	console.log("cabinNumber", cabinNumber);
@@ -287,3 +291,15 @@ export function getCabinsAvailableInRangeByType (reservationRange, cabinsAvailab
   }
   return minAvailableInRangeByType;
 };
+
+export function getChangedValues(oldObj, newObj) {
+  let changes = {};
+
+  for (let key in newObj) {
+    if (newObj[key] !== oldObj[key]) {
+      changes[key] = newObj[key]; // Store only changed values
+    }
+  }
+
+  return changes;
+}

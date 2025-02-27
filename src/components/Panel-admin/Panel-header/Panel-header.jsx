@@ -14,9 +14,11 @@ const PanelHeader = ({
   startDate,
   endDate,
 }) => {
+
+
   useEffect(() => {
-    const today = new Date();
-    const twoMonthsLater = new Date();
+    const today = new Date(2025,1,8);
+    const twoMonthsLater = new Date(today);
     twoMonthsLater.setMonth(today.getMonth() + 2);
 
     setStartDate(today);
@@ -32,8 +34,7 @@ const PanelHeader = ({
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light p-3 shadow container-fluid w-100 mb-3">
-      <h1 className="navbar-brand">Búsqueda</h1>
-      <div className="d-flex ms-auto gap-3">
+      <div className="d-flex ms-auto gap-3 ">
         <input
           type="text"
           className="form-control"
