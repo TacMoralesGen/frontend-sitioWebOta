@@ -198,6 +198,12 @@ export function getCabinsActiveByType (cabinsTypes, cabinsActive) {
   return qtyCabinsAvailableByType;
 };
 // Función para obtener la ocupación de cabañas por fecha
+// [02/02/2025]:
+//    Tiny Cabin: 3
+//    Couple Room: 2
+// [03/02/2025]:
+//    Tiny Cabin: 5
+//    Couple Room: 7
 export function getCabinsOccupancyByDate (cabinsTypes, cabinsActive) {
   const reservationsMap = new Map();
   cabinsActive.forEach((cabin) => {
@@ -255,6 +261,12 @@ export function generateCabinSelectionEmpty (cabinsTypes) {
   return selection;
 };
 // Función para obtener las cabañas disponibles en un rango de fechas por tipo
+// [02/02/2025]:
+//    Tiny Cabin: 7
+//    Couple Room: 8
+// [03/02/2025]:
+//    Tiny Cabin: 5
+//    Couple Room: 7
 export function getCabinsAvailableInRangeByType (reservationRange, cabinsAvailabilityByDate, cabinsTypes, cabinsActiveByType) {
   const reservationRangeString = [];
   reservationRange.forEach((date) => reservationRangeString.push(dateToString(date)));

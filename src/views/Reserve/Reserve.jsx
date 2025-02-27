@@ -12,7 +12,7 @@ import "../../customBootstrap.css";
 import "./reserve.css";
 
 import { getDatesBetween, getTotalReserve } from "../../scripts/utils";
-import { getCabins } from "../../../api"
+import { getCabanas } from "../../../api"
 import {
 	getCabinsTypes,
 	getActiveCabins,
@@ -52,7 +52,7 @@ const Reserve = () => {
 		const fetchCabins = async () => {
 			try {
 				setLoading(true);
-				const { cabins } = await getCabins();
+				const { cabins } = await getCabanas();
 				setCabins(cabins);
 				setError(null);
 			} catch (err) {
