@@ -32,8 +32,8 @@ const ReserveDetails = ({
   const toggleDetalles = () => setIsOpen(!isOpen);
 
   return (
-    <div className="col mb-3">
-      <div className="card rounded-0">
+    <div className="col mb-2">
+      <div className="card rounded-0 p-2">
         <div className="card-body text-start">
           <h3 className="card-title fw-bold">Detalle de la reserva - {nombreHabitacion}</h3>
 

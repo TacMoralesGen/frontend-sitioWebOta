@@ -87,9 +87,9 @@ function ContactInformationForm() {
 
     return (
         <div className="container">
-            <div className="row justify-content-left">
+            <div className="row justify-content-left p-2">
                 <div className="col-md-8">
-                    <div className="card p- rounded-0">
+                    <div className="card rounded-0">
                         <h2 className="mb-4 fw-bold">Datos de contacto</h2>
                         <form
                             id="contactForm"

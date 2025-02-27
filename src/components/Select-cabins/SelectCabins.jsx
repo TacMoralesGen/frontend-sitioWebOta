@@ -33,7 +33,7 @@ const SelectCabins = ({ reservationRange, cabinsTypes, qtyCabinsSelection, manag
 	if (reservationRange.length === 0) {
 		return (
 			<section className="col-12 col-lg-8 ps-0">
-				<div className="card p-0 d-flex align-items-center h-100">
+				<div className="card p-0 d-flex align-items-center h-100 rounded-0">
 					<h4 className="my-auto py-4">Aquí se desplegarán las cabañas disponibles.</h4>
 				</div>
 			</section>
@@ -41,7 +41,7 @@ const SelectCabins = ({ reservationRange, cabinsTypes, qtyCabinsSelection, manag
 	} else {
 		return (
 			<section className="col-12 col-lg-8 ps-0">
-				<div key={"ASDASDASDASD"} className="card p-2 d-flex align-items-center">
+				<div key={"ASDASDASDASD"} className="card p-2 d-flex align-items-center rounded-0">
 					{generateSelectCabins(cabinsTypes, cabinsAvailabilityByDateInRange)}
 				</div>
 			</section>

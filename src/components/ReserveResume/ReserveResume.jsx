@@ -55,7 +55,7 @@ const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelecti
 	return (
 			<div className="card p-2 rounded-0">
 				<div className="card-body">
-					<h4 className="card-title"><strong>Resumen de la Reserva</strong></h4>
+					<h4 className="card-title fw-bold">Resumen de la Reserva</h4>
 					<ul className="list-unstyled text-start">
 						<li>
 							<strong>Fecha de reserva:</strong>
@@ -127,3 +127,5 @@ const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelecti
 };
 
 export default ReserveResume;
+
+//Detalle de la reserva antes del pago. 
