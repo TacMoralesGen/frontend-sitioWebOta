@@ -45,10 +45,10 @@ const getData = async (apiUrl) => {
 
 const createCabana = async data => await postData(URL_POST_CABANA, data)
 
-const getCabins = async () => await getData(URL_GET_CABANA)
+const getCabanas = async () => await getData(URL_GET_CABANA)
 
 const createReservation = async data => await postData(URL_POST_RESERVA, data)
 
 const getReservations = async () => await getData(URL_GET_RESERVA)
 
-export { createReservation, createCabana, getReservations, getCabins };
+export { createReservation, createCabana, getReservations, getCabanas };

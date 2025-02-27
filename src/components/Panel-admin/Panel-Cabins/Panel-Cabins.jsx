@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaHome,
   FaCheckCircle,
@@ -9,23 +9,47 @@ import {
   FaPlus,
 } from "react-icons/fa";
 import { Modal, Button, Form } from "react-bootstrap";
+import { createCabana, getCabanas } from "../../../../api"
 
-const PanelCabins = ({ cabins: initialCabins = [] }) => {
-  const [cabins, setCabins] = useState(initialCabins);
+const PanelCabins = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [currentCabin, setCurrentCabin] = useState(null);
+  const [cabins, setCabins] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+
+  function manageCabins(){
+    const fetchCabins = async () => {
+			try {
+				setLoading(true);
+				const { cabins } = await getCabanas();
+				setCabins(cabins);
+				setError(null);
+			} catch (err) {
+				setError(err.message);
+				console.error("Error al obtener la disponibilidad de las cabañas:", err);
+			} finally {
+				setTimeout(() => {
+					setLoading(false);}, 1*1000
+				)
+				// setLoading(false);
+			}
+		};
+		fetchCabins();
+  }
+	// Efecto para cargar los datos de la API
+	useEffect(() => {
+		manageCabins()
+	}, []);
 
   const getStatusInfo = (status) => {
     switch (status) {
-      case "disponible":
+      case "Activa":
         return { color: "bg-success", icon: <FaCheckCircle /> };
-      case "reservada":
+      case "Inactiva":
         return { color: "bg-secondary", icon: <FaClock /> };
-      case "ocupada":
-        return { color: "bg-danger", icon: <FaTimesCircle /> };
-      default:
-        return { color: "bg-secondary", icon: <FaHome /> };
     }
   };
 
