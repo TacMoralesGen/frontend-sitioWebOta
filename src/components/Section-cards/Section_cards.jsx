@@ -16,7 +16,7 @@ const SectionCards = () => {
             <div className="col-12 col-md-8 col-lg-6 mb-6 mt-4">
               <div className="card custom-card h-100 w-100 d-flex flex-column">
                 <div className="card-body d-flex flex-column flex-grow-1">
-                  <h3 className="card-title"><strong>Sobre nuestras cabañas</strong></h3>
+                  <h3 className="card-left"><strong>Sobre nuestras cabañas</strong></h3>
                   <p className="card-text">
                     La aventura te espera en una de nuestras exclusivas «Tini Cabins». Técnicamente son casas de 25m2 de superficie, minimalista y de gran calidad para garantizarle una experiencia y estadía inolvidables.</p>
                   <a href="#" className="btn btn-link border border-primary btn-custom mt-auto">
@@ -30,7 +30,7 @@ const SectionCards = () => {
               <div className="card custom-card h-100 w-100 d-flex flex-column">
                 <div className="card-body d-flex flex-column flex-grow-1">
                   <h3 className="card-title"><strong>Actividades y atracciones</strong></h3>
-                  <p className="card-text">
+                  <p className="card-right">
                     ¿Qué ha pensado hacer cuando se encuentre rodeado de las maravillas de la Patagonia Chilena?
                     Haga Click en el botón de abajo para descubrir algunas de las tantas actividades y atractivos turísticos disponibles en nuestra zona.
                   </p>

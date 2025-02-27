@@ -29,17 +29,17 @@ const Guests = ({ cabinNumber, tipoCabana, manageGuests }) => {
   // }, [adultos, ninos, actualizarHuespedes]); //???
 
   return (
-    <div className="col-md-6">
+    <div className="col-md-6 mt-4">
       <div className="d-flex justify-content-between">
-        <div>
-          <label>Adultos</label>
-          <select onChange={handleAdultosChange}>
+        <div className='d-flex flex-column w-50 me-2  '>
+          <label className='form-label fw-bold'>Adultos</label>
+          <select className='form-select' onChange={handleAdultosChange}>
             {generateNumberOptionsElements(1,2)}
           </select>
         </div>
-        <div>
-          <label>Niños</label>
-          <select onChange={handleNinosChange}>
+        <div className='d-flex flex-column w-50'>
+          <label className='form-label fw-bold'>Niños</label>
+          <select className='form-select' onChange={handleNinosChange}>
             {generateNumberOptionsElements(0, maxNinos)}
           </select>
         </div>

@@ -89,8 +89,8 @@ function ContactInformationForm() {
         <div className="container">
             <div className="row justify-content-left">
                 <div className="col-md-8">
-                    <div className="card p-4">
-                        <h1 className="mb-4">Datos de contacto</h1>
+                    <div className="card p- rounded-0">
+                        <h2 className="mb-4 fw-bold">Datos de contacto</h2>
                         <form
                             id="contactForm"
                             className={`needs-validation ${isSubmitted ? 'was-validated' : ''}`}
@@ -101,7 +101,7 @@ function ContactInformationForm() {
                             <LocationInfo formData={formData} handleChange={handleChange} formValidated={isSubmitted} />
                             <AdditionalInfo formData={formData} handleChange={handleChange} />
 
-                            <div className="form-check mb-3">
+                            <div className="form-check mb-3 ">
                                 <input
                                     type="checkbox"
                                     id="terminos"
@@ -117,7 +117,7 @@ function ContactInformationForm() {
                                 {errors.terms && <div className="invalid-feedback">{errors.terms}</div>}
                             </div>
 
-                            <button type="submit" className="btn btn-success w-100">
+                            <button type="submit" className="btn btn-primary text-white w-100">
                                 Enviar
                             </button>
                         </form>

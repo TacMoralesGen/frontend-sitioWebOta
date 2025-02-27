@@ -29,7 +29,7 @@ const Home = () => {
         imgSrc={img3}
         subtitle="Explora las posibilidades"
         title="Redescubre la naturaleza"
-        description="Nuestras exclusivas 'Tini Cabins' ubicadas estratégicamente en el Lago General Carrera, le permitirán conectarse consigo mismo de una manera única e inolvidable. <br> Despierte su creatividad y sumérjase en un mundo de posibilidades limitado únicamente con su imaginación."
+        description="Nuestras exclusivas 'Tini Cabins' ubicadas estratégicamente en el Lago General Carrera, le permitirán conectarse consigo mismo de una manera única e inolvidable. Despierte su creatividad y sumérjase en un mundo de posibilidades limitado únicamente con su imaginación."
         btnText="Acerca de la ubicación"
         overlayText="Ubicación"
         reverse={true}  // Invertir la posición de la imagen y el texto

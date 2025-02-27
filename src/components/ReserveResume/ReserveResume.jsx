@@ -53,9 +53,9 @@ const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelecti
 	const totalCabins = reservationCabins.length;
 
 	return (
-			<div className="card p-2">
+			<div className="card p-2 rounded-0">
 				<div className="card-body">
-					<h4 className="card-title">Resumen de la Reserva</h4>
+					<h4 className="card-title"><strong>Resumen de la Reserva</strong></h4>
 					<ul className="list-unstyled text-start">
 						<li>
 							<strong>Fecha de reserva:</strong>
@@ -116,8 +116,8 @@ const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelecti
 
 						{/* Botón de confirmación */}
 						<div className="mt-4 text-center">
-							<button type="button" className="btn btn-success opacity-50">
-								Confirmar reserva
+							<button type="button" className="btn btn-primary text-white">
+								<strong>Confirmar reserva</strong>
 							</button>
 						</div>
 					</ul>
