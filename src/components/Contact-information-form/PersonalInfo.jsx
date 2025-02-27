@@ -8,8 +8,8 @@ function PersonalInfo({ formData, handleChange, errors }) {
                 <input
                     type="text"
                     className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-                    id="name"
-                    name="name"
+                    id="nameClient"
+                    name="nameClient"
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -22,8 +22,8 @@ function PersonalInfo({ formData, handleChange, errors }) {
                 <input
                     type="email"
                     className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                    id="email"
-                    name="email"
+                    id="emailClient"
+                    name="emailClient"
                     value={formData.email}
                     onChange={handleChange}
                     required
@@ -36,8 +36,8 @@ function PersonalInfo({ formData, handleChange, errors }) {
                 <input
                     type="tel"
                     className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-                    id="phone"
-                    name="phone"
+                    id="phoneClient"
+                    name="phoneClient"
                     value={formData.phone}
                     onChange={handleChange}
                     required

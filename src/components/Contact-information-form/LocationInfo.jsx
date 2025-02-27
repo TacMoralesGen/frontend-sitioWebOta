@@ -7,8 +7,8 @@ function LocationInfo({ formData, handleChange, formValidated }) {
                 <label htmlFor="country" className="form-label">País de residencia *</label>
                 <select
                     className={`form-select ${formValidated && !formData.country ? 'is-invalid' : ''}`}
-                    id="country"
-                    name="country"
+                    id="countryOfResidence"
+                    name="countryOfResidence"
                     value={formData.country}
                     onChange={handleChange}
                     required

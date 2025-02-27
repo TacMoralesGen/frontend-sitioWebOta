@@ -7,8 +7,8 @@ function AdditionalInfo({ formData, handleChange }) {
                 <label htmlFor="message" className="form-label">Información Adicional</label>
                 <textarea
                     className="form-control"
-                    id="message"
-                    name="message"
+                    id="notes"
+                    name="notes"
                     value={formData.message}
                     onChange={handleChange}
                 ></textarea>

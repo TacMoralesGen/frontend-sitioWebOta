@@ -1,326 +1,385 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSort } from "react-icons/fa";
-import "react-datepicker/dist/react-datepicker.css";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import PanelHeader from "../Panel-header/Panel-header";
+import { getReservations } from "../../../../api";
+import { Modal, Button } from "react-bootstrap";
+import { formatToChileanDateShort } from "../../../scripts/utils"
 
-const formatDate = (dateString) => {
-  const [year, month, day] = dateString.split("-");
-  return `${day}-${month}-${year.slice(-2)}`;
+const formatDate = (date) => {
+	if (!(date instanceof Date)) {
+		date = new Date(date);
+	}
+	const day = String(date.getDate()).padStart(2, "0");
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const year = String(date.getFullYear()).slice(-2);
+	return `${day}-${month}-${year}`;
 };
 
-const PanelReservation = ({ searchTerm, filter, startDate, endDate }) => {
-  const [sortColumn, setSortColumn] = useState(null);
-  const [sortDirection, setSortDirection] = useState("asc");
-  const [currentPage, setCurrentPage] = useState(1);
-  const reservationsPerPage = 10;
-  const reservations = [
-    {
-      id: 101,
-      guest: "Carlos Sánchez",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-02-14",
-      checkOut: "2025-02-16",
-      status: "Pendiente",
-    },
-    {
-      id: 102,
-      guest: "Ana Rodríguez",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-03-18",
-      checkOut: "2025-03-19",
-      status: "Confirmado",
-    },
-    {
-      id: 103,
-      guest: "Luis Pérez",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-04-05",
-      checkOut: "2025-04-08",
-      status: "Confirmado",
-    },
-    {
-      id: 104,
-      guest: "Sofía Gómez",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-05-10",
-      checkOut: "2025-05-14",
-      status: "Pendiente",
-    },
-    {
-      id: 105,
-      guest: "Marcos Díaz",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-06-20",
-      checkOut: "2025-06-25",
-      status: "Pendiente",
-    },
-    {
-      id: 106,
-      guest: "Laura Martínez",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-07-12",
-      checkOut: "2025-07-14",
-      status: "Cancelado",
-    },
-    {
-      id: 107,
-      guest: "Juan Fernández",
-      cabin: "Tiny Cabin",
-      checkIn: "2024-08-01",
-      checkOut: "2024-08-02",
-      status: "Finalizado",
-    },
-    {
-      id: 108,
-      guest: "María López",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-09-15",
-      checkOut: "2025-09-17",
-      status: "Confirmado",
-    },
-    {
-      id: 109,
-      guest: "Pedro Ramírez",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-10-10",
-      checkOut: "2025-10-12",
-      status: "Pendiente",
-    },
-    {
-      id: 110,
-      guest: "Lucía Torres",
-      cabin: "Tiny Cabin",
-      checkIn: "2025-11-20",
-      checkOut: "2025-11-22",
-      status: "Confirmado",
-    },
-    {
-      id: 201,
-      guest: "Carlos Sánchez",
-      cabin: "Couple Room",
-      checkIn: "2025-02-14",
-      checkOut: "2025-02-16",
-      status: "Pendiente",
-    },
-    {
-      id: 202,
-      guest: "Ana Rodríguez",
-      cabin: "Couple Room",
-      checkIn: "2025-03-18",
-      checkOut: "2025-03-19",
-      status: "Confirmado",
-    },
-    {
-      id: 203,
-      guest: "Luis Pérez",
-      cabin: "Couple Room",
-      checkIn: "2025-04-05",
-      checkOut: "2025-04-08",
-      status: "Confirmado",
-    },
-    {
-      id: 204,
-      guest: "Sofía Gómez",
-      cabin: "Couple Room",
-      checkIn: "2025-05-10",
-      checkOut: "2025-05-14",
-      status: "Pendiente",
-    },
-    {
-      id: 205,
-      guest: "Marcos Díaz",
-      cabin: "Couple Room",
-      checkIn: "2025-06-20",
-      checkOut: "2025-06-25",
-      status: "Pendiente",
-    },
-    {
-      id: 206,
-      guest: "Laura Martínez",
-      cabin: "Couple Room",
-      checkIn: "2025-07-12",
-      checkOut: "2025-07-14",
-      status: "Cancelado",
-    },
-    {
-      id: 207,
-      guest: "Juan Fernández",
-      cabin: "Couple Room",
-      checkIn: "2024-08-01",
-      checkOut: "2024-08-02",
-      status: "Finalizado",
-    },
-    {
-      id: 208,
-      guest: "María López",
-      cabin: "Couple Room",
-      checkIn: "2025-09-15",
-      checkOut: "2025-09-17",
-      status: "Confirmado",
-    },
-    {
-      id: 209,
-      guest: "Pedro Ramírez",
-      cabin: "Couple Room",
-      checkIn: "2025-10-10",
-      checkOut: "2025-10-12",
-      status: "Pendiente",
-    },
-    {
-      id: 210,
-      guest: "Lucía Torres",
-      cabin: "Couple Room",
-      checkIn: "2025-11-20",
-      checkOut: "2025-11-22",
-      status: "Confirmado",
-    },
-  ];
+const PanelReservation = () => {
+	const [searchTerm, setSearchTerm] = useState("");
+	const [filter, setFilter] = useState("all");
+	const [startDate, setStartDate] = useState(null);
+	const [endDate, setEndDate] = useState(null);
 
-  const handleSort = (column) => {
-    const newDirection =
-      sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
-    setSortColumn(column);
-    setSortDirection(newDirection);
-  };
+	const [sortColumn, setSortColumn] = useState(null);
+	const [sortDirection, setSortDirection] = useState("asc");
+	const [currentPage, setCurrentPage] = useState(1);
+	const [reservations, setReservations] = useState([]);
+	const [sortedReservations, setSortedReservations] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [filteredReservations, setFilteredReservations] = useState([]);
+	const [currentReservations, setCurrentReservations] = useState([]);
+	const [totalPages, setTotalPages] = useState(1);
+	
+	// New state for handling the detail modal
+	const [showDetailModal, setShowDetailModal] = useState(false);
+	const [selectedReservation, setSelectedReservation] = useState(null);
 
-  const filteredReservations = reservations
-    .filter((res) =>
-      filter === "all"
-        ? true
-        : res.status.toLowerCase() === filter.toLowerCase()
-    )
-    .filter((res) => res.guest.toLowerCase().includes(searchTerm.toLowerCase()))
-    .filter((res) => {
-      if (!startDate || !endDate) return true;
-      const checkInDate = new Date(res.checkIn);
-      return checkInDate >= startDate && checkInDate <= endDate;
-    });
+	const reservationsPerPage = 10;
 
-  const getSortedReservations = () => {
-    if (!sortColumn) return filteredReservations;
-    return [...filteredReservations].sort((a, b) => {
-      let aValue = a[sortColumn];
-      let bValue = b[sortColumn];
+	const getQtyCabins = (cabinType, cabinList) => {
+		let count = 0;
+		for (const cabin of cabinList){
+			if (cabin.typeName === cabinType) count++
+		}
+		return count
+	}
 
-      if (sortColumn === "checkIn" || sortColumn === "checkOut") {
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
-      }
+	useEffect(() => {
+		const fetchReservations = async () => {
+			try {
+				setLoading(true);
+				let { reservations }  = await getReservations();
+				reservations = reservations.map((reservation) => {return {...reservation, "Tiny Cabin": getQtyCabins("Tiny Cabin", reservation.reservationCabins), "Couple Room": getQtyCabins("Couple Room", reservation.reservationCabins)}})
+				setReservations(reservations);
+				// console.log("Fetched reservations:", reservations);
+				setError(null);
+			} catch (err) {
+				setError(err.message);
+				// console.error("Error al obtener las reservas:", err);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchReservations();
+	}, []);
 
-      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
-      return 0;
-    });
-  };
+	useEffect(() => {
+		if (!loading && reservations.length > 0) {
+			// console.log("Filtering reservations. Current filters:", { filter, searchTerm, startDate, endDate });
+			
+			const newFilteredReservations = reservations
+				.filter((res) => (filter === "all" ? true : res.statusReservation.toLowerCase() === filter.toLowerCase()))
+				.filter((res) => res.nameClient.toLowerCase().includes(searchTerm.toLowerCase()))
+				.filter((res) => {
+					if (!startDate || !endDate) return true; // Don't filter by date if either date is not set
+					const checkInDate = new Date(res.checkinDate);
+					return checkInDate >= startDate && checkInDate <= endDate;
+				});
+			
+			// console.log("Filtered reservations:", newFilteredReservations.length);
+			setFilteredReservations(newFilteredReservations);
+			
+			// Reset to first page when filters change
+			setCurrentPage(1);
+		} else if (!loading) {
+			// If we have no reservations but we're not loading, set filtered to empty array
+			setFilteredReservations([]);
+		}
+	}, [reservations, startDate, endDate, filter, searchTerm, loading]);
 
-  const sortedReservations = getSortedReservations();
+	useEffect(() => {
+		const getSortedReservations = () => {
+			if (!sortColumn || !filteredReservations.length) return filteredReservations;
+			return [...filteredReservations].sort((a, b) => {
+				let aValue, bValue;
+				
+				// Handle nested properties
+				if (sortColumn.includes('.') || sortColumn.includes('[')) {
+					const parts = sortColumn.split(/[\.\[\]]+/).filter(Boolean);
+					aValue = a;
+					bValue = b;
+					
+					for (const part of parts) {
+						aValue = aValue && typeof aValue === 'object' ? aValue[part] : undefined;
+						bValue = bValue && typeof bValue === 'object' ? bValue[part] : undefined;
+					}
+				} else {
+					aValue = a[sortColumn];
+					bValue = b[sortColumn];
+				}
+				
+				if (sortColumn === "checkinDate" || sortColumn === "checkoutDate") {
+					aValue = aValue ? new Date(aValue) : new Date(0);
+					bValue = bValue ? new Date(bValue) : new Date(0);
+				}
+				
+				if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+				if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+				return 0;
+			});
+		};
+		
+		if (!loading) {
+			const newSortedReservations = getSortedReservations();
+			// console.log("Sorted reservations:", newSortedReservations.length);
+			setSortedReservations(newSortedReservations);
+			setTotalPages(Math.max(1, Math.ceil(newSortedReservations.length / reservationsPerPage)));
+		}
+	}, [filteredReservations, sortColumn, sortDirection, loading]);
 
-  const indexOfLastReservation = currentPage * reservationsPerPage;
-  const indexOfFirstReservation = indexOfLastReservation - reservationsPerPage;
-  const currentReservations = sortedReservations.slice(
-    indexOfFirstReservation,
-    indexOfLastReservation
-  );
+	useEffect(() => {
+		if (!loading) {
+			const indexOfLastReservation = currentPage * reservationsPerPage;
+			const indexOfFirstReservation = indexOfLastReservation - reservationsPerPage;
+			const newCurrentReservations = sortedReservations.slice(indexOfFirstReservation, indexOfLastReservation);
+			// console.log("Current page reservations:", newCurrentReservations.length);
+			setCurrentReservations(newCurrentReservations);
+		}
+	}, [currentPage, sortedReservations, loading]);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+	const handleSort = (column) => {
+		const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+		setSortColumn(column);
+		setSortDirection(newDirection);
+	};
 
-  const totalPages = Math.ceil(sortedReservations.length / reservationsPerPage);
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  return (
-    <section className="container-fluid mt-4">
-      <div className="table-responsive">
-        <table className="table table-hover table-striped w-100">
-          <thead className="table-success">
-            <tr>
-              <th onClick={() => handleSort("guest")}>
-                Huésped <FaSort />
-              </th>
-              <th onClick={() => handleSort("id")}>
-                ID <FaSort />
-              </th>
-              <th onClick={() => handleSort("cabin")}>
-                Cabaña <FaSort />
-              </th>
-              <th onClick={() => handleSort("checkIn")}>
-                Check-In <FaSort />
-              </th>
-              <th onClick={() => handleSort("checkOut")}>
-                Check-Out <FaSort />
-              </th>
-              <th onClick={() => handleSort("status")}>
-                Status <FaSort />
-              </th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentReservations.map((res, index) => (
-              <tr key={index}>
-                <td>{res.guest}</td>
-                <td>{res.id}</td>
-                <td>{res.cabin}</td>
-                <td>{formatDate(res.checkIn)}</td>
-                <td>{formatDate(res.checkOut)}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      res.status === "Pendiente"
-                        ? "bg-warning"
-                        : res.status === "Confirmado"
-                        ? "bg-success"
-                        : res.status === "Finalizado"
-                        ? "bg-secondary"
-                        : "bg-danger"
-                    }`}
-                  >
-                    {res.status}
-                  </span>
-                </td>
-                <td>
-                  <button className="btn btn-sm btn-primary text-white">Ver Más</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+	const exportToPDF = () => {
+		const doc = new jsPDF();
+		doc.text("Historial de Reservas", 14, 15);
 
-      <nav>
-        <ul className="pagination justify-content-center mt-4">
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              onClick={() => paginate(currentPage - 1)}
-            >
-              Anterior
-            </button>
-          </li>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <li
-              key={i + 1}
-              className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
-            >
-              <button className="page-link" onClick={() => paginate(i + 1)}>
-                {i + 1}
-              </button>
-            </li>
-          ))}
-          <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
-          >
-            <button
-              className="page-link"
-              onClick={() => paginate(currentPage + 1)}
-            >
-              Siguiente
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </section>
-  );
+		autoTable(doc, {
+			startY: 20,
+			head: [["Huésped", "ID", "Cabaña", "Check-In", "Check-Out", "Estado"]],
+			body: reservations.map((res) => [
+				res.nameClient, 
+				res.id, 
+				res.detailCabins && res.detailCabins[0] ? res.detailCabins[0].cabin : 'N/A', 
+				formatDate(res.checkinDate), 
+				formatDate(res.checkoutDate), 
+				res.statusReservation
+			]),
+		});
+
+		doc.save("Historial_Reservas.pdf");
+	};
+
+	// Function to handle showing reservation detail
+	const handleShowDetail = (reservation) => {
+		setSelectedReservation(reservation);
+		setShowDetailModal(true);
+	};
+
+	// Function to close the detail modal
+	const handleCloseDetail = () => {
+		setShowDetailModal(false);
+		setSelectedReservation(null);
+	};
+
+	return loading ? (
+		<section className="container-fluid mt-4">
+			<div className="spinner-border text-primary" role="status"></div>
+			<span>Cargando...</span>
+		</section>
+	) : (
+		<section className="container-fluid mt-4">
+			<PanelHeader 
+				searchTerm={searchTerm} 
+				setSearchTerm={setSearchTerm} 
+				filter={filter} 
+				setFilter={setFilter} 
+				setStartDate={setStartDate} 
+				setEndDate={setEndDate} 
+				startDate={startDate} 
+				endDate={endDate} 
+			/>
+
+			{error && (
+				<div className="alert alert-danger" role="alert">
+					Error: {error}
+				</div>
+			)}
+
+			{!error && sortedReservations.length === 0 ? (
+				<div className="alert alert-info" role="alert">
+					No se encontraron reservas con los criterios de búsqueda.
+				</div>
+			) : (
+				<>
+					<div className="table-responsive">
+						<table className="table table-hover table-striped w-100">
+							<thead className="table-success">
+								<tr>
+									<th onClick={() => handleSort("numReservation")}>
+										Num <FaSort />
+									</th>
+									<th onClick={() => handleSort("nameClient")}>
+										Cliente <FaSort />
+									</th>
+									<th onClick={() => handleSort("Tiny Cabin")}>
+										Cabañas reservadas <FaSort />
+									</th>
+									<th onClick={() => handleSort("checkinDate")}>
+										Check-In <FaSort />
+									</th>
+									<th onClick={() => handleSort("checkoutDate")}>
+										Check-Out <FaSort />
+									</th>
+									<th onClick={() => handleSort("statusReservation")}>
+										Estado <FaSort />
+									</th>
+									<th>
+										Detalle
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{currentReservations && currentReservations.map((res, index) => (
+									<tr key={index}>
+										<td>{res.numReservation}</td>
+										<td>{res.nameClient}</td>
+										<td>{`Tiny C.: ${res["Tiny Cabin"]} | Couple R.: ${res["Couple Room"]}`}</td>
+										<td>{formatDate(res.checkinDate)}</td>
+										<td>{formatDate(res.checkoutDate)}</td>
+										<td>
+											<span className={`badge ${
+												res.statusReservation === "Pendiente" 
+													? "bg-warning" 
+													: res.statusReservation === "Confirmada" 
+														? "bg-success" 
+														: res.statusReservation === "Completada" 
+															? "bg-secondary" 
+															: "bg-danger"
+											}`}>
+												{res.statusReservation}
+											</span>
+										</td>
+										<td>
+											<Button 
+												variant="primary" 
+												size="sm" 
+												onClick={() => handleShowDetail(res)}
+											>
+												Ver Detalle
+											</Button>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+
+					<nav>
+						<ul className="pagination justify-content-center">
+							{Array.from({ length: totalPages }, (_, index) => (
+								<li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+									<button className="page-link" onClick={() => paginate(index + 1)}>
+										{index + 1}
+									</button>
+								</li>
+							))}
+						</ul>
+					</nav>
+
+					<div className="d-flex justify-content-end mt-3">
+						<button className="btn btn-primary text-white" onClick={exportToPDF}>
+							Exportar PDF
+						</button>
+					</div>
+
+					{/* Detail Modal */}
+					<Modal show={showDetailModal} onHide={handleCloseDetail} size="lg">
+						<Modal.Header closeButton>
+							<Modal.Title>
+								Detalle de Reserva #{selectedReservation?.numReservation}
+							</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>
+							{selectedReservation && (
+								<div>
+									<h5>Información de Cliente</h5>
+									<div className="row mb-3">
+										<div className="col-md-6">
+											<p><strong>Nombre:</strong> {selectedReservation.nameClient}</p>
+											<p><strong>Documento:</strong> {selectedReservation.documentTypeClient} {selectedReservation.documentNumberClient}</p>
+											<p><strong>País:</strong> {selectedReservation.countryOfResidence}</p>
+										</div>
+										<div className="col-md-6">
+											<p><strong>Teléfono:</strong> {selectedReservation.phoneClient}</p>
+											<p><strong>Email:</strong> {selectedReservation.emailClient}</p>
+											<p><strong>Precio Total:</strong> ${selectedReservation.totalPrice.toLocaleString()}</p>
+										</div>
+									</div>
+
+									<h5>Cabañas Reservadas</h5>
+									<div className="table-responsive">
+										<table className="table table-bordered">
+											<thead className="table-light">
+												<tr>
+													<th>Cabaña</th>
+													<th>Tipo</th>
+													<th>Huésped Principal</th>
+													<th>Adultos</th>
+													<th>Niños</th>
+													<th>Precio</th>
+													<th>Tinaja</th>
+													<th>Fechas Tinaja</th>
+												</tr>
+											</thead>
+											<tbody>
+												{selectedReservation.reservationCabins.map((cabin, idx) => (
+													<tr key={idx}>
+														<td>{cabin.number}</td>
+														<td>{cabin.typeName}</td>
+														<td>{cabin.caGuest}</td>
+														<td>{cabin.adults}</td>
+														<td>{cabin.childrens}</td>
+														<td>${cabin.priceCabin.toLocaleString()}</td>
+														<td>
+															{cabin.datesHotTub && cabin.datesHotTub.length > 0 ? (
+																<>
+																	<span className="badge bg-success me-2">Sí</span>
+																	${cabin.priceHotTub.toLocaleString()}
+																</>
+															) : (
+																<span className="badge bg-secondary">No</span>
+															)}
+														</td>
+                            <td>{cabin.datesHotTub.map((date) => {
+                              return formatToChileanDateShort(date)
+                            }).join(", ")}</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
+
+									{selectedReservation.notes && (
+										<>
+											<h5>Notas</h5>
+											<div className="alert alert-info">
+												{selectedReservation.notes}
+											</div>
+										</>
+									)}
+								</div>
+							)}
+						</Modal.Body>
+						<Modal.Footer>
+							<Button variant="secondary" onClick={handleCloseDetail}>
+								Cerrar
+							</Button>
+						</Modal.Footer>
+					</Modal>
+				</>
+			)}
+		</section>
+	);
 };
 
 export default PanelReservation;

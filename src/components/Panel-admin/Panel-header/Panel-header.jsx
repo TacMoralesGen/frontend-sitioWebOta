@@ -14,9 +14,11 @@ const PanelHeader = ({
   startDate,
   endDate,
 }) => {
+
+
   useEffect(() => {
-    const today = new Date();
-    const twoMonthsLater = new Date();
+    const today = new Date(2025,1,8);
+    const twoMonthsLater = new Date(today);
     twoMonthsLater.setMonth(today.getMonth() + 2);
 
     setStartDate(today);
@@ -32,8 +34,7 @@ const PanelHeader = ({
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light p-3 shadow container-fluid w-100 mb-3">
-      <h1 className="navbar-brand">Búsqueda</h1>
-      <div className="d-flex ms-auto gap-3">
+      <div className="d-flex ms-auto gap-3 ">
         <input
           type="text"
           className="form-control"
@@ -47,7 +48,7 @@ const PanelHeader = ({
           className="form-select"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          style={{ width: "180px", height: "40px", fontSize: "18px" }}
+          style={{ width: "200px", height: "40px", fontSize: "18px" }}
         >
           <option value="all">Todos</option>
           <option value="pendiente">Pendiente</option>
@@ -65,7 +66,6 @@ const PanelHeader = ({
           className="form-control"
           placeholderText="Fecha Inicio"
           locale={es}
-          style={{ width: "200px", height: "40px", fontSize: "18px" }}
         />
 
         <DatePicker
@@ -78,7 +78,6 @@ const PanelHeader = ({
           className="form-control"
           placeholderText="Fecha Fin"
           locale={es}
-          style={{ width: "200px", height: "40px", fontSize: "18px" }}
         />
 
         <button className="btn btn-primary text-white" onClick={resetFilters}>

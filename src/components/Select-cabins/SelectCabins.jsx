@@ -41,7 +41,7 @@ const SelectCabins = ({ reservationRange, cabinsTypes, qtyCabinsSelection, manag
 	} else {
 		return (
 			<section className="col-12 col-lg-8 ps-0">
-				<div key={"ASDASDASDASD"} className="card p-2 d-flex align-items-center rounded-0">
+				<div className="card p-2 d-flex align-items-center rounded-0">
 					{generateSelectCabins(cabinsTypes, cabinsAvailabilityByDateInRange)}
 				</div>
 			</section>

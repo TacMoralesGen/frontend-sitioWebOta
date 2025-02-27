@@ -5,8 +5,8 @@ import "./Checkout.css";
 import Header from "../../components/Header/Header";
 import ReserveDetails from "../../components/ReserveDetails/ReserveDetails";
 import ReserveResume from "../../components/ReserveResume/ReserveResume";
-import imgTinyCabin from "../../assets/images/chalenco1.jpg";
-import imgCoupleRoom from "../../assets/images/chalenco2.avif";
+import imgTinyCabin from "../../assets/images/tinyCabin.jpg";
+import imgCoupleRoom from "../../assets/images/coupleRoom.avif";
 import Footer from "../../components/Footer/Footer";
 import ContactInformationForm from "../../components/Contact-information-form/ContactInformationForm";
 import TermsConditions from "../../components/Terms-conditions/TermsConditions";
@@ -16,6 +16,8 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { isSameDay, addDays } from "date-fns";
 import { getTotalCheckout, getTotalReserve, getCabinByNumber } from "../../scripts/utils";
+
+import { createReservation } from "../../../api";
 
 const cabins = [
 	{
@@ -342,188 +344,295 @@ const cabins = [
 const cabinsTypes = (() => {
 	const cabinSummary = new Map();
 	cabins.forEach((cabin) => {
-		if (!cabinSummary.get(cabin.typeName)) {
-			cabinSummary.set(cabin.typeName, {
-				idCabinType: cabin.idCabinType,
-				typeName: cabin.typeName,
-				maxAdults: cabin.maxAdults,
-				maxChildrens: cabin.maxChildren,
-				capacity: cabin.capacity,
-				priceHotTubPerInstance: cabin.priceHotTubPerInstance,
-				pricePerNight: cabin.pricePerNight,
-				amenities: [...cabin.amenities],
-				size: cabin.size,
-				bedType: cabin.bedType,
-				img: cabin.img,
-			});
-		}
+	  if (!cabinSummary.get(cabin.typeName)) {
+		cabinSummary.set(cabin.typeName, {
+		  idCabinType: cabin.idCabinType,
+		  typeName: cabin.typeName,
+		  maxAdults: cabin.maxAdults,
+		  maxChildrens: cabin.maxChildren,
+		  capacity: cabin.capacity,
+		  priceHotTubPerInstance: cabin.priceHotTubPerInstance,
+		  pricePerNight: cabin.pricePerNight,
+		  amenities: [...cabin.amenities],
+		  size: cabin.size,
+		  bedType: cabin.bedType,
+		  img: cabin.img,
+		});
+	  }
 	});
 	return cabinSummary;
-})();
-const cabinsActive = cabins.filter((cabin) => cabin.statusCabin === "Disponible");
-const initialReservation = {
+  })();
+  
+  const cabinsActive = cabins.filter((cabin) => cabin.statusCabin === "Disponible");
+  
+ 
+  // OBJETO DE RESERVA INICIAL (Con los campos de contacto vacíos)
+  const initialReservation = {
 	documentTypeClient: null,
 	documentNumberClient: null,
-	nameClient: null,
-	countryOfResidence: null,
-	phoneClient: null,
-	emailClient: null,
+	nameClient: "",
+	countryOfResidence: "",
+	phoneClient: "",
+	emailClient: "",
 	checkinDate: null,
 	checkoutDate: null,
 	statusReservation: "Pendiente",
 	totalPrice: null,
-	notes: null,
+	notes: "",
 	reservationCabins: [],
-};
-const getCabinsAvailableInRange = (reservationRange, cabins) => {
+  };
+  
+  // ----------------------------------------------------------------------------------
+  // FUNCIONES AUXILIARES
+  const getCabinsAvailableInRange = (reservationRange, cabins) => {
 	const cabinsAvailable = [];
 	for (const cabin of cabins) {
-		const reservedDatesOfACabin = cabin.reservedDates;
-		let isCabinAvailable = true;
-		for (const reservedDateOfACabin of reservedDatesOfACabin) {
-			if (reservationRange.some((reservationDate) => isSameDay(reservationDate, reservedDateOfACabin))) {
-				isCabinAvailable = false;
-				break;
-			}
+	  const reservedDatesOfACabin = cabin.reservedDates;
+	  let isCabinAvailable = true;
+	  for (const reservedDateOfACabin of reservedDatesOfACabin) {
+		if (reservationRange.some((reservationDate) => isSameDay(reservationDate, reservedDateOfACabin))) {
+		  isCabinAvailable = false;
+		  break;
 		}
-		if (isCabinAvailable) {
-			cabinsAvailable.push(cabin);
-		}
+	  }
+	  if (isCabinAvailable) {
+		cabinsAvailable.push(cabin);
+	  }
 	}
 	return cabinsAvailable;
-};
-const getSpecificCabinsSelected = (cabinsAvailableInRange, qtyCabinsSelection) => {
+  };
+  
+  const getSpecificCabinsSelected = (cabinsAvailableInRange, qtyCabinsSelection) => {
 	const cabinsSelection = [];
 	for (let [keyCabinType, qtySelection] of qtyCabinsSelection) {
-		if (qtySelection > 0) {
-			const cabinsAvailableInRangeOfAType = cabinsAvailableInRange.filter((cabin) => cabin.typeName === keyCabinType);
-			cabinsSelection.splice(cabinsSelection.length, 0, ...cabinsAvailableInRangeOfAType.splice(0, qtySelection));
-		}
+	  if (qtySelection > 0) {
+		const cabinsAvailableInRangeOfAType = cabinsAvailableInRange.filter(
+		  (cabin) => cabin.typeName === keyCabinType
+		);
+		cabinsSelection.splice(
+		  cabinsSelection.length,
+		  0,
+		  ...cabinsAvailableInRangeOfAType.splice(0, qtySelection)
+		);
+	  }
 	}
 	return cabinsSelection;
-};
-
-// COMIENZA EL COMPONENTE
-const Checkout = () => {
+  };
+  
+  // ----------------------------------------------------------------------------------
+  // COMPONENTE CHECKOUT
+  const Checkout = () => {
+	// Recibimos los datos desde la ruta anterior
 	const { reservationRange, qtyCabinsSelection } = useLocation().state;
+  
+	// Calculamos las cabañas disponibles en el rango
 	const cabinsAvailableInRange = getCabinsAvailableInRange(reservationRange, cabinsActive);
 	const specificCabinsSelected = getSpecificCabinsSelected(cabinsAvailableInRange, qtyCabinsSelection);
 	const checkIn = reservationRange[0];
 	const checkOut = addDays(reservationRange[reservationRange.length - 1], 1);
 	const total = getTotalReserve(qtyCabinsSelection, cabinsTypes, reservationRange.length);
+  
+	// Inicializamos reservationCabins en el objeto de reserva
 	const reservationCabinsInit = [];
 	for (const cabin of specificCabinsSelected) {
-		const cabinReservation = {
-			cabinNumber: cabin.number,
-			adults: 1,
-			childrens: 0,
-			mainGuest: null,
-			datesHotTub: [],
-			priceCabin: cabin.pricePerNight * reservationRange.length,
-			priceHotTub: 0,
-		};
-		reservationCabinsInit.push(cabinReservation);
+	  const cabinReservation = {
+		cabinNumber: cabin.number,
+		adults: 1,
+		childrens: 0,
+		mainGuest: null,
+		datesHotTub: [],
+		priceCabin: cabin.pricePerNight * reservationRange.length,
+		priceHotTub: 0,
+	  };
+	  reservationCabinsInit.push(cabinReservation);
 	}
 	initialReservation.reservationCabins = reservationCabinsInit;
 	initialReservation.checkinDate = checkIn;
 	initialReservation.checkoutDate = checkOut;
 	initialReservation.totalPrice = total;
-
+  
+	
+	// ESTADO PRINCIPAL DE LA RESERVA (INCLUYE DATOS DE CONTACTO)
 	const [reservation, setReservation] = useState(initialReservation);
-
-	// Función que actualiza los servicios adicionales
+  
+	
+	// FUNCIONES PARA ACTUALIZAR SERVICIOS ADICIONALES
 	const actualizarFechasTinajas = (cabinNumber, hotTubDates) => {
-		const updatedReservation = { ...reservation };
-		const arregloReservasCabanas = [...reservation.reservationCabins];
-		for (const reservaCabana of arregloReservasCabanas) {
-			const index = arregloReservasCabanas.indexOf(reservaCabana);
-			console.log("cabinNumber en actualizarFechasTinajas:", cabinNumber);
-			const cabana = getCabinByNumber(cabinNumber, cabinsActive);
-			console.log("cabana en actualizarFechasTinajas:", cabana);
-			const priceHotTubPerInstance = cabana.priceHotTubPerInstance;
-			if (reservaCabana.cabinNumber === cabinNumber) {
-				reservaCabana.datesHotTub = hotTubDates;
-				reservaCabana.priceHotTub = hotTubDates.length * priceHotTubPerInstance;
-				arregloReservasCabanas[index] = reservaCabana;
-				break;
-			}
+	  const updatedReservation = { ...reservation };
+	  const arregloReservasCabanas = [...updatedReservation.reservationCabins];
+	  for (const reservaCabana of arregloReservasCabanas) {
+		const index = arregloReservasCabanas.indexOf(reservaCabana);
+		if (reservaCabana.cabinNumber === cabinNumber) {
+		  const cabina = getCabinByNumber(cabinNumber, cabinsActive);
+		  const priceHotTubPerInstance = cabina.priceHotTubPerInstance;
+		  reservaCabana.datesHotTub = hotTubDates;
+		  reservaCabana.priceHotTub = hotTubDates.length * priceHotTubPerInstance;
+		  arregloReservasCabanas[index] = reservaCabana;
+		  break;
 		}
-		updatedReservation.reservationCabins = arregloReservasCabanas;
-		updatedReservation.totalPrice = getTotalCheckout(updatedReservation);
-		console.log("updatedReservation:", updatedReservation); //POR BORRAR
-		setReservation(updatedReservation);
+	  }
+	  updatedReservation.reservationCabins = arregloReservasCabanas;
+	  updatedReservation.totalPrice = getTotalCheckout(updatedReservation);
+	  setReservation(updatedReservation);
+	};
+  
+	const actualizarGuests = (cabinNumber, isAdult, newQty) => {
+	  const updatedReservation = { ...reservation };
+	  const arregloReservasCabanas = [...updatedReservation.reservationCabins];
+	  for (const reservaCabana of arregloReservasCabanas) {
+		const index = arregloReservasCabanas.indexOf(reservaCabana);
+		if (reservaCabana.cabinNumber === cabinNumber) {
+		  if (isAdult) {
+			reservaCabana.adults = newQty;
+		  } else {
+			reservaCabana.childrens = newQty;
+		  }
+		  arregloReservasCabanas[index] = reservaCabana;
+		  break;
+		}
+	  }
+	  updatedReservation.reservationCabins = arregloReservasCabanas;
+	  setReservation(updatedReservation);
+	};
+  
+	
+	// ESTADOS PARA LA VALIDACIÓN DE CONTACTO 
+	const [errors, setErrors] = useState({});
+	const [isSubmitted, setIsSubmitted] = useState(false);
+  
+	
+	// FUNCIÓN PARA ACTUALIZAR AUTOMÁTICAMENTE LOS CAMPOS DE CONTACTO
+	const handleContactChange = (event) => {
+	  const { name, value, type, checked } = event.target;
+	  setReservation((prev) => ({
+		...prev,
+		[name]: type === "checkbox" ? checked : value,
+	  }));
+	};
+  
+
+	// VALIDACIÓN DE LOS CAMPOS DE CONTACTO 
+	const validateContact = () => {
+	  let newErrors = {};
+  
+	  if (!reservation.nameClient.trim().match(/^[a-zA-Z\s]+$/)) {
+		newErrors.nameClient = "Por favor, ingresa tu nombre solo con letras.";
+	  }
+	  if (!reservation.emailClient.includes("@")) {
+		newErrors.emailClient = "Por favor, ingresa un correo válido.";
+	  }
+	  if (!reservation.phoneClient.match(/^[0-9]+$/)) {
+		newErrors.phoneClient = "El teléfono debe contener solo números.";
+	  }
+	  if (!reservation.countryOfResidence) {
+		newErrors.countryOfResidence = "Por favor, selecciona tu país.";
+	  }
+	  if (!reservation.terms) {
+		 newErrors.terms = "Debes aceptar los términos y condiciones.";
+	  }
+	  return newErrors;
+	};
+  
+	// --------------------------------------------------------------------------------
+	// FUNCIÓN QUE SE EJECUTA AL PRESIONAR "CONFIRMAR RESERVA"
+	const handleConfirmReservation = () => {
+	  setIsSubmitted(true);
+	  const newErrors = validateContact();
+	  setErrors(newErrors);
+  
+	  if (Object.keys(newErrors).length > 0) {
+		
+		console.log("Errores de validación:", newErrors);
+		return;
+	  }
+	  // Si no hay errores, se envía la reserva
+	  console.log("Reserva final a enviar:", reservation);
+	  
+
 	};
 
-  const actualizarGuests = (cabinNumber, isAdult, newQtyAdultsOrChildren) => {
-    const updatedReservation = { ...reservation };
-		const arregloReservasCabanas = [...reservation.reservationCabins];
-    for (const reservaCabana of arregloReservasCabanas) {
-			const index = arregloReservasCabanas.indexOf(reservaCabana);
-			if (reservaCabana.cabinNumber === cabinNumber) {
-        if (isAdult) reservaCabana.adults = newQtyAdultsOrChildren
-        else reservaCabana.childrens = newQtyAdultsOrChildren
-        arregloReservasCabanas[index] = reservaCabana;
-				break;
-			}
-		}
-		updatedReservation.reservationCabins = arregloReservasCabanas;
-		console.log("updatedReservation:", updatedReservation);
-		setReservation(updatedReservation);
-  }
-
+	
+  
+	// --------------------------------------------------------------------------------
+	// RENDERIZADO DEL COMPONENTE
 	return (
-		<>
-			<Header />
-			<div className="container">
-				<div className="row">
-					{/* Mostrar detalles de las habitaciones */}
-					<div className="col-12 col-lg-8 mb-4 ps-0">
-						{reservation.reservationCabins.map((reservationCabin) => {
-							const cabinNumber = reservationCabin.cabinNumber
-							console.log("reservationCabin:", reservationCabin)
-							console.log("cabinNumber:", cabinNumber)
-              const cabin = getCabinByNumber(cabinNumber, cabinsActive)
-              let amenitiesText = "Comodidades: " + cabin.amenities.reduce((texto, amenitie) => texto + amenitie + ", " );
-              amenitiesText = amenitiesText.slice(0, amenitiesText.length - 2)
-              const detalles = [
-                "Vista: Lago General Carrera - Patagonia Chilena.",
-                cabin.size,
-                cabin.bedType,
-                amenitiesText,
-                "Estacionamiento: Gratuito."]
-              return (<ReserveDetails
-                  key={cabinNumber} // Usando nombreHabitacion como clave única
-									keyValue={cabinNumber}
-                  precioBase={cabin.pricePerNight}
-                  precioTinaja={cabin.priceHotTubPerInstance}
-                  nombreHabitacion={cabin.typeName}
-                  capacidad={cabin.capacity}
-                  detalles={detalles}
-									cabins={cabinsActive}
-                  servicios={["No incluye desayuno."]}
-                  reservationCabin={reservationCabin}
-									reservationRange={reservationRange}
-                  manageFechasTinajas = {(cabinNumber, hotTubDates) => actualizarFechasTinajas(cabinNumber, hotTubDates)}
-                  manageGuests = {(cabinNumber, isAdult, newQtyGuests) => actualizarGuests(cabinNumber, isAdult, newQtyGuests)}
-                />
-              )})};
-					</div>
-					{/* Mostrar resumen de la reserva */}
-					<div className="col-12 col-lg-4 px-0">
-						<ReserveResume
-						reservation={reservation}
-						reservationRange={reservationRange}
-						cabins={cabinsActive}
-						qtyCabinsSelection={qtyCabinsSelection}
-						cabinsTypes={cabinsTypes}/>
-					</div>
-				</div>
-				<ContactInformationForm />
+	  <>
+		<Header />
+		<div className="container">
+		  <div className="row">
+			{/* SECCIÓN DE DETALLES DE HABITACIONES */}
+			<div className="col-12 col-lg-8 mb-4 ps-0">
+			  {reservation.reservationCabins.map((reservationCabin) => {
+				const cabinNumber = reservationCabin.cabinNumber;
+				const cabin = getCabinByNumber(cabinNumber, cabinsActive);
+				let amenitiesText =
+				  "Comodidades: " +
+				  cabin.amenities.reduce((texto, amenitie) => texto + amenitie + ", ", "");
+				amenitiesText = amenitiesText.slice(0, amenitiesText.length - 2);
+  
+				const detalles = [
+				  "Vista: Lago General Carrera - Patagonia Chilena.",
+				  cabin.size,
+				  cabin.bedType,
+				  amenitiesText,
+				  "Estacionamiento: Gratuito.",
+				];
+  
+				return (
+				  <ReserveDetails
+					key={cabinNumber}
+					keyValue={cabinNumber}
+					precioBase={cabin.pricePerNight}
+					precioTinaja={cabin.priceHotTubPerInstance}
+					nombreHabitacion={cabin.typeName}
+					capacidad={cabin.capacity}
+					detalles={detalles}
+					cabins={cabinsActive}
+					servicios={["No incluye desayuno."]}
+					reservationCabin={reservationCabin}
+					reservationRange={reservationRange}
+					manageFechasTinajas={(cabinNumber, hotTubDates) =>
+					  actualizarFechasTinajas(cabinNumber, hotTubDates)
+					}
+					manageGuests={(cabinNumber, isAdult, newQty) =>
+					  actualizarGuests(cabinNumber, isAdult, newQty)
+					}
+				  />
+				);
+			  })}
 			</div>
-			<TermsConditions></TermsConditions>
-			<SectionMap></SectionMap>
-			<Footer />
-		</>
+  
+			{/* SECCIÓN DE RESUMEN DE LA RESERVA */}
+			<div className="col-12 col-lg-4 px-0">
+			  <ReserveResume
+				reservation={reservation}
+				reservationRange={reservationRange}
+				cabins={cabinsActive}
+				qtyCabinsSelection={qtyCabinsSelection}
+				cabinsTypes={cabinsTypes}
+				onConfirmReservation={handleConfirmReservation}
+			  />
+			</div>
+		  </div>
+  
+		  {/* SECCIÓN DE CONTACTO */}
+		  <div className="container">
+			<div className="row justify-content-left">
+			  <ContactInformationForm
+				reservation={reservation}
+				onChange={handleContactChange}
+				errors={errors}
+				isSubmitted={isSubmitted}
+			  />
+			</div>
+		  </div>
+  
+		  <TermsConditions />
+		  <SectionMap />
+		</div>
+		<Footer />
+	  </>
 	);
-};
-export default Checkout;
+  };
+  
+  export default Checkout;
