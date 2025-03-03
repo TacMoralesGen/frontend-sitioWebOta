@@ -1,4 +1,4 @@
-const PORT = "8000"
+const PORT = "7000"
 const URL_BASE = `http://localhost:${PORT}/api` // Asegúrate de que este puerto sea el correcto para tu backend
 
 const ENDPOINT_POST_CABANA = "/cabin"; 

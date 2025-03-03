@@ -433,7 +433,7 @@ const Checkout = () => {
 			cabinNumber: cabin.number,
 			adults: 1,
 			childrens: 0,
-			mainGuest: null,
+			mainGuest: "Falta capturar esto!",
 			datesHotTub: [],
 			priceCabin: cabin.pricePerNight * reservationRange.length,
 			priceHotTub: 0,
@@ -532,6 +532,21 @@ const Checkout = () => {
 		return newErrors;
 	};
 
+	const manageMainGuest = (cabinNumber, mainGuest) => {
+		const updatedReservation = { ...reservation };
+		const arregloReservasCabanas = [...updatedReservation.reservationCabins];
+		for (const reservaCabana of arregloReservasCabanas) {
+			const index = arregloReservasCabanas.indexOf(reservaCabana);
+			if (reservaCabana.cabinNumber === cabinNumber) {
+				reservaCabana.mainGuest = mainGuest
+				arregloReservasCabanas[index] = reservaCabana;
+				break;
+			}
+		}
+		updatedReservation.reservationCabins = arregloReservasCabanas;
+		setReservation(updatedReservation);
+	}
+
 	// --------------------------------------------------------------------------------
 	// FUNCIÓN QUE SE EJECUTA AL PRESIONAR "CONFIRMAR RESERVA"
 	const handleConfirmReservation = async () => {
@@ -613,7 +628,7 @@ const Checkout = () => {
 
 							const detalles = ["Vista: Lago General Carrera - Patagonia Chilena.", cabin.size, cabin.bedType, amenitiesText, "Estacionamiento: Gratuito."];
 
-							return <ReserveDetails key={cabinNumber} keyValue={cabinNumber} precioBase={cabin.pricePerNight} precioTinaja={cabin.priceHotTubPerInstance} nombreHabitacion={cabin.typeName} capacidad={cabin.capacity} detalles={detalles} cabins={cabinsActive} servicios={["No incluye desayuno."]} reservationCabin={reservationCabin} reservationRange={reservationRange} manageFechasTinajas={(cabinNumber, hotTubDates) => actualizarFechasTinajas(cabinNumber, hotTubDates)} manageGuests={(cabinNumber, isAdult, newQty) => actualizarGuests(cabinNumber, isAdult, newQty)} />;
+							return <ReserveDetails key={cabinNumber} keyValue={cabinNumber} precioBase={cabin.pricePerNight} precioTinaja={cabin.priceHotTubPerInstance} nombreHabitacion={cabin.typeName} capacidad={cabin.capacity} detalles={detalles} cabins={cabinsActive} servicios={["No incluye desayuno."]} reservationCabin={reservationCabin} reservationRange={reservationRange} manageFechasTinajas={(cabinNumber, hotTubDates) => actualizarFechasTinajas(cabinNumber, hotTubDates)} manageGuests={(cabinNumber, isAdult, newQty) => actualizarGuests(cabinNumber, isAdult, newQty)} manageMainGuest={manageMainGuest} />;
 						})}
 					</div>
 

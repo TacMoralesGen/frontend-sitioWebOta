@@ -336,7 +336,7 @@ const PanelReservation = () => {
 													<tr key={idx}>
 														<td>{cabin.number}</td>
 														<td>{cabin.typeName}</td>
-														<td>{cabin.caGuest}</td>
+														<td>{cabin.mainGuest}</td>
 														<td>{cabin.adults}</td>
 														<td>{cabin.childrens}</td>
 														<td>${cabin.priceCabin.toLocaleString()}</td>

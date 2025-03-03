@@ -1,4 +1,3 @@
-import React from "react";
 import PersonalInfo from "./PersonalInfo";
 import LocationInfo from "./LocationInfo";
 import AdditionalInfo from "./AdditionalInfo";

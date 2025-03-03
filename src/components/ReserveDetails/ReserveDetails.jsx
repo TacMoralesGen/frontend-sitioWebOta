@@ -14,7 +14,8 @@ const ReserveDetails = ({
   reservationCabin,
   reservationRange,
   manageFechasTinajas,
-  manageGuests
+  manageGuests,
+  manageMainGuest
 }) => {
   console.log("key o cabinNumber al renderizar reserveDetails: ", keyValue);
   // const [subtotal, setSubtotal] = useState(precioBase); // Subtotal inicial
@@ -30,6 +31,8 @@ const ReserveDetails = ({
 
   // Función para alternar el estado del desplegable
   const toggleDetalles = () => setIsOpen(!isOpen);
+
+  const runManageMainGuest = (e) => manageMainGuest(keyValue, e.target.value)
 
   return (
     <div className="col mb-2">
@@ -96,6 +99,7 @@ const ReserveDetails = ({
                 name="clienteNombre"
                 className="form-control form-control-sm d-inline"
                 placeholder="Ingresa tu nombre"
+                onChange={runManageMainGuest}
                 required
               />
             </div>
