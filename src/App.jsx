@@ -19,7 +19,8 @@ const App = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/admin" element={<PanelAdmin />} />
         <Route path="/contact" element={<ContactInformationForm />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/pago-ok" element={<Payment />} />
+        <Route path="/pago-error" element={<Payment />} />
       </Routes>
     </BrowserRouter>
   );

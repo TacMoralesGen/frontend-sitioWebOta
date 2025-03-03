@@ -1,9 +1,9 @@
-const PORT = "3000"
+const PORT = "8000"
 const URL_BASE = `http://localhost:${PORT}/api` // Asegúrate de que este puerto sea el correcto para tu backend
 
 const ENDPOINT_POST_CABANA = "/cabin"; 
 const ENDPOINT_PATCH_CABANA = "/cabin"; 
-const ENDPOINT_GET_CABANA = `/cabins`;
+const ENDPOINT_GET_CABANA = `/cabins`
 const ENDPOINT_POST_RESERVA = "/reservation"; 
 const ENDPOINT_GET_RESERVA = `/reservations`;
 
@@ -65,30 +65,31 @@ const getData = async (apiUrl) => {
 const createCabana = async data => await postData(URL_POST_CABANA, data)
 const updateCabana = async data => await patchData(URL_PATCH_CABANA, data)
 const getCabanas = async () => await getData(URL_GET_CABANA)
+const createReservation = async data => await postData(URL_POST_RESERVA, data)
 
-const createReservation = async (reservationData) => {
-	try {
-	  const response = await fetch("/api/reservation", {
-		method: "POST",
-		headers: {
-		  "Content-Type": "application/json",
-		},
-		// Se envuelve la data en la propiedad "reservation"
-		body: JSON.stringify({ reservation: reservationData }),
-	  });
+// const createReservation = async (reservationData) => {
+// 	try {
+// 	  const response = await fetch("/api/reservation", {
+// 		method: "POST",
+// 		headers: {
+// 		  "Content-Type": "application/json",
+// 		},
+// 		// Se envuelve la data en la propiedad "reservation"
+// 		body: JSON.stringify({ reservation: reservationData }),
+// 	  });
   
-	  if (!response.ok) {
-		const errorResponse = await response.json();
-		throw new Error(errorResponse.message || "Error al crear la reserva");
-	  }
+// 	  if (!response.ok) {
+// 		const errorResponse = await response.json();
+// 		throw new Error(errorResponse.message || "Error al crear la reserva");
+// 	  }
   
-	  const data = await response.json();
-	  return data;
-	} catch (error) {
-	  console.error("Error en createReservation:", error);
-	  throw error;
-	}
-  };
+// 	  const data = await response.json();
+// 	  return data;
+// 	} catch (error) {
+// 	  console.error("Error en createReservation:", error);
+// 	  throw error;
+// 	}
+//   };
 
 const getReservations = async () => await getData(URL_GET_RESERVA)
 

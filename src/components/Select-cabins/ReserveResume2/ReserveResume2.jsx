@@ -14,7 +14,7 @@ const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights) => {
 		if (qtyCabinsSelection.has(cabinTypeName)) {
 			const qtyOfaType = qtyCabinsSelection.get(cabinTypeName);
 			for (let j = 1; j <= qtyOfaType; j++) {
-				const classList = `${i === totalQtyCabins ? "" : "pb-3"}`;
+				const classList = `${i === totalQtyCabins ? "" : "pb-2"}`;
 				const divElement = (
 					<div key={`cabinResume-${i}`} className={classList}>
 						<strong>#{i}</strong> {cabinTypeName} <br />

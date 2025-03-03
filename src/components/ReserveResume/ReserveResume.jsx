@@ -44,7 +44,7 @@ const generateListCabins = (qtyCabinsSelection, cabinsTypes, qtyOfNights, reserv
 
 const msgNoCabinSelected = "No ha seleccionado cabañas";
 
-const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelection, cabinsTypes, onConfirmReservation }) => {
+const ReserveResume = ({ extranjero, reservation, reservationRange, cabins, qtyCabinsSelection, cabinsTypes, onConfirmReservation }) => {
 	const fechaEntrada = reservation.checkinDate;
 	const fechaSalida = reservation.checkoutDate;
 	const total = reservation.totalPrice;
@@ -106,7 +106,7 @@ const ReserveResume = ({ reservation, reservationRange, cabins, qtyCabinsSelecti
 							<strong>Total a pagar:</strong>
 						</li>
 						<li id="precioTotal">
-							CLP${numberWithDot(total)} <strong>IVA incluido</strong>
+							CLP${numberWithDot(total)} {extranjero ? <strong>exento de IVA</strong> : <strong>IVA incluido</strong>}
 							{total > 0 && (
 								<li id="mensajeIvaExento" style={{ display: "block" }}>
 									*turistas extranjeros exentos de IVA
